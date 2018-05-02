@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Render</title>
+  <meta name="referrer" content="never">
+    <script async="" src="ipynb_data/analytics.js"></script><script src="ipynb_data/ipynb-15a369bf3048f011a06b9815a1f36875.js"></script><link rel="stylesheet" href="ipynb_data/ipynb-c47447281494c3bc673c27fa8fa55be4.css">
+
+
+</head>
+<body class="" data-render-url="https://render.githubusercontent.com" data-github-hostname="github.com">
+  <div class="render-shell js-render-shell" data-document-nwo="irit-melodi/educe" data-document-commit="02f3f3cf5fe145bf4eda0b424f0b072fb5b1c968" data-document-path="docs/stac.ipynb" data-file="https://github-render.s3.amazonaws.com/prod/3c78a3b656c0a6cd8d20d9259e7de3fe-render.html?AWSAccessKeyId=AKIAJILR36AMCOMBK3MQ&amp;Signature=jNOlCCDkb3Q8fXeL2Ri4FFyO%2BkU%3D&amp;Expires=1493125858" data-meta="https://github-render.s3.amazonaws.com/prod/3c78a3b656c0a6cd8d20d9259e7de3fe-meta.json?AWSAccessKeyId=AKIAJILR36AMCOMBK3MQ&amp;Signature=%2Bc9ZmdFuLyToQ6lnClpAnOthYUg%3D&amp;Expires=1493125858">
+    
+
+<div class="render-info">
+  <div class="js-viewer-health render-health is-viewer-good">
+    <span class="symbol">⊖</span>
+    <span class="js-message message">Everything running smoothly!</span>
+  </div>
+</div>
+
+<div id="notebook" class="js-html">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>STAC<a class="anchor-link" href="#STAC">¶</a>
+</h1>
+<p><a href="http://kowey.github.io/educe">Educe</a> is a library for working with a variety of discourse corpora.
+This tutorial aims to show what using educe would be like when working with
+the <a href="http://www.irit.fr/STAC/">STAC</a> corpus.</p>
+<p>We'll be working with a tiny fragment of the corpus included with educe.
+You may find it useful to symlink your larger copy from
+the STAC distribution and modify this tutorial accordingly.</p>
+<h2>Installation<a class="anchor-link" href="#Installation">¶</a>
+</h2>
+<div class="highlight"><pre><span></span>git clone https://github.com/irit-melodi/educe.git
+<span class="nb">cd</span> educe
+pip install -r requirements.txt
+</pre></div>
+<p>Note: these instructions assume you are running within
+a <a href="http://virtualenv.readthedocs.org/en/latest/">virtual environment</a>.
+If not, and if you have permission
+denied errors, replace <code>pip</code> with <code>sudo pip</code>.</p>
+<h2>Tutorial in browser (optional)<a class="anchor-link" href="#Tutorial-in-browser-%28optional%29">¶</a>
+</h2>
+<p>This tutorial can either be followed along with the command line and your favourite
+text editor, or embedded in an interactive webpage via iPython:</p>
+<div class="highlight"><pre><span></span>pip install ipython
+<span class="nb">cd</span> tutorials
+ipython notebook
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># some helper functions for the tutorial below</span>
+
+<span class="k">def</span> <span class="nf">text_snippet</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="s2">"short text fragment"</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">43</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">text</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"{0}...{1}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">[:</span><span class="mi">20</span><span class="p">],</span> <span class="n">text</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:])</span>
+
+<span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="n">astring</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="s2">"coloured text"</span>
+    <span class="k">return</span><span class="p">(</span><span class="s2">"</span><span class="se">\x1b</span><span class="s2">[3{color}m{str}</span><span class="se">\x1b</span><span class="s2">[0m"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="nb">str</span><span class="o">=</span><span class="n">astring</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>Reading corpus files (STAC)<a class="anchor-link" href="#Reading-corpus-files-%28STAC%29">¶</a>
+</h2>
+<p>Typically, the first thing we want to do when working in educe is to 
+read the corpus in.  This can be a bit slow, but as we will see later 
+on, we can speed things up if we know what we're looking for.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">educe.stac</span>
+
+<span class="c1"># relative to the educe docs directory</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">'../data'</span>
+<span class="n">corpus_dir</span> <span class="o">=</span> <span class="s1">'{dd}/stac-sample'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dd</span><span class="o">=</span><span class="n">data_dir</span><span class="p">)</span>
+
+<span class="c1"># read everything from our sample</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">educe</span><span class="o">.</span><span class="n">stac</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span><span class="n">corpus_dir</span><span class="p">)</span>
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">slurp</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># print a text fragment from the first ten files we read</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">corpus</span><span class="o">.</span><span class="n">keys</span><span class="p">()[:</span><span class="mi">10</span><span class="p">]:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">corpus</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"[{0}] {1}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">text</span><span class="p">()[:</span><span class="mi">50</span><span class="p">]))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Slurping corpus dir [99/100]</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[s1-league2-game1 [05] unannotated None]  199 : sabercat : anyone any clay? 200 : IG : nope
+[s1-league2-game1 [13] units hjoseph]  521 : sabercat : skinnylinny 522 : sabercat : som
+[s1-league2-game1 [10] units hjoseph]  393 : skinnylinny : Shall we extend? 394 : saberc
+[s1-league2-game1 [11] discourse hjoseph]  450 : skinnylinny : Argh 451 : skinnylinny : How 
+[s1-league2-game1 [10] unannotated None]  393 : skinnylinny : Shall we extend? 394 : saberc
+[s1-league2-game1 [02] units lpetersen]  75 : sabercat : anyone has any wood? 76 : skinnyl
+[s1-league2-game1 [14] units SILVER]  577 : sabercat : skinny 578 : sabercat : I need 2
+[s1-league2-game3 [03] discourse lpetersen]  151 : amycharl : got wood anyone? 152 : sabercat 
+[s1-league2-game1 [10] discourse hjoseph]  393 : skinnylinny : Shall we extend? 394 : saberc
+[s1-league2-game1 [12] units SILVER]  496 : sabercat : yes! 497 : sabercat : :D 498 : s
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Slurping corpus dir [100/100 done]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3>Faster reading<a class="anchor-link" href="#Faster-reading">¶</a>
+</h3>
+<p>If you know that you only want to work with a subset of the corpus 
+files, you can pre-filter the corpus before reading the files.</p>
+<p>It helps to know here that an educe corpus is a mapping from <a href="https://educe.readthedocs.org/en/latest/api-doc/educe.html#educe.corpus.FileId">file id keys</a> to Documents. The <code>FileId</code> tells us what makes a Document distinct from another:</p>
+<ul>
+<li>document (eg. s1-league2-game1): in STAC, the game that was played (here, season 1, league 2, game 1)</li>
+<li>subdocument (eg. 05): a mostly arbitrary subdivision of the 
+documents motivated by technical constraints (overly large documents 
+would cause our annotation tool to crash)</li>
+<li>stage (eg. units, discourse, parsed): the kinds of annotations available in the document</li>
+<li>annotator (eg. hjoseph): the main annotator for a document (gold 
+standard documents have the distinguished annotators, BRONZE, SILVER, or
+ GOLD)</li>
+</ul>
+<p>NB: unfortunately we have overloaded the word “document” here. When 
+talking about file ids, “document” refers to a whole game.  But when 
+talking about actual annotation objects an educe Document actually 
+corresponds to a specific combination of document, subdocument, stage, 
+and annotator</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="c1"># nb: you can import this function from educe.stac.corpus</span>
+<span class="k">def</span> <span class="nf">is_metal</span><span class="p">(</span><span class="n">fileid</span><span class="p">):</span>  
+    <span class="s2">"is this a gold standard(ish) annotation file?"</span>
+    <span class="n">anno</span> <span class="o">=</span> <span class="n">fileid</span><span class="o">.</span><span class="n">annotator</span> <span class="ow">or</span> <span class="s2">""</span>
+    <span class="k">return</span> <span class="n">anno</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"bronze"</span><span class="p">,</span> <span class="s2">"silver"</span><span class="p">,</span> <span class="s2">"gold"</span><span class="p">]</span>
+    
+<span class="c1"># pick out gold-standard documents</span>
+<span class="n">subset</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">files</span><span class="p">(),</span> 
+                       <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">is_metal</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">subdoc</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">corpus_subset</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">slurp</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">corpus_subset</span><span class="p">:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">corpus_subset</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"{0}: {1}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">doc</span><span class="o">.</span><span class="n">text</span><span class="p">()[:</span><span class="mi">50</span><span class="p">]))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Slurping corpus dir [11/12]</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>s1-league2-game1 [01] units SILVER:  1 : sabercat : btw, are we playing without the ot
+s1-league2-game1 [01] discourse SILVER:  1 : sabercat : btw, are we playing without the ot
+s1-league2-game1 [02] discourse SILVER:  75 : sabercat : anyone has any wood? 76 : skinnyl
+s1-league2-game3 [01] discourse BRONZE:  1 : amycharl : i made it! 2 : amycharl : did the 
+s1-league2-game1 [03] discourse SILVER:  109 : sabercat : well done! 110 : IG : More clay!
+s1-league2-game3 [02] units BRONZE:  73 : sabercat : skinny, got some ore? 74 : skinny
+s1-league2-game3 [01] units BRONZE:  1 : amycharl : i made it! 2 : amycharl : did the 
+s1-league2-game1 [02] units SILVER:  75 : sabercat : anyone has any wood? 76 : skinnyl
+s1-league2-game3 [02] discourse BRONZE:  73 : sabercat : skinny, got some ore? 74 : skinny
+s1-league2-game1 [03] units SILVER:  109 : sabercat : well done! 110 : IG : More clay!
+s1-league2-game3 [03] discourse BRONZE:  151 : amycharl : got wood anyone? 152 : sabercat 
+s1-league2-game3 [03] units BRONZE:  151 : amycharl : got wood anyone? 152 : sabercat 
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Slurping corpus dir [12/12 done]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">educe.corpus</span> <span class="kn">import</span> <span class="n">FileId</span>
+
+<span class="c1"># pick out an example document to work with creating FileIds by hand</span>
+<span class="c1"># is not something we would typically do (normally we would just iterate</span>
+<span class="c1"># through a corpus), but it's useful for illustration</span>
+<span class="n">ex_key</span> <span class="o">=</span> <span class="n">FileId</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s1">'s1-league2-game3'</span><span class="p">,</span>
+                <span class="n">subdoc</span><span class="o">=</span><span class="s1">'03'</span><span class="p">,</span>
+                <span class="n">stage</span><span class="o">=</span><span class="s1">'units'</span><span class="p">,</span>
+                <span class="n">annotator</span><span class="o">=</span><span class="s1">'BRONZE'</span><span class="p">)</span>
+<span class="n">ex_doc</span> <span class="o">=</span> <span class="n">corpus</span><span class="p">[</span><span class="n">ex_key</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ex_key</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>s1-league2-game3 [03] units BRONZE
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>Standing off<a class="anchor-link" href="#Standing-off">¶</a>
+</h2>
+<p>Most annotations in the STAC corpus are <a href="http://educe.readthedocs.org/en/latest/api-doc/educe.html#educe.annotation.Standoff">educe standoff annotations</a>. In educe terms, this means that they (perhaps indirectly) extend the <code>educe.annotation.Standoff</code> class and provide a <code>text_span()</code>
+ function.  Much of our reasoning around annotations essentially 
+consists of checking that their text spans overlap or enclose each 
+other.</p>
+<p>As for the text spans, these refer to the raw text saved in files with an <code>.ac</code> extension (eg. <code>s1-league1-game3.ac</code>). In the <a href="http://www.glozz.org/">Glozz annotation tool</a>, these <code>.ac</code> text files form a pair with their <code>.aa</code> xml counterparts.  Multiple annotation files can point to the same text file.</p>
+<p>There are also some annotations that come from 3rd party tools, which we will uncover later.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>Documents and EDUs<a class="anchor-link" href="#Documents-and-EDUs">¶</a>
+</h2>
+<p>A document is a sort of giant annotation that contains three other kinds of annotation</p>
+<ul>
+<li>units - annotations that directly cover a span of text (EDUs, Resources, but also turns, dialogues)</li>
+<li>relations - annotations that point from one annotation to another</li>
+<li>schemas - annotations that point to a set of annotations</li>
+</ul>
+<p>To start things off, we'll focus on one type of unit-level annotation, the Elementary Discourse Unit</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">preview_unit</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">anno</span><span class="p">):</span>
+    <span class="s2">"the default str(anno) can be a bit overwhelming"</span>
+    <span class="n">preview</span> <span class="o">=</span> <span class="s2">"{span: &lt;11} {id: &lt;20} [{type: &lt;12}] {text}"</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">anno</span><span class="o">.</span><span class="n">text_span</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">preview</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">anno</span><span class="o">.</span><span class="n">local_id</span><span class="p">(),</span>
+                          <span class="nb">type</span><span class="o">=</span><span class="n">anno</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+                          <span class="n">span</span><span class="o">=</span><span class="n">anno</span><span class="o">.</span><span class="n">text_span</span><span class="p">(),</span>
+                          <span class="n">text</span><span class="o">=</span><span class="n">text_snippet</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">"Example units"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"-------------"</span><span class="p">)</span>
+<span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">anno</span> <span class="ow">in</span> <span class="n">ex_doc</span><span class="o">.</span><span class="n">units</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">anno</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+        <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">anno</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">preview_unit</span><span class="p">(</span><span class="n">ex_doc</span><span class="p">,</span> <span class="n">anno</span><span class="p">))</span>
+    
+<span class="k">print</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"First few EDUs"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"--------------"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">anno</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="n">educe</span><span class="o">.</span><span class="n">stac</span><span class="o">.</span><span class="n">is_edu</span><span class="p">,</span> <span class="n">ex_doc</span><span class="o">.</span><span class="n">units</span><span class="p">)[:</span><span class="mi">4</span><span class="p">]:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">preview_unit</span><span class="p">(</span><span class="n">ex_doc</span><span class="p">,</span> <span class="n">anno</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Example units
+-------------
+(1,34)      stac_1368693094      [paragraph   ] 151 : amycharl : got wood anyone?
+(52,66)     stac_1368693099      [Accept      ] yep, for what?
+(117,123)   stac_1368693105      [Refusal     ] no way
+(189,191)   stac_1368693114      [Other       ] :)
+(209,210)   stac_1368693117      [Counteroffer] ?
+(659,668)   stac_1368693162      [Offer       ] how much?
+(22,26)     asoubeille_1374939590843 [Resource    ] wood
+(35,66)     stac_1368693098      [Turn        ] 152 : sabercat : yep, for what?
+(0,266)     stac_1368693124      [Dialogue    ]  151 : amycharl : go...cat : yep, thank you
+
+First few EDUs
+--------------
+(52,66)     stac_1368693099      [Accept      ] yep, for what?
+(117,123)   stac_1368693105      [Refusal     ] no way
+(163,171)   stac_1368693111      [Accept      ] could be
+(189,191)   stac_1368693114      [Other       ] :)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h2>TODO<a class="anchor-link" href="#TODO">¶</a>
+</h2>
+<p>Everything below this point should be considered to be in a scratch/broken state.
+It needs to ported over from its RST/DT considerations to STAC</p>
+<p>To do:</p>
+<ul>
+<li>standing off (ac/aa) - shared aa</li>
+<li>layers (units/discourse)</li>
+<li>working with relations and schemas</li>
+<li>grabbing resources etc (example of working with unit level annotation)</li>
+<li>synchronising layers (grabbing the dialogue act and relations at the same time)</li>
+<li>external annotations (postags, parse trees)</li>
+<li>working with hypergraphs (implementing <code>_repr_png()_</code> would be pretty sweet)</li>
+</ul>
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3>Tree searching<a class="anchor-link" href="#Tree-searching">¶</a>
+</h3>
+<p>The same span enclosure logic can be used to search parse trees for 
+particular constituents, verb phrases. Alternatively, you can use the 
+the <code>topdown</code> method provided by educe trees. This returns 
+just the largest constituent for which some predicate is true.  It 
+optionally accepts an additional argument to cut off the search when it 
+is clearly out of bounds.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>Conclusion<a class="anchor-link" href="#Conclusion">¶</a>
+</h2>
+<p>In this tutorial, we've explored a couple of basic educe concepts, 
+which we hope will enable you to extract some data from your discourse 
+corpora, namely</p>
+<ul>
+<li>reading corpus data (and pre-filtering)</li>
+<li>standoff annotations</li>
+<li>searching by span enclosure, overlapping</li>
+<li>working with trees</li>
+<li>combining annotations from different sources</li>
+</ul>
+<p>The concepts above should transfer to whatever discourse corpus you 
+are working with (that educe supports, or that you are prepared to 
+supply a reader for).</p>
+<h3>Work in progress<a class="anchor-link" href="#Work-in-progress">¶</a>
+</h3>
+<p>This tutorial is very much a work in progress (last update: 2014-09-19).
+Educe is a bit of a moving target, so <a href="https://github.com/kowey/educe/issues">let me know</a> if you run into any trouble!</p>
+<h3>See also<a class="anchor-link" href="#See-also">¶</a>
+</h3>
+<h4>stac-util<a class="anchor-link" href="#stac-util">¶</a>
+</h4>
+<p>Some of the things you may want to do with the STAC corpus may 
+already exist in the stac-util command line tool.
+stac-util is meant to be a sort of Swiss Army Knife, providing tools for
+ editing the corpus. The query tools are more likely to be of interest:</p>
+<ul>
+<li>text: display text and edu/dialogue segmentation in a friendly way</li>
+<li>graph: draw discourse graphs with graphviz (arrows for relations, boxes for CDUs, etc)</li>
+<li>filter-graph: visualise instances of relations (eg. Question answer pair)</li>
+<li>count: generate statistics about the corpus</li>
+</ul>
+<p>See <code>stac-util --help</code> for more details.</p>
+<h4>External tool support<a class="anchor-link" href="#External-tool-support">¶</a>
+</h4>
+<p>Educe has some support for reading data from outside the discourse 
+corpus proper.  For example, if you run the stanford corenlp parser on 
+the raw text, you can read them back into educe-style <code>ConstituencyTree</code> and <code>DependencyTree</code> annotations. See <a href="https://educe.readthedocs.org/en/latest/api-doc/educe.external.html">educe.external</a> for details.</p>
+<p>If you have a part of speech tagger that you would like to use, the <code>educe.external.postag</code> module may be useful for representing the annotations that come out of it</p>
+<p>You can also add support for your own tools by creating annotations that extend <code>Standoff</code>, directly or otherwise.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+ 
+
+</div>
+
+  </div>
+
+  
+
+
+
+</body></html>

@@ -1,0 +1,91 @@
+digraph{
+	ratio=auto;
+	nodesep=0.5;
+	compound=true;
+	
+	B_context[style=filled,color=green];
+	B_context -> B_context;
+	subgraph clusterA{
+		node [style=filled,color=red];
+		style=filled;
+		color=sandybrown;
+		phrase_A0 -> phrase_A1 -> phrase_Ax -> phrase_An [style=dotted];
+		label = "interlocuteur #A (c)";
+	}
+	
+	start [shape=Mdiamond];
+	end [shape=Msquare];
+	
+	A_context[style=filled,color=red];
+	A_context -> A_context;
+	subgraph clusterB{
+		node [style=filled,color=green];
+		style=filled;
+		color=sandybrown;
+		phrase_B0 -> phrase_B1 -> phrase_Bx -> phrase_Bn [style=dotted];
+		label = "interlocuteur #B (c)";
+	}
+	
+	subgraph clusterE{
+		label = "Environnement (e)";
+		Social_context[style=filled,color=purple];
+		Financial_context[style=filled,color=purple];
+		Economic_context[style=filled,color=purple];
+		Environnement_context[style=filled,color=purple];
+		Social_context -> Economic_context -> Financial_context -> Environnement_context -> Social_context [dir=both,color=purple];
+		Economic_context -> Environnement_context [dir=both,color=purple];
+		Financial_context -> Social_context [dir=both,color=purple];
+	}
+	
+	subgraph clusterJ{
+		node [style=filled,color=white];
+		style=filled;
+		color=coral1;
+		compute_start[label="compute_start \n f(CANDIDAT)"];
+		compute_start -> compute_0 -> compute_1 -> compute_x -> compute_n [color=white,penwidth=3];
+		compute_1:e -> compute_0:e [color=white];
+		compute_x:e -> compute_1:e [color=white];
+		compute_n:e -> compute_x:e [color=white];
+		WINNER [style=filled;color=yellow];
+		label = "Juge (j)";
+	}
+	
+	phrase_A0 -> compute_0 [color=red,style=bold];
+	phrase_B0 -> compute_0 [color=green];
+	phrase_A1 -> compute_1 [color=red,style=bold];
+	phrase_B1 -> compute_1 [color=green];
+	phrase_Ax -> compute_x [color=red,style=bold];
+	phrase_Bx -> compute_x [color=green];
+	phrase_An -> compute_n [color=red,style=bold];
+	phrase_Bn -> compute_n [color=green];
+	
+	phrase_A0 -> phrase_B0[color=springgreen4];
+	phrase_B0 -> phrase_A1[color=springgreen4];
+	phrase_A1 -> phrase_B1[color=springgreen4];
+	phrase_B1 -> phrase_Ax[color=springgreen4];
+	phrase_Ax -> phrase_Bx[color=springgreen4];
+	phrase_Bx -> phrase_An[color=springgreen4];
+	phrase_An -> phrase_Bn[color=springgreen4];
+	
+	start -> phrase_A0[style=bold];
+	phrase_Bn -> end[style=bold];
+	compute_n -> WINNER;
+	
+	A_context -> compute_start [lhead=clusterJ, color=red, style=dashed];
+	A_context -> phrase_A0 [lhead=clusterA, color=red, style=dashed];
+	B_context -> compute_start [lhead=clusterJ, color=green, style=dashed];
+	B_context -> phrase_B0 [lhead=clusterB, color=green, style=dashed];
+	Economic_context -> compute_start [lhead=clusterJ, ltail=clusterE, color=purple, style=dashed];
+	
+	subgraph clusterP{
+		node [style=filled,color=white];
+		style=filled;
+		color=blue;
+		etape0 -> etape1 -> etape_x -> etape_n;
+		label = "Public (p)";
+	}
+	etape0 -> compute_0 [color=blue,style=dashed];
+	etape1 -> compute_1 [color=blue,style=dashed];
+	etape_x -> compute_x [color=blue,style=dashed];
+	etape_n -> compute_n [color=blue,style=dashed];
+}

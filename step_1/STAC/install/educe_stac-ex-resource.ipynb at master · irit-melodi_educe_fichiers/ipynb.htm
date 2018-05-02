@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Render</title>
+  <meta name="referrer" content="never">
+    <script async="" src="ipynb_data/analytics.js"></script><script src="ipynb_data/ipynb-15a369bf3048f011a06b9815a1f36875.js"></script><link rel="stylesheet" href="ipynb_data/ipynb-c47447281494c3bc673c27fa8fa55be4.css">
+
+
+</head>
+<body class="" data-render-url="https://render.githubusercontent.com" data-github-hostname="github.com">
+  <div class="render-shell js-render-shell" data-document-nwo="irit-melodi/educe" data-document-commit="02f3f3cf5fe145bf4eda0b424f0b072fb5b1c968" data-document-path="docs/stac-ex-resource.ipynb" data-file="https://github-render.s3.amazonaws.com/prod/948433ef0b37363116636210fcb38916-render.html?AWSAccessKeyId=AKIAJILR36AMCOMBK3MQ&amp;Signature=iVTbdbUOv1ZYY/FiM4DbW4U7ifo%3D&amp;Expires=1493125844" data-meta="https://github-render.s3.amazonaws.com/prod/948433ef0b37363116636210fcb38916-meta.json?AWSAccessKeyId=AKIAJILR36AMCOMBK3MQ&amp;Signature=MLdqqQBwBwWwJQtryx4gJAIMQBU%3D&amp;Expires=1493125844">
+    
+
+<div class="render-info">
+  <div class="js-viewer-health render-health is-viewer-good">
+    <span class="symbol">⊖</span>
+    <span class="js-message message">Everything running smoothly!</span>
+  </div>
+</div>
+
+<div id="notebook" class="js-html">
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1>[STAC] Turns and resources<a class="anchor-link" href="#%5BSTAC%5D-Turns-and-resources">¶</a>
+</h1>
+<p>Suppose you wanted to find the following (an actual request from the STAC project)</p>
+<p>“Player offers to give resource X (possibly for Y) but does not hold resource X.”</p>
+<p>In this tutorial, we'll walk through such a query applying it to a 
+single file in the corpus. Before digging into the tutorial proper, 
+let's first read the sample data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">educe.corpus</span> <span class="kn">import</span> <span class="n">FileId</span>
+<span class="kn">import</span> <span class="nn">educe.stac</span>
+
+<span class="c1"># relative to the educe docs directory</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s1">'../data'</span>
+<span class="n">corpus_dir</span> <span class="o">=</span> <span class="s1">'{dd}/stac-sample'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dd</span><span class="o">=</span><span class="n">data_dir</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">text_snippet</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="s2">"short text fragment"</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">43</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">text</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"{0}...{1}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">[:</span><span class="mi">20</span><span class="p">],</span> <span class="n">text</span><span class="p">[</span><span class="o">-</span><span class="mi">20</span><span class="p">:])</span>
+    
+<span class="k">def</span> <span class="nf">preview_unit</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">anno</span><span class="p">):</span>
+    <span class="s2">"the default str(anno) can be a bit overwhelming"</span>
+    <span class="n">preview</span> <span class="o">=</span> <span class="s2">"{span: &lt;11} {id: &lt;20} [{type: &lt;12}] {text}"</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">anno</span><span class="o">.</span><span class="n">text_span</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">preview</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">anno</span><span class="o">.</span><span class="n">local_id</span><span class="p">(),</span>
+                          <span class="nb">type</span><span class="o">=</span><span class="n">anno</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+                          <span class="n">span</span><span class="o">=</span><span class="n">anno</span><span class="o">.</span><span class="n">text_span</span><span class="p">(),</span>
+                          <span class="n">text</span><span class="o">=</span><span class="n">text_snippet</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+
+<span class="c1"># pick out an example document to work with creating FileIds by hand</span>
+<span class="c1"># is not something we would typically do (normally we would just iterate</span>
+<span class="c1"># through a corpus), but it's useful for illustration</span>
+<span class="n">ex_key</span> <span class="o">=</span> <span class="n">FileId</span><span class="p">(</span><span class="n">doc</span><span class="o">=</span><span class="s1">'s1-league2-game3'</span><span class="p">,</span>
+                <span class="n">subdoc</span><span class="o">=</span><span class="s1">'03'</span><span class="p">,</span>
+                <span class="n">stage</span><span class="o">=</span><span class="s1">'units'</span><span class="p">,</span>
+                <span class="n">annotator</span><span class="o">=</span><span class="s1">'BRONZE'</span><span class="p">)</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">educe</span><span class="o">.</span><span class="n">stac</span><span class="o">.</span><span class="n">Reader</span><span class="p">(</span><span class="n">corpus_dir</span><span class="p">)</span>
+<span class="n">ex_files</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">files</span><span class="p">(),</span>
+                           <span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="n">k</span> <span class="o">==</span> <span class="n">ex_key</span><span class="p">)</span>
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">slurp</span><span class="p">(</span><span class="n">ex_files</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ex_doc</span> <span class="o">=</span> <span class="n">corpus</span><span class="p">[</span><span class="n">ex_key</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Slurping corpus dir [1/1 done]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>1. Turn and resource annotations<a class="anchor-link" href="#1.-Turn-and-resource-annotations">¶</a>
+</h2>
+<p>How would you go about doing it? One place to start is to look at 
+turns and resources independently.  We can filter turns and resources 
+with the helper functions <code>is_turn</code> and <code>is_resource</code> from <code>educe.stac</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">educe.stac</span>
+
+<span class="n">ex_turns</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ex_doc</span><span class="o">.</span><span class="n">units</span> <span class="k">if</span> <span class="n">educe</span><span class="o">.</span><span class="n">stac</span><span class="o">.</span><span class="n">is_turn</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+<span class="n">ex_resources</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ex_doc</span><span class="o">.</span><span class="n">units</span> <span class="k">if</span> <span class="n">educe</span><span class="o">.</span><span class="n">stac</span><span class="o">.</span><span class="n">is_resource</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+<span class="n">ex_offers</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ex_resources</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Status'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Givable'</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">"Example turns"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"-------------"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">anno</span> <span class="ow">in</span> <span class="n">ex_turns</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="c1"># notice here that unit annotations have a features field</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">preview_unit</span><span class="p">(</span><span class="n">ex_doc</span><span class="p">,</span> <span class="n">anno</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"Example resources"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"-----------------"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">anno</span> <span class="ow">in</span> <span class="n">ex_offers</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="c1"># notice here that unit annotations have a features field</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">preview_unit</span><span class="p">(</span><span class="n">ex_doc</span><span class="p">,</span> <span class="n">anno</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="n">anno</span><span class="o">.</span><span class="n">features</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Example turns
+-------------
+(35,66)     stac_1368693098      [Turn        ] 152 : sabercat : yep, for what?
+(100,123)   stac_1368693104      [Turn        ] 154 : sabercat : no way
+(146,171)   stac_1368693110      [Turn        ] 156 : sabercat : could be
+(172,191)   stac_1368693113      [Turn        ] 157 : amycharl : :)
+(192,210)   stac_1368693116      [Turn        ] 160 : amycharl : ?
+
+Example resources
+-----------------
+(84,88)     asoubeille_1374939917916 [Resource    ] clay
+ {'Status': 'Givable', 'Kind': 'clay', 'Correctness': 'True', 'Quantity': '?'}
+(141,144)   asoubeille_1374940096296 [Resource    ] ore
+ {'Status': 'Givable', 'Kind': 'ore', 'Correctness': 'True', 'Quantity': '?'}
+(398,403)   asoubeille_1374940373466 [Resource    ] sheep
+ {'Status': 'Givable', 'Kind': 'sheep', 'Correctness': 'True', 'Quantity': '?'}
+(464,467)   asoubeille_1374940434888 [Resource    ] ore
+ {'Status': 'Givable', 'Kind': 'ore', 'Correctness': 'True', 'Quantity': '1'}
+(689,692)   asoubeille_1374940671003 [Resource    ] one
+ {'Status': 'Givable', 'Kind': 'Anaphoric', 'Correctness': 'True', 'Quantity': '1'}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3>Oh no, Anaphors<a class="anchor-link" href="#Oh-no,-Anaphors">¶</a>
+</h3>
+<p>Oh dear, some of our resources won't tell us their types directly.  
+They are anaphors pointing to other annotations.  We'll ignore these for
+ the moment, but it'll be important to deal with them properly later on.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>2. Resources within turns?<a class="anchor-link" href="#2.-Resources-within-turns?">¶</a>
+</h2>
+<p>It's not enough to be able to spit out resource and turn annotations.<br>
+What we really want to know about are which resources are within which turns'</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">ex_turns_with_offers</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ex_turns</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">encloses</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ex_offers</span><span class="p">)]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">"Turns and resources within"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">turn</span> <span class="ow">in</span> <span class="n">ex_turns_with_offers</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">t_resources</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ex_resources</span> <span class="k">if</span> <span class="n">turn</span><span class="o">.</span><span class="n">encloses</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">preview_unit</span><span class="p">(</span><span class="n">ex_doc</span><span class="p">,</span> <span class="n">turn</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">rsrc</span> <span class="ow">in</span> <span class="n">t_resources</span><span class="p">:</span>
+        <span class="n">kind</span> <span class="o">=</span> <span class="n">rsrc</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Kind'</span><span class="p">]</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">""</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">rsrc</span><span class="o">.</span><span class="n">text_span</span><span class="p">()),</span> <span class="n">kind</span><span class="p">]))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Turns and resources within
+--------------------------
+(959,1008)  stac_1368693191      [Turn        ] 201 : sabercat : can...or another sheep? or
+	(999,1004)	sheep
+(1009,1030) stac_1368693195      [Turn        ] 202 : sabercat : two?
+	(1026,1029)	Anaphoric
+(67,99)     stac_1368693101      [Turn        ] 153 : amycharl : clay preferably
+	(84,88)	clay
+(124,145)   stac_1368693107      [Turn        ] 155 : amycharl : ore?
+	(141,144)	ore
+(363,404)   stac_1368693135      [Turn        ] 171 : sabercat : want to trade for sheep?
+	(398,403)	sheep
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>3. But does the player own these resources?<a class="anchor-link" href="#3.-But-does-the-player-own-these-resources?">¶</a>
+</h2>
+<p>Now that we can extract the resources within a turn, our next task is
+ to figure out if the player actually has these resources to give.  This
+ information is stored in the turn features.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parse_turn_resources</span><span class="p">(</span><span class="n">turn</span><span class="p">):</span>
+    <span class="sd">"""Return a dictionary of resource names to counts thereof</span>
+<span class="sd">    """</span>
+    <span class="k">def</span> <span class="nf">split_eq</span><span class="p">(</span><span class="n">attval</span><span class="p">):</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">attval</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'='</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+    <span class="n">rxs</span> <span class="o">=</span> <span class="n">turn</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Resources'</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">split_eq</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rxs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">';'</span><span class="p">))</span> 
+
+<span class="k">print</span><span class="p">(</span><span class="s2">"Turns and player resources"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"--------------------------"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">turn</span> <span class="ow">in</span> <span class="n">ex_turns</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">t_resources</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ex_resources</span> <span class="k">if</span> <span class="n">turn</span><span class="o">.</span><span class="n">encloses</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">preview_unit</span><span class="p">(</span><span class="n">ex_doc</span><span class="p">,</span> <span class="n">turn</span><span class="p">))</span>
+    <span class="c1"># not to be confused with the resource annotations within the turn</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">parse_turn_resources</span><span class="p">(</span><span class="n">turn</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Turns and player resources
+--------------------------
+(35,66)     stac_1368693098      [Turn        ] 152 : sabercat : yep, for what?
+	 {'sheep': 5, 'wood': 2, 'ore': 2, 'wheat': 1, 'clay': 2}
+(100,123)   stac_1368693104      [Turn        ] 154 : sabercat : no way
+	 {'sheep': 5, 'wood': 2, 'ore': 2, 'wheat': 1, 'clay': 2}
+(146,171)   stac_1368693110      [Turn        ] 156 : sabercat : could be
+	 {'sheep': 5, 'wood': 2, 'ore': 2, 'wheat': 1, 'clay': 2}
+(172,191)   stac_1368693113      [Turn        ] 157 : amycharl : :)
+	 {'sheep': 1, 'wood': 0, 'ore': 3, 'wheat': 1, 'clay': 3}
+(192,210)   stac_1368693116      [Turn        ] 160 : amycharl : ?
+	 {'sheep': 1, 'wood': 1, 'ore': 2, 'wheat': 1, 'clay': 3}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>4. Putting it together: is this an honest offer?<a class="anchor-link" href="#4.-Putting-it-together:-is-this-an-honest-offer?">¶</a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">is_somewhat_honest</span><span class="p">(</span><span class="n">turn</span><span class="p">,</span> <span class="n">offer</span><span class="p">):</span>
+    <span class="sd">"""True if the player has the offered resource </span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">offer</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Status'</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">'Givable'</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Resource must be givable'</span><span class="p">)</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Kind'</span><span class="p">]</span>
+    <span class="n">t_rxs</span> <span class="o">=</span> <span class="n">parse_turn_resources</span><span class="p">(</span><span class="n">turn</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">t_rxs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">is_honest</span><span class="p">(</span><span class="n">turn</span><span class="p">,</span> <span class="n">offer</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    True if the player has the offered resource</span>
+<span class="sd">    at the quantity offered. Undefined for offers that</span>
+<span class="sd">    do not have a defined quantity</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">offer</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Status'</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">'Givable'</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Resource must be givable'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">offer</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Quantity'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'?'</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'Resource must have a known quantity'</span><span class="p">)</span>
+    <span class="n">promised</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">offer</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Quantity'</span><span class="p">])</span>    
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">rsrc</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Kind'</span><span class="p">]</span>
+    <span class="n">t_rxs</span> <span class="o">=</span> <span class="n">parse_turn_resources</span><span class="p">(</span><span class="n">turn</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">t_rxs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">promised</span>
+
+<span class="k">def</span> <span class="nf">critique_offer</span><span class="p">(</span><span class="n">turn</span><span class="p">,</span> <span class="n">offer</span><span class="p">):</span>
+    <span class="sd">"""Return some commentary on an offered resource"""</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Kind'</span><span class="p">]</span>
+    <span class="n">quantity</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Quantity'</span><span class="p">]</span>
+    <span class="n">honest</span> <span class="o">=</span> <span class="s1">'n/a'</span> <span class="k">if</span> <span class="n">quantity</span> <span class="o">==</span> <span class="s1">'?'</span> <span class="k">else</span> <span class="n">is_honest</span><span class="p">(</span><span class="n">turn</span><span class="p">,</span> <span class="n">offer</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"</span><span class="se">\t</span><span class="s2">{offered}/{has} {kind} | "</span>
+           <span class="s2">"has some: {honestish}, "</span>
+           <span class="s2">"enough: {honest}"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="n">kind</span><span class="p">,</span>
+                      <span class="n">offered</span><span class="o">=</span><span class="n">quantity</span><span class="p">,</span>
+                      <span class="n">has</span><span class="o">=</span><span class="n">player_rxs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kind</span><span class="p">),</span>
+                      <span class="n">honestish</span><span class="o">=</span><span class="n">is_somewhat_honest</span><span class="p">(</span><span class="n">turn</span><span class="p">,</span> <span class="n">offer</span><span class="p">),</span>
+                      <span class="n">honest</span><span class="o">=</span><span class="n">honest</span><span class="p">)</span>
+
+<span class="n">ex_turns_with_offers</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ex_turns</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">encloses</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ex_offers</span><span class="p">)]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">"Turns and offers"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"----------------"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">turn</span> <span class="ow">in</span> <span class="n">ex_turns_with_offers</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">offers</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ex_offers</span> <span class="k">if</span> <span class="n">turn</span><span class="o">.</span><span class="n">encloses</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="n">preview_unit</span><span class="p">(</span><span class="n">ex_doc</span><span class="p">,</span> <span class="n">turn</span><span class="p">))</span>
+    <span class="n">player_rxs</span> <span class="o">=</span> <span class="n">parse_turn_resources</span><span class="p">(</span><span class="n">turn</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">offer</span> <span class="ow">in</span> <span class="n">offers</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">critique_offer</span><span class="p">(</span><span class="n">turn</span><span class="p">,</span> <span class="n">offer</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Turns and offers
+----------------
+ (959,1008)  stac_1368693191      [Turn        ] 201 : sabercat : can...or another sheep? or
+	1/5 sheep | has some: True, enough: True
+ (1009,1030) stac_1368693195      [Turn        ] 202 : sabercat : two?
+	2/None Anaphoric | has some: False, enough: True
+ (67,99)     stac_1368693101      [Turn        ] 153 : amycharl : clay preferably
+	?/3 clay | has some: True, enough: n/a
+ (124,145)   stac_1368693107      [Turn        ] 155 : amycharl : ore?
+	?/3 ore | has some: True, enough: n/a
+ (363,404)   stac_1368693135      [Turn        ] 171 : sabercat : want to trade for sheep?
+	?/5 sheep | has some: True, enough: n/a
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>5. What about those anaphors?<a class="anchor-link" href="#5.-What-about-those-anaphors?">¶</a>
+</h2>
+<p>Anaphors are represented with 'Anaphora' relation instances.  
+Relation instances have a source and target connecting two unit level 
+annotations (here two resources). The idea here is that the anaphor 
+would be the source of the relation, and its antecedant is the target. 
+We'll assume for simplicity that resource anaphora do not form chains.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="n">resource_types</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">anno</span> <span class="ow">in</span> <span class="n">ex_doc</span><span class="o">.</span><span class="n">relations</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">anno</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s1">'Anaphora'</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="n">resource_types</span><span class="p">[</span><span class="n">anno</span><span class="o">.</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="n">anno</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Kind'</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">"Turns and offers (anaphors accounted for)"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"-----------------------------------------"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">turn</span> <span class="ow">in</span> <span class="n">ex_turns_with_offers</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">offers</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ex_offers</span> <span class="k">if</span> <span class="n">turn</span><span class="o">.</span><span class="n">encloses</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="n">preview_unit</span><span class="p">(</span><span class="n">ex_doc</span><span class="p">,</span> <span class="n">turn</span><span class="p">))</span>
+    <span class="n">player_rxs</span> <span class="o">=</span> <span class="n">parse_turn_resources</span><span class="p">(</span><span class="n">turn</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">offer</span> <span class="ow">in</span> <span class="n">offers</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">offer</span> <span class="ow">in</span> <span class="n">resource_types</span><span class="p">:</span>
+            <span class="n">kind</span> <span class="o">=</span> <span class="n">resource_types</span><span class="p">[</span><span class="n">offer</span><span class="p">]</span>
+            <span class="n">offer</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">offer</span><span class="p">)</span>
+            <span class="n">offer</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="s1">'Kind'</span><span class="p">]</span> <span class="o">=</span> <span class="n">kind</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">critique_offer</span><span class="p">(</span><span class="n">turn</span><span class="p">,</span> <span class="n">offer</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Turns and offers (anaphors accounted for)
+-----------------------------------------
+ (959,1008)  stac_1368693191      [Turn        ] 201 : sabercat : can...or another sheep? or
+	1/5 sheep | has some: True, enough: True
+ (1009,1030) stac_1368693195      [Turn        ] 202 : sabercat : two?
+	2/5 sheep | has some: True, enough: True
+ (67,99)     stac_1368693101      [Turn        ] 153 : amycharl : clay preferably
+	?/3 clay | has some: True, enough: n/a
+ (124,145)   stac_1368693107      [Turn        ] 155 : amycharl : ore?
+	?/3 ore | has some: True, enough: n/a
+ (363,404)   stac_1368693135      [Turn        ] 171 : sabercat : want to trade for sheep?
+	?/5 sheep | has some: True, enough: n/a
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2>Conclusion<a class="anchor-link" href="#Conclusion">¶</a>
+</h2>
+<p>In this tutorial, we've explored a couple of basic educe concepts, 
+which we hope will enable you to extract some data from your discourse 
+corpora, namely</p>
+<ul>
+<li>reading corpus data (and pre-filtering)</li>
+<li>standoff annotations</li>
+<li>searching by span enclosure, overlapping</li>
+<li>working with trees</li>
+<li>combining annotations from different sources</li>
+</ul>
+<p>The concepts above should transfer to whatever discourse corpus you 
+are working with (that educe supports, or that you are prepared to 
+supply a reader for).</p>
+
+</div>
+</div>
+</div>
+ 
+
+</div>
+
+  </div>
+
+  
+
+
+
+</body></html>

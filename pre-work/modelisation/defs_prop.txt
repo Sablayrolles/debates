@@ -1,0 +1,58 @@
+--------------------------------------------------------------------------------------
+TYPES
+
+num : numéro de l'échange
+int : evaluation [>0: evaluation positive, =0: evaluation neutre, <0: evaluation negative]
+string list : phrases énoncés par le candidat
+char : lettre identifiant le candidat
+int*int : couple de scores obtenu par les deux candidat
+bool : indique si un candidat n'a plus rien a dire
+react : reaction du public (idem int)
+
+domaines
+num (appartient a R+)
+int (appartient a R)
+string list (appartient a [A-Za-z0-9 .!?,;$€])
+char (appartient a {A,B})
+bool (appartient a {true, false})
+--------------------------------------------------------------------------------------
+FONCTIONS GENERALES
+
+compute(num,phrases_X[],phrases_Y[],letterFirstCandidat,result_oldCompute[], A_context, B_context, Env_context, public_react) 
+compute : num -> string list -> string list -> char -> num*int*int list -> context -> context -> context -> react -> num*int*int
+
+winner(last_result_compute, Env_context, public_react) 
+winner : num*int*int -> char
+--------------------------------------------------------------------------------------
+FONCTIONS D'EVALUATION
+
+eval(contexte) // Evalue un contexte en en donne une note
+eval : contexte -> int
+
+moyenne(contexteCandidat, contexteAdversaire, Env_context) // Fait les moyennes de tous les contextes et en produit un contexte global
+moyenne : contexte -> contexte -> contexte -> int
+
+nuance(contexte, public_react) // Nuance un contexte suivant la reaction d'un public
+nuance : contexte -> react -> int
+
+pondere(num, phares_X[], eval)// Pondere les phrases dite par le candidat en fonction du contexte dans lequel elle sont dites
+pondere : num -> string list -> int -> string*int list
+
+interprete(num, phares_X[], personalContexte, Env_context) // Interprete les phrases d'un candidat dans un contexte et un environnement donné
+interprete : num -> string list -> contexte -> contexte -> interpret
+
+getAtmosphere(num, personalContexte, Env_contexte, Adversaire_contexte) // retourne l'atmosphere generale
+getAtmosphere : num -> contexte -> contexte -> contexte ->  interpret
+
+fini(num, lettre) // Détermine si un candidat a fini et laisse tomber le débat ou si le temps est écoulé (nombre d'échange max)
+fini : num -> char -> bool
+
+compare(num, interpretX[], interpretY[]) // Compare deux interpretation et donne une note en fonction aux deux candidats
+compare : num -> interpret -> interpret -> int*int
+
+mix(result, result_oldCompute[]) // Calcul le résultat final en fonction du resultat de la comparaison et des precedants résultats
+mix : int*int -> int*int list -> int*int
+
+add(result, result_oldCompute[]) // Ajout le résultat dans les vieux résultats
+add : int*int -> int*int list -> int*int list
+--------------------------------------------------------------------------------------

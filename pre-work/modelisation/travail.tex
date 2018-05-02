@@ -1,0 +1,244 @@
+\documentclass[12pt,a4paper,openany]{book}
+	
+	\usepackage[a4paper,left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+	\usepackage[latin1]{inputenc}
+	\usepackage[T1]{fontenc}
+	\usepackage[francais]{babel}
+	\usepackage{glossaries}
+	\usepackage[dvips]{graphicx}
+	\usepackage{caption}
+	\usepackage{cite}
+	\usepackage{imakeidx}
+	\usepackage{makeidx}
+	\usepackage{color}
+	\usepackage{dsfont}
+	\usepackage{amsmath}
+	\usepackage{amssymb}
+	\usepackage{amsthm}
+	\usepackage{mathrsfs}
+	\usepackage{amsfonts}
+	\usepackage{dsfont} 
+	\usepackage{bbm}
+	\usepackage{mathrsfs}
+	
+	\definecolor{orange}{rgb}{1,0.40,0}
+	
+	\makeindex
+	\makeglossaries
+	\glstoctrue
+	\graphicspath{{images/}}
+	
+	\newcommand{\com}[1]{}
+	\renewcommand{\thesection}{\arabic{section}}
+
+	\setlength{\parindent}{0cm}
+	\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+	\newcommand{\hsp}{\hspace{20pt}}
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+	
+	\newenvironment{nscenter}
+		{\parskip=0pt\par\nopagebreak\centering}
+		{\par\noindent\ignorespacesafterend}
+ 
+	\title{Rapport de stage - Théorie des jeux et évaluation des dialogues pour succés}
+	\author{Sablayrolles Louis}
+	\date{\today}
+	
+	\begin{document}
+		\newacronym{ODP}{ODP}{Overt Display of power}
+	
+		\maketitle
+		\tableofcontents
+		\newpage
+			\section{Base de travail}
+				\subsection{Etat de l'art}
+					\paragraph{
+						\textnormal{
+							La base de ce travail est fondé sur l'article \cite{VOM12}. Il nous explique la méthode \gls{ODP} \index{ODP} dans le contexte d'un système d'apprentissage supervisé. Cette méthode consiste à appliquer des poids sur chaque échanges afin de calculer une sorte de récompense que chaque participant va gagner. Celle-ci est calculée en utilisant le contexte de l'échange et non le type de phrase. Dans cet article un système permettant d'automatisé les tags ODP est présenté ; il associe à chaque phrasede l'échange un poids basé sur un apprentissage supervisé utilisant des lemmes. Pour résumer, ce système calcule les réponses possibles pour chaque phrase et les comparent à la vrai réponse afin de désigner au final un gagnant.
+						}
+					}
+			\section{Modélisation}
+				\subsection{Dépendances au sein d'un débat \index{Debat}}
+					\begin{figure}[h]
+						\begin{nscenter}
+							\includegraphics[scale=0.4]{inter_conn.eps}
+							\captionof{figure}{Représentation d'un débat public entre deux personnes avec un juge impartial}
+							\label{fig3}
+						\end{nscenter}
+					\end{figure}
+					\paragraph{
+						\textnormal{
+							La figure ci-dessus représente un débat public entre deux personnes avec un juge  \index{juge} impartial. Les différentes parties présentes sont les deux interlocuteurs \#A \#B qui représente les deux personnes \og s'affrontant\fg{} (type c : candidat), le juge (type j) qui évalue la situation de chaque candidats en fonction de leurs propos et des contextes extérieurs tel que l'environnement (e), le public (type p) qui réagit après chaque échange entre les deux candidats. Le débat en lui même est représenté par les flèches vertes foncées sur le graphe. A la fin du débat le juge qui a attribué des points au deux candidats les somment et donne un gagnant.
+						}
+					}
+				\subsection{Modélisation mathématique}
+					\subsubsection{Types}
+						num : numéro de l'échange \\
+						int : evaluation $\begin{cases}
+							> 0 & \text{ si evaluation positive} \\
+							= 0 & \text{ si evaluation neutre} \\
+							< 0 & \text{ si evaluation negative}
+							\end{cases}$ \\
+						\newline
+						string list : phrases énoncés par le candidat\\
+						char : lettre identifiant le candidat\\
+						int*int : couple de scores obtenu par les deux candidat\\
+						bool : indique si un candidat n'a plus rien a dire\\
+						react : reaction du public (idem int)\\
+						
+					\subsubsection{Domaines}
+						$num \in \mathds{R}^{+}$ \\
+						$int \in \mathds{R}$ \\
+						$string list \in [A-Za-z0-9 .!?,;\$]$ \\
+						$char \in {A,B}$ \\
+						$bool \in {true, false}$
+						
+					\subsubsection{Fonctions generales et typages}
+						$\operatorname{compute}(num,phrases_X[],phrases_Y[],letterFirstCandidat,result\_oldCompute[], A\_context,$\\
+						$ B\_context, Env\_context, public_react);$\\
+						Description : Calcul a un instant num les scores des candidats. \\
+						\textcolor{orange}{compute : num -> string list -> string list -> char -> num*int*int list -> context -> context -> context -> react -> num*int*int} \\
+						
+						$\operatorname{winner}(last\_result\_compute, Env\_context, public\_react);$ \\
+						Description : Compare les scores finaux obtenus pour désigner un vainqueur. \\
+						\textcolor{orange}{winner : num*int*int -> char}
+						
+					\subsubsection{Fonctions auxiliaire d'évaluation}
+						$\operatorname{eval}(contexte);$\\
+						Description : Evalue un contexte en en donne une note. \\
+						\textcolor{orange}{eval : contexte -> int} \\
+
+						$\operatorname{moyenne}(contexteCandidat, contexteAdversaire, Env\_context);$\\
+						Description : Fait les moyennes de tous les contextes et en produit un contexte global. \\
+						\textcolor{orange}{moyenne : contexte -> contexte -> contexte -> int} \\
+						
+						$\operatorname{nuance}(contexte, public\_react);$\\
+						Description : Nuance un contexte suivant la reaction d'un public. \\
+						\textcolor{orange}{nuance : contexte -> react -> int} \\
+						
+						$\operatorname{pondere}(num, phares\_X[], eval);$\\
+						Description : Pondere les phrases dite par le candidat en fonction du contexte dans lequel elle sont dites. \\
+						\textcolor{orange}{pondere : num -> string list -> int -> string*int list} \\
+						
+						$\operatorname{interprete}(num, phares\_X[], personalContexte, Env\_context);$\\
+						Description : Interprete les phrases d'un candidat dans un contexte et un environnement donné. \\
+						\textcolor{orange}{interprete : num -> string list -> contexte -> contexte -> interpret} \\
+						
+						$\operatorname{getAtmosphere}(num, personalContexte, Env\_contexte, Adversaire\_contexte);$ \\
+						Description : Retourne l'atmosphere generale. \\
+						\textcolor{orange}{getAtmosphere : num -> contexte -> contexte -> contexte ->  interpret} \\
+						
+						$\operatorname{fini}(num, lettre);$\\
+						Description : Détermine si un candidat a fini et laisse tomber le débat ou si le temps est écoulé (nombre d'échange max). \\
+						\textcolor{orange}{fini : num -> char -> bool} \\
+						
+						$\operatorname{compare}(num, interpretX[], interpretY[]);$\\
+						Description : Compare deux interpretation et donne une note en fonction aux deux candidats. \\
+						\textcolor{orange}{compare : num -> interpret -> interpret -> int*int} \\
+						
+						$\operatorname{mix}(result, result\_oldCompute[]);$\\
+						Description : Calcul le résultat final en fonction du resultat de la comparaison et des precedants résultats. \\
+						\textcolor{orange}{mix : int*int -> int*int list -> int*int} \\
+						
+						$\operatorname{add}(result, result\_oldCompute[]);$\\
+						Description : Ajout le résultat dans les vieux résultats. \\
+						\textcolor{orange}{add : int*int -> int*int list -> int*int list} \\
+						
+					\subsubsection{Axiomes}
+						Notons par convention : \\
+						\begin{itemize}
+							\item{$c_{C}$ : contexte du candidat}
+							\item{$c_{A}$ : contexte de l'adversaire}
+							\item{$c_{E}$ : contexte de l'environnement}
+							\item{r : réaction du public}
+							\item{m : longeur  du discours}
+							\item{n : numéro actuel de l'échange}
+						\end{itemize}
+						Ainsi que les ensemble suivant :
+						\newline
+						\begin{itemize}
+							\item{$\mathscr{C}$ : l'ensemble des contextes existants}
+							\item{$\mathscr{P}$ : l'ensemble des phrases possibles}
+						\end{itemize}
+						\paragraph{}
+						\begin{equation}
+							\begin{split} 
+								\forall c \in \mathscr{C}, \operatorname{eval}(c) \in \mathds{Z} \\
+								tq \begin{cases}
+								\operatorname{eval}(c) > 0 & \text{si c'est bon pour le candidat} \\
+								\operatorname{eval}(c) = 0 & \text{si cela n'a pas d'influence sur le candidat} \\
+								\operatorname{eval}(c) < 0 & sinon \\
+								\end{cases}
+							\end{split} 
+						\end{equation}
+						\paragraph{}
+						\begin{equation}
+							\begin{split} 
+								\forall c_{C} \in \mathscr{C}, \forall c_{A} \in \mathscr{C}, \forall c_{E} \in \mathscr{C}, \\
+								\operatorname{moyenne}  = \frac{\operatorname{eval}(c_{C}) + \operatorname{eval}(c_{A}) + \operatorname{eval}(c_{E})}{3}
+							\end{split}
+						\end{equation}
+						\paragraph{}
+						\begin{equation}
+							\begin{split} 
+								\forall c \in \mathscr{C}, \forall r \in \mathds{Z}, \\
+								\operatorname{nuance}(c,r) = eval(c) \times r
+							\end{split}
+						\end{equation}
+						\paragraph{}
+						\begin{equation}
+							\begin{split} 
+								\forall n \in \mathds{N}, \forall m \in \mathds{N}^{*}, \forall p[] \in \mathscr{P}^{m}, \forall c \in \mathscr{C}, \\
+								\operatorname{pondere}(n, p[], c) \Rightarrow (\forall i \in \{0,\ldots,m\}, p[i] \to pond[i] = {p[i],c})
+							\end{split}
+						\end{equation}
+						\paragraph{}
+						\begin{equation}
+							\begin{split} 
+								\forall n \in \mathds{N}, \forall m \in \mathds{N}^{*}, \forall p[] \in \mathscr{P}^{m}, \forall {c_{C},c_{E}} \in \mathscr{C}^{2},\\
+								\operatorname{interprete}(n,p[],c_{C},c_{E}) \in \mathds{Z}
+							\end{split}
+						\end{equation}
+						\paragraph{}
+						\begin{equation}
+							\begin{split} 
+								\forall n \in \mathds{n}, \forall c_{C} \in \mathscr{C}, \forall c_{E} \in \mathscr{C}, \forall c_{A} \in \mathscr{C}, \\
+								\operatorname{getAtmosphere}(n,c_{C},c_{E},c_{A}) \in \mathds{Z}
+							\end{split}
+						\end{equation}
+						\paragraph{}
+						\begin{equation}
+							\begin{split}
+								\forall l \in \{"a","b"\}, \exists n \in \mathds{N}^{*} \\
+								\operatorname{fini}(n,l) = true
+							\end{split}
+						\end{equation}
+						\paragraph{}
+						\begin{equation}
+							\begin{split}
+								\forall n \in \mathds{N}, \forall intX \in \mathds{Z}, \forall intY \in \mathds{Z}, \\
+								\begin{cases}
+									\exists a,b \in \mathds{Z}, a>b \land \operatorname{compare}(n,intX,intY) = (a,b) & intX > intY \\
+									\exists a,b \in \mathds{Z}, a=b \land \operatorname{compare}(n,intX,intY) = (a,b) & intX = intY \\
+									\exists a,b \in \mathds{Z}, a<b \land \operatorname{compare}(n,intX,intY) = (a,b) &  \text{sinon}\\
+								\end{cases}
+							\end{split}
+						\end{equation}
+						\paragraph{}
+						\begin{equation}
+							\begin{split}
+								\forall a,b \in \mathds{Z}, \forall n \in \mathds{N}, \forall l \in {\mathds{Z}^{2}}^{n}, \exists c,d \in \mathds{Z},\\
+								\operatorname{mix}((a,b),l) = (c,d)
+							\end{split}
+						\end{equation}
+						\paragraph{}
+						\begin{equation}
+							\begin{split}
+								\forall a,b \in \mathds{Z}, \forall n \in \mathds{N}, \forall l \in {\mathds{Z}^{2}}^{n}, \\
+								\operatorname{add}((a,b),l) \Rightarrow l[n] = (a,b)
+							\end{split}
+						\end{equation}
+		\addcontentsline{toc}{chapter}{Bibliography}
+			\bibliographystyle{alpha}
+			\bibliography{report}
+	\end{document}

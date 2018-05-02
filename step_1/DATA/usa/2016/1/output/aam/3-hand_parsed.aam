@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='utf-8'?>
+<annotationModel>
+	<units>
+		<type groups="Bargaining_block" name="Turn">
+			<featureSet>
+				<feature name="Identifier">
+					<value default="" type="free" />
+				</feature>
+				<feature name="Emitter">
+					<value default="" type="free" />
+				</feature>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Complex_discourse_unit" name="Segment" />
+		<type groups="Complex_discourse_unit" name="Proposition">
+			<featureSet>
+				<feature name="Surface_act">
+					<possibleValues default="Please choose...">
+						<value>Assertion</value>
+						<value>Question</value>
+					</possibleValues>
+				</feature>
+				<feature name="recipient">
+					<possibleValues default="Please choose...">
+						<value>All</value>
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+						<value>CLINTON, HOLT</value>
+						<value>HOLT, TRUMP</value>
+						<value>CLINTON, TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="emitter">
+					<possibleValues default="Please choose...">
+						<value>All</value>
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+						<value>CLINTON, HOLT</value>
+						<value>HOLT, TRUMP</value>
+						<value>CLINTON, TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_public">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_emitter">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_recipient">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Complex_discourse_unit" name="Attack">
+			<featureSet>
+				<feature name="Surface_act">
+					<possibleValues default="Please choose...">
+						<value>Assertion</value>
+						<value>Question</value>
+					</possibleValues>
+				</feature>
+				<feature name="recipient">
+					<possibleValues default="Please choose...">
+						<value>All</value>
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+						<value>CLINTON, HOLT</value>
+						<value>HOLT, TRUMP</value>
+						<value>CLINTON, TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="emitter">
+					<possibleValues default="Please choose...">
+						<value>All</value>
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+						<value>CLINTON, HOLT</value>
+						<value>HOLT, TRUMP</value>
+						<value>CLINTON, TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_public">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_emitter">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_recipient">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Complex_discourse_unit" name="Counterattack">
+			<featureSet>
+				<feature name="Surface_act">
+					<possibleValues default="Please choose...">
+						<value>Assertion</value>
+						<value>Question</value>
+					</possibleValues>
+				</feature>
+				<feature name="recipient">
+					<possibleValues default="Please choose...">
+						<value>All</value>
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+						<value>CLINTON, HOLT</value>
+						<value>HOLT, TRUMP</value>
+						<value>CLINTON, TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="emitter">
+					<possibleValues default="Please choose...">
+						<value>All</value>
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+						<value>CLINTON, HOLT</value>
+						<value>HOLT, TRUMP</value>
+						<value>CLINTON, TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_public">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_emitter">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_recipient">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Complex_discourse_unit" name="Question">
+			<featureSet>
+				<feature name="Surface_act">
+					<possibleValues default="Please choose...">
+						<value>Assertion</value>
+						<value>Question</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_public">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_emitter">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_recipient">
+					<possibleValues default="Please choose...">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Complex_discourse_unit" name="Change_of_subject">
+			<featureSet>
+				<feature name="Surface_act">
+					<possibleValues default="Please choose...">
+						<value>Assertion</value>
+						<value>Question</value>
+					</possibleValues>
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Complex_discourse_unit" name="Taking_part">
+			<featureSet>
+				<feature name="Surface_act">
+					<possibleValues default="Please choose...">
+						<value>Assertion</value>
+						<value>Question</value>
+					</possibleValues>
+				</feature>
+				<feature name="recipient">
+					<possibleValues default="Please choose...">
+						<value>All</value>
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+						<value>CLINTON, HOLT</value>
+						<value>HOLT, TRUMP</value>
+						<value>CLINTON, TRUMP</value>
+					</possibleValues>
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Complex_discourse_unit" name="Other">
+			<featureSet>
+				<feature name="Surface_act">
+					<possibleValues default="Please choose...">
+						<value>Assertion</value>
+						<value>Question</value>
+					</possibleValues>
+				</feature>
+			</featureSet>
+		</type>
+	</units>
+	<relations>
+		<type groups="Discourse" name="Attack" oriented="true">
+			<featureSet>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Discourse" name="Avoidance" oriented="true">
+			<featureSet>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Discourse" name="Conditional" oriented="true">
+			<featureSet>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Discourse" name="Continuation" oriented="true">
+			<featureSet>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Discourse" name="Elaboration" oriented="true">
+			<featureSet>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Discourse" name="Explanation" oriented="true">
+			<featureSet>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Discourse" name="Q-Elab" oriented="true">
+			<featureSet>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Discourse" name="Q-clar" oriented="true">
+			<featureSet>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Discourse" name="Question-answer_pair" oriented="true">
+			<featureSet>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Discourse" name="Result" oriented="true">
+			<featureSet>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+	</relations>
+	<schemas>
+		<type groups="Blocks" name="Bargaining_block">
+			<featureSet />
+		</type>
+		<type groups="CDUs" name="Complex_discourse_unit">
+			<featureSet />
+		</type>
+	</schemas>
+</annotationModel>
