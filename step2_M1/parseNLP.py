@@ -65,14 +65,14 @@ def start():
 
 def stop():
 	global t
-	return timeit_default_timer() - t
-	
-def testing_on(nlp, sentence):
-	sNLP = nlp
+	return timeit.default_timer() - t
+
+def test(sNLP, text):
+	text = sys.argv[1]
 	time = {}
 
-	save_to_file("./fics/annoted_"+sys.argv[1], sNLP.annoted(text))
-	time["annotated"] = stop()
+	save_to_file("./fics/annotate_"+sys.argv[1], sNLP.annotate(text))
+	time["annotate"] = stop()
 
 	save_to_file("./fics/pos_"+sys.argv[1], sNLP.pos(text))
 	time["pos"] = stop()
@@ -94,7 +94,7 @@ def testing_on(nlp, sentence):
 if __name__ == '__main__':
 	sNLP = StanfordNLP()
 
-	if len(sys.argv) != 1:
+	if len(sys.argv) != 2:
 		print("Usage : $0 \"phrase\"")
 	else:
-		testing_on(sNLP, sys.argv[1])
+		test(sNLP, sys.argv[1])

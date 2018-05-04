@@ -65,33 +65,36 @@ def start():
 
 def stop():
 	global t
-	return timeit_default_timer() - t
+	return timeit.default_timer() - t
+
+def test(sNLP, text):
+	text = sys.argv[1]
+	time = {}
+
+	save_to_file("./fics/annotate_"+sys.argv[1], sNLP.annotate(text))
+	time["annotate"] = stop()
+
+	save_to_file("./fics/pos_"+sys.argv[1], sNLP.pos(text))
+	time["pos"] = stop()
+
+	save_to_file("./fics/tokens_"+sys.argv[1], sNLP.word_tokenize(text))
+	time["tokens"] = stop()
+
+	save_to_file("./fics/ner_"+sys.argv[1], sNLP.ner(text))
+	time["ner"] = stop()
+
+	save_to_file("./fics/parse_"+sys.argv[1], sNLP.parse(text))
+	time["parse"] = stop()
+
+	save_to_file("./fics/dependancy_"+sys.argv[1], sNLP.dependency_parse(text))
+	time["dependancy"] = stop()
+
+	save_to_file("./fics/timer_"+sys.argv[1], time)
 
 if __name__ == '__main__':
 	sNLP = StanfordNLP()
 
-	if len(sys.argv) != 1:
+	if len(sys.argv) != 2:
 		print("Usage : $0 \"phrase\"")
 	else:
-		text = sys.argv[1]
-		time = {}
-
-		save_to_file("./fics/annoted_"+sys.argv[1], sNLP.annoted(text))
-		time["annotated"] = stop()
-
-		save_to_file("./fics/pos_"+sys.argv[1], sNLP.pos(text))
-		time["pos"] = stop()
-
-		save_to_file("./fics/tokens_"+sys.argv[1], sNLP.word_tokenize(text))
-		time["tokens"] = stop()
-
-		save_to_file("./fics/ner_"+sys.argv[1], sNLP.ner(text))
-		time["ner"] = stop()
-
-		save_to_file("./fics/parse_"+sys.argv[1], sNLP.parse(text))
-		time["parse"] = stop()
-
-		save_to_file("./fics/dependancy_"+sys.argv[1], sNLP.dependency_parse(text))
-		time["dependancy"] = stop()
-
-		save_to_file("./fics/timer_"+sys.argv[1], time)
+		test(sNLP, sys.argv[1])
