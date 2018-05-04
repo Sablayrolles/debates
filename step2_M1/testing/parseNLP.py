@@ -2,11 +2,7 @@
 
 import sys
 import timeit
-
-'''
-A sample code usage of the python package stanfordcorenlp to access a Stanford CoreNLP server.
-Written as part of the blog post: https://www.khalidalnajjar.com/how-to-setup-and-use-stanford-corenlp-server-with-python/ 
-'''
+import random
 
 from stanfordcorenlp import StanfordCoreNLP
 import logging
@@ -70,26 +66,32 @@ def stop():
 def test(sNLP, text):
 	text = sys.argv[1]
 	time = {}
+	chars = "".join([random.choice(string.letters+sting.digits) for i in xrange(15)])
 
-	save_to_file("./fics/annotate_"+sys.argv[1], sNLP.annotate(text))
+	save_to_file("./fics/annotate_"+chars, sNLP.annotate(text))
 	time["annotate"] = stop()
 
-	save_to_file("./fics/pos_"+sys.argv[1], sNLP.pos(text))
+	save_to_file("./fics/pos_"+chars, sNLP.pos(text))
 	time["pos"] = stop()
 
-	save_to_file("./fics/tokens_"+sys.argv[1], sNLP.word_tokenize(text))
+	save_to_file("./fics/tokens_"+chars, sNLP.word_tokenize(text))
 	time["tokens"] = stop()
 
-	save_to_file("./fics/ner_"+sys.argv[1], sNLP.ner(text))
+	save_to_file("./fics/ner_"+chars, sNLP.ner(text))
 	time["ner"] = stop()
 
-	save_to_file("./fics/parse_"+sys.argv[1], sNLP.parse(text))
+	save_to_file("./fics/parse_"+chars, sNLP.parse(text))
 	time["parse"] = stop()
 
-	save_to_file("./fics/dependancy_"+sys.argv[1], sNLP.dependency_parse(text))
+	save_to_file("./fics/dependancy_"+chars, sNLP.dependency_parse(text))
 	time["dependancy"] = stop()
 
-	save_to_file("./fics/timer_"+sys.argv[1], time)
+	save_to_file("./fics/timer_"+chars, time)
+	
+	f = open("corespond_random_chain", "w")
+	f.write(chars+" : "+text)
+	f.close()
+
 
 if __name__ == '__main__':
 	sNLP = StanfordNLP()
