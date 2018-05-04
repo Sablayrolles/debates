@@ -17,6 +17,15 @@ class Spacy:
 			return t
 		else:
 			return {}
+
+	def tokens(self):
+		if self.doc != {}:
+			t = {}
+			for token in self.doc:
+				t[token.text] = token
+			return t
+		else:
+			return {}
 		
 	def outputDependancy(self):
 		print("graph (open with localhost:port on a navigator")

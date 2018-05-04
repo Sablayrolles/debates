@@ -66,30 +66,37 @@ def stop():
 def test(sNLP, text):
 	text = sys.argv[1]
 	time = {}
-	chars = "".join([random.choice(string.letters+sting.digits) for i in xrange(15)])
+	chars = "".join([random.choice(list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxytz0123456789")) for i in range(15)])
 
+	print("\tannotate")
 	save_to_file("./fics/annotate_"+chars, sNLP.annotate(text))
 	time["annotate"] = stop()
 
+	print("\tpos")
 	save_to_file("./fics/pos_"+chars, sNLP.pos(text))
 	time["pos"] = stop()
 
+	print("\ttokens")
 	save_to_file("./fics/tokens_"+chars, sNLP.word_tokenize(text))
 	time["tokens"] = stop()
 
+	print("\tner")
 	save_to_file("./fics/ner_"+chars, sNLP.ner(text))
 	time["ner"] = stop()
 
+	print("\tparse")
 	save_to_file("./fics/parse_"+chars, sNLP.parse(text))
 	time["parse"] = stop()
 
+	print("\tdependancy")
 	save_to_file("./fics/dependancy_"+chars, sNLP.dependency_parse(text))
 	time["dependancy"] = stop()
 
+	print("\ttimer")
 	save_to_file("./fics/timer_"+chars, time)
 	
-	f = open("corespond_random_chain", "w")
-	f.write(chars+" : "+text)
+	f = open("./fics/corespond_random_chain", "a+")
+	f.write(chars+" : "+text+"\n")
 	f.close()
 
 
