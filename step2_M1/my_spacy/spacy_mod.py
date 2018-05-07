@@ -30,3 +30,6 @@ class Spacy:
 	def outputDependancy(self):
 		print("graph (open with localhost:port on a navigator")
 		spacy.displacy.serve(self.doc,style="dep")
+		
+	def getSentiment(self):
+		return self.doc.sentiment
