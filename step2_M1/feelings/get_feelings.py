@@ -1,3 +1,15 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+# Module feelings
+# Author : SABLAYROLLES Louis
+# Date : 07 / 05 / 17
+
+
+"""
+	Documentation to do when module finished if it's used
+"""
+
 import sys
 sys.path.insert(0,'..')
 

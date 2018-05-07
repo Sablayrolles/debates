@@ -1,4 +1,21 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+# Module Test of my_spacy
+# Author : SABLAYROLLES Louis
+# Date : 07 / 05 / 17
+
+# run test over the my_spacy module
+
 import spacy_mod
+
+"""
+	Module Test-NLP
+	===============
+	
+	This module can be use to do module test on the module my_spacy
+	
+"""
 
 sp = spacy_mod.Spacy()
 

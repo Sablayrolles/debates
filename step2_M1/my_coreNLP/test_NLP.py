@@ -1,3 +1,12 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+# Module Test of my_coreNLP
+# Author : SABLAYROLLES Louis
+# Date : 07 / 05 / 17
+
+# run test over the my_coreNLP module
+
 import parseNLP
 
 import sys
@@ -6,12 +15,42 @@ from counter import timer
 import random
 import pprint
 
+"""
+	Module Test-NLP
+	===============
+	
+	This module can be use to do module test on the module parseNLP
+	
+"""
+
 def save_to_file(name, struct):
+	"""
+		def save_to_file(name, struct)
+		------------------------------------------------------
+		
+		ecrit une structure de facon lisible dans un fichier
+		
+		:param name: nom du fichier de sortie
+		:param struct: structure a ecrire
+		:type name: string 
+		:type struct: ??
+	"""
 	f = open(name, "w")
 	f.write(str(struct))
 	f.close()
 	
 def test(sNLP, text):
+	"""
+		def test(sNLP, text)
+		------------------------------------------------------
+		
+		effectue l'ensemble des tests des méthodes de la classe StanfordNLP et sauvegarde les résultats
+		
+		:param sNLP: objet NLP
+		:param text: phrase a tester
+		:type sNLP: NLP object 
+		:type text: string
+	"""
 	text = sys.argv[1]
 	time = {}
 	chars = "".join([random.choice(list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxytz0123456789")) for i in range(15)])
