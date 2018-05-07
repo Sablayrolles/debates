@@ -44,7 +44,7 @@ class Timer:
 	def start(self):
 		"""
 			def start(self)
-			------------------
+			---------------
 			
 			start or restart the timer 
 			
@@ -55,7 +55,7 @@ class Timer:
 	def pause(self):
 		"""
 			def pause(self)
-			------------------
+			---------------
 			
 			pause the timer
 			
@@ -66,7 +66,7 @@ class Timer:
 	def getTime(self):
 		"""
 			def pause(self)
-			------------------
+			---------------
 			
 			return the actual elapse time without stopping the timer
 			
@@ -77,8 +77,8 @@ class Timer:
 	def stop(self):
 		"""
 			def stop(self)
-			------------------
-			
+			--------------
+		
 			stop the timer and return the elapse time
 			
 			:return: Elapse Time

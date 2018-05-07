@@ -26,7 +26,7 @@ import pprint
 def save_to_file(name, struct):
 	"""
 		def save_to_file(name, struct)
-		------------------------------------------------------
+		------------------------------
 		
 		ecrit une structure de facon lisible dans un fichier
 		
@@ -42,7 +42,7 @@ def save_to_file(name, struct):
 def test(sNLP, text):
 	"""
 		def test(sNLP, text)
-		------------------------------------------------------
+		--------------------
 		
 		effectue l'ensemble des tests des méthodes de la classe StanfordNLP et sauvegarde les résultats
 		

@@ -97,7 +97,7 @@ class StanfordNLP:
 	def parse(self, sentence):
 		"""
 			def parse(self, sentence)
-			-----------------------
+			-------------------------
 			
 			retourne parse de l'analyse de corenlp
 			
@@ -111,7 +111,7 @@ class StanfordNLP:
 	def dependency_parse(self, sentence):
 		"""
 			def dependency_parse(self, sentence)
-			-----------------------
+			------------------------------------
 			
 			retourne les dependances de l'analyse de corenlp
 			
@@ -125,7 +125,7 @@ class StanfordNLP:
 	def annotate(self, sentence):
 		"""
 			def annotate(self, sentence)
-			-----------------------
+			----------------------------
 			
 			retourne les annotations de l'analyse de corenlp
 			
@@ -162,7 +162,7 @@ class StanfordNLP:
 	def segmente(self, sentence):
 		"""
 			def segmente(self, sentence)
-			----------------------------------
+			----------------------------
 			
 			retourne la liste des segments de l'analyse de corenlp
 			

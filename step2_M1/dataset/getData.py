@@ -21,7 +21,7 @@ import re
 class Sentences():
 	"""
 		Class Sentences
-		=================
+		===============
 		
 		Use it to create a iterator object.
 		
@@ -34,7 +34,7 @@ class Sentences():
 	def __init__(self, fichier, entete_to_split, type="Sentences"):
 		"""
 			def __init__(self, fichier, entete_to_split, type="Sentences")
-			------------------------------------------------------
+			--------------------------------------------------------------
 			
 			instanciation of iterator object
 			
@@ -69,7 +69,8 @@ class Sentences():
 					
 	def __iter__(self):
 		"""
-			def __iter__(self) : return the current iteration 
+			def __iter__(self)
+			------------------
 			
 			return the iteration of sentences
 			
@@ -80,7 +81,8 @@ class Sentences():
 	
 	def next(self):
 		"""
-			def next(self) : return the next iteration 
+			def next(self)
+			--------------
 			
 			calculate and return the nexte iteration
 			
@@ -96,7 +98,8 @@ class Sentences():
 		
 	def __next__(self):
 		"""
-			def __next__(self) : return the current iteration 
+			def __next__(self)
+			------------------
 			
 			calculate and return the nexte iteration
 			
