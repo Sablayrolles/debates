@@ -43,3 +43,7 @@ class StanfordNLP:
 				'ner': token['ner']
 		}
 		return tokens
+		
+	def segmente(self, sentence):
+		return json.loads(self.nlp.annotate(sentence, properties = {'annotators':'ssplit','pipelineLanguage': 'en','outputFormat': 'json'})
+	
