@@ -1,6 +1,6 @@
 import timeit
 	
-def Timer:
+class Timer:
 	def __init__(self):
 		self.t = 0
 	def start(self):

@@ -1,8 +1,10 @@
 import parseNLP
 
 import sys
-import ..timer.timer as timer
+sys.path.append("..")
+from counter import timer
 import random
+import pprint
 
 def save_to_file(name, struct):
 	f = open(name, "w")
@@ -14,7 +16,9 @@ def test(sNLP, text):
 	time = {}
 	chars = "".join([random.choice(list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxytz0123456789")) for i in range(15)])
 
-	t = timer.Timer().start()
+	t = timer.Timer()
+
+	t.start()
 	print("\tannotate")
 	save_to_file("./fics/annotate_"+chars, sNLP.annotate(text))
 	time["annotate"] = t.stop()
@@ -61,7 +65,8 @@ if __name__ == '__main__':
 		
 		text_o = u"It's a great thing for companies to expand.& And when these people are going to put billions and billions of dollars into companies,& and when they're going to bring $2.5 trillion back from overseas,& where they can't bring the money back,& because politicians like Secretary Clinton won't allow them to bring the money back,& because the taxes are so onerous, and the bureaucratic red tape, so what & is so bad.& So what they're doing is they're leaving our country,& and they're, believe it or not,& leaving because taxes are too high and because some of them have lots of money outside of our country.& And instead of bringing it back and putting the money to work,& because they can't work out a deal.& We have a president that can't sit them around a table and get them to approve something.& And here's the thing.& Republicans and Democrats agree& but we have no leadership.& And honestly, that starts with Secretary Clinton.&"
 		
-		print("Obtain : ", sNLP.segment(text))
-		print("Wanted : ",text_o)
+		print("Obtain : ")
+		print([" ".join(t) for t in sNLP.segmente(text)])
+		print("Wanted : ",text_o.split(sep='&'))
 	else:
 		test(sNLP, sys.argv[1])

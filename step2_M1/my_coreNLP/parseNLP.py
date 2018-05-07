@@ -45,5 +45,5 @@ class StanfordNLP:
 		return tokens
 		
 	def segmente(self, sentence):
-		return json.loads(self.nlp.annotate(sentence, properties = {'annotators':'ssplit','pipelineLanguage': 'en','outputFormat': 'json'})
-	
+		dic = json.loads(self.nlp.annotate(sentence, properties = {'annotators':'ssplit','pipelineLanguage': 'en','outputFormat': 'json'}))
+		return [[e['word'] for e in s["tokens"]] for s in dic["sentences"] ]
