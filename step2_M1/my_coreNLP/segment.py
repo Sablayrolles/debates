@@ -3,9 +3,9 @@
 
 # Module my_coreNLP/segment
 # Author : SABLAYROLLES Louis
-# Date : 07 / 05 / 17
+# Date : 09 / 05 / 17
 
-# own class to segment parsing of corenlp
+# own class of segment parse of corenlp
 
 import pickle
 import pprint
@@ -19,12 +19,45 @@ import pprint
 """
 
 def links_words():
+	"""
+		def links_words()
+		------------------------------
+		
+		retourne la liste des links_words a traiter en anglais
+		
+		:return: liste des links_words en anglais a traiter
+		:rtype: string list
+	"""
 	return ["first", "firstly", "secondly", "thirdly", "then", "next", "actually", "whereas", "while", "unlike", "conversely", "otherwise", "although", "though", "whatever", "however", "unless", "whether", "yet", "still", "nevertheless", "nonetheless", "namely", "as", "because", "since", "so", "that", "therefore", "accordingly", "consequently", "thus", "hence", "eventually", "till", "until", "while", "whenever", "once", "meanwhile", "besides", "furthermore", "moreover", "also", "similarly", "but", "where", "when"]
 	
 def list_words_SubjectVerb_cut():
+	"""
+		def list_words_SubjectVerb_cut()
+		------------------------------
+		
+		retourne la liste des links_words a traiter en anglais qui nécessite un découpage de type Sujet-Verbe
+		
+		:return: liste des links_words en anglais a traiterqui nécessite un découpage de type Sujet-Verbe
+		:rtype: string list
+	"""
 	return ["and", "to", "that", 'for', "when", "where", "so"]
 	
 def cutWords(data_struct, list_words_cut, list_words_SubjectVerb_cut):
+	"""
+		def cutWords(data_struct, list_words_cut, list_words_SubjectVerb_cut)
+		---------------------------------------------------------------------
+		
+		retourne la liste des nouvelles phrases ainsi que la liste des données de corenlp en fonction de ces nouvelles phrases
+		
+		:param data_struct: structure de données du parseur corenlp
+		:param list_words_cut: liste des mots où l'on doit absolument sectionner si pas premier mot de la phrase
+		:param list_words_SubjectVerb_cut: liste des mots où l'on doit sectionner si Sujet + Verbe avant et apres
+		:type data_struct: corenlp parsing struct
+		:type list_words_cut: string list
+		:type list_words_SubjectVerb_cut: string list
+		:return: liste des nouvelles phrases ainsi que la liste des données de corenlp en fonction de ces nouvelles phrases
+		:rtype: list, list
+	"""
 	cutSentences = [[e['word'] for e in s["tokens"]] for s in data_struct["sentences"]]
 	posWords = [[(e['word'],e['pos']) for e in s["tokens"]] for s in data_struct["sentences"]]
 	
