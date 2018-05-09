@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# Module my_coreNLP
+# Module my_coreNLP/parseNLP
 # Author : SABLAYROLLES Louis
 # Date : 07 / 05 / 17
 
@@ -10,6 +10,7 @@
 from stanfordcorenlp import StanfordCoreNLP
 import logging
 import json
+import pickle
 
 """
 	Module parseNLP
@@ -172,4 +173,5 @@ class StanfordNLP:
 			:rtype: list
 		"""
 		dic = json.loads(self.nlp.annotate(sentence, properties = {'annotators':'ssplit','pipelineLanguage': 'en','outputFormat': 'json'}))
+		pickle.dump(dic, open( "segmentation.nlp", "wb" ) )
 		return [[e['word'] for e in s["tokens"]] for s in dic["sentences"] ]
