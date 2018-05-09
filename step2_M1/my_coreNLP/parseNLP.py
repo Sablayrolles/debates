@@ -177,4 +177,4 @@ class StanfordNLP:
 		
 		pickle.dump(dic, open( "segmentation.nlp", "wb" ) )
 		
-		return segment.cutWords(dic, segment.links_words()
+		return segment.cutWords(dic, segment.links_words())
