@@ -28,8 +28,10 @@ def cutWords(data_struct, list_words_cut, list_words_SubjectVerb_cut):
 	cutSentences = [[e['word'] for e in s["tokens"]] for s in data_struct["sentences"]]
 	posWords = [[(e['word'],e['pos']) for e in s["tokens"]] for s in data_struct["sentences"]]
 	
-	print(cutSentences)
-	#print(posWords)
+	structWords = []
+	for sentence in data_struct['sentences']:
+		for data in sentence["tokens"]:
+			structWords.append(data)
 	
 	newSentences = []
 	tmp = []
@@ -95,11 +97,7 @@ def cutWords(data_struct, list_words_cut, list_words_SubjectVerb_cut):
 				tmp.append(word)
 			else:
 				new_temp.append(word)
-				
-			# if previous == 'to' and ('VB' in pos) and oldstate != {}:
-				# newSentences, tmp, new_temp, hasNounBefore, hasVerbBefore, hasNounAfter, hasVerbAfter, inAfter = oldstate
-				# oldstate = {}
-				# del newSentences[-1]
+			
 			first = False
 			
 			# print("", "word:", word, "\n", "previous:", previous, "\n", "pos:", pos, "\n", "tmp:", tmp, "\n", "new_temp:", new_temp, "\n", "in pb link word : ", inAfter, "\nres:", newSentences, "\n")
@@ -124,16 +122,24 @@ def cutWords(data_struct, list_words_cut, list_words_SubjectVerb_cut):
 		inAfter = False
 		hasVerbAfter = False
 		hasNounAfter = False
+		
+		struct = []
+		i = 0
+		for sentence in newSentences : 
+			d = []
+			for words in sentence:
+				d.append(structWords[i])
+				i += 1
+			struct.append(d)
 	
-	return newSentences
+	return newSentences, struct
 
 if __name__ == '__main__':
 	data = pickle.load(open("segmentation.nlp", "rb"))
-	#pprint.pprint(data)
-	#print(data)
 	
-	res = cutWords(data,links_words(), list_words_SubjectVerb_cut())
+	res, struct = cutWords(data,links_words(), list_words_SubjectVerb_cut())
 	# pprint.pprint(res)
+	print(struct[0])
 	
 	for split in [" ".join(t) for t in res]:
 		print(split)
