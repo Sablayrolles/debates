@@ -5,13 +5,13 @@
 Global Informations
 -------------------
 
-__Name of project__ : debates
-__Author__ : Sablayrolles Louis (louis.sablayrolles@gmail.com)
-__Directeur de Stage__ : Asher Nicholas
-__Equipe__ : MELODI (Méthodes et ingénierie des Langues, des Ontologies et du Discours)
-__Laboratoire__ : IRIT (Institut de Recherche en Informatique de Toulouse)
+- **Name of project** : debates
+- **Author** : Sablayrolles Louis (louis.sablayrolles@gmail.com)
+- **Directeur de Stage** : Asher Nicholas
+- **Equipe** : MELODI (Méthodes et ingénierie des Langues, des Ontologies et du Discours)
+- **Laboratoire** : IRIT (Institut de Recherche en Informatique de Toulouse)
 
-#https://blog.wax-o.com/2014/04/tutoriel-un-guide-pour-bien-commencer-avec-markdown/
+..https://blog.wax-o.com/2014/04/tutoriel-un-guide-pour-bien-commencer-avec-markdown/
 
 Description
 -----------
