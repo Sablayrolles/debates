@@ -14,8 +14,8 @@ Global Informations
 Description
 -----------
 
-- le dossier :: step_1 :: contient le travail effectué pour la définition des types d'EDU et des relations possibles entre elles
-- le dossier :: step2_M1 :: contient le travail effectué pour la segmentation automatique des EDU
+- le dossier **step_1** contient le travail effectué pour la définition des types d'EDU et des relations possibles entre elles
+- le dossier **step2_M1** contient le travail effectué pour la segmentation automatique des EDU
 
 Installation
 ------------
