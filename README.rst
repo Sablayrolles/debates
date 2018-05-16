@@ -20,8 +20,8 @@ Description
 Installation
 ------------
 
-:: 
-	pip install -r ./step2_M1/requirements.txt
+::
 
+    pip install -r ./step2_M1/requirements.txt
 
 .. http://python.physique.free.fr/aide/Partie1.html
