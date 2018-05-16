@@ -11,8 +11,6 @@ Global Informations
 - **Equipe** : MELODI (Méthodes et ingénierie des Langues, des Ontologies et du Discours)
 - **Laboratoire** : IRIT (Institut de Recherche en Informatique de Toulouse)
 
-..https://blog.wax-o.com/2014/04/tutoriel-un-guide-pour-bien-commencer-avec-markdown/
-
 Description
 -----------
 
@@ -22,4 +20,8 @@ Description
 Installation
 ------------
 
-:: pip install -r ./step2_M1/requirements.txt
+:: 
+	pip install -r ./step2_M1/requirements.txt
+
+
+.. http://python.physique.free.fr/aide/Partie1.html
