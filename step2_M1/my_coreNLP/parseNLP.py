@@ -34,9 +34,9 @@ class StanfordNLP:
 		def getTime(self) : return the actual elapse time without stopping the timer
 		def stop(self) : stop the timer and return the elapse time
 	"""
-	def __init__(self, host='http://localhost', port=9000):
+	def __init__(self, host='http://localhost', port=9221):
 		"""
-			def __init__(self, host='http://localhost', port=9000)
+			def __init__(self, host='http://localhost', port=9221)
 			------------------------------------------------------
 			
 			instanciation of StanfordNLP object
