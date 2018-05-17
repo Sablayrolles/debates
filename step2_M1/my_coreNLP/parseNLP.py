@@ -3,7 +3,7 @@
 
 # Module my_coreNLP/parseNLP
 # Author : SABLAYROLLES Louis
-# Date : 07 / 05 / 17
+# Date : 17 / 05 / 17
 
 # own class to interact with stanfordcorenlp java api
 
@@ -11,6 +11,7 @@ from stanfordcorenlp import StanfordCoreNLP
 import logging
 import json
 import pickle
+import pprint
 
 """
 	Module parseNLP
@@ -176,6 +177,6 @@ class StanfordNLP:
 		#annotators : ssplit, ner, pos
 		dic = json.loads(self.nlp.annotate(sentence, properties = {'annotators':'parse','pipelineLanguage': 'en','outputFormat': 'json'}))
 		
-		pickle.dump(dic, open( "segmentation.nlp", "wb" ) )
+		pprint.pprint(dic)
 		
-		return ""
+		return dic

@@ -4,7 +4,7 @@
 # Author : SABLAYROLLES Louis
 # Date : 07 / 05 / 17
 
-# run test over the my_coreNLP module
+# run test over the my_coreNLP module for all method
 
 #on test l'usage
 if [ -z $1 ]; then
