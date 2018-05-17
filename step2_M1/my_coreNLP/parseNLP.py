@@ -11,7 +11,6 @@ from stanfordcorenlp import StanfordCoreNLP
 import logging
 import json
 import pickle
-import segment
 
 """
 	Module parseNLP
@@ -173,8 +172,10 @@ class StanfordNLP:
 			:return: liste des segments de sentence
 			:rtype: list
 		"""
-		dic = json.loads(self.nlp.annotate(sentence, properties = {'annotators':'ssplit,ner,pos','pipelineLanguage': 'en','outputFormat': 'json'}))
+
+		#annotators : ssplit, ner, pos
+		dic = json.loads(self.nlp.annotate(sentence, properties = {'annotators':'parse','pipelineLanguage': 'en','outputFormat': 'json'}))
 		
 		pickle.dump(dic, open( "segmentation.nlp", "wb" ) )
 		
-		return segment.cutWords(dic, segment.links_words(), segment.list_words_SubjectVerb_cut()
+		return ""
