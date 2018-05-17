@@ -173,10 +173,15 @@ class StanfordNLP:
 			:return: liste des segments de sentence
 			:rtype: list
 		"""
+		
+		dic = self.annotate(sentence)
 
-		#annotators : ssplit, ner, pos
-		dic = json.loads(self.nlp.annotate(sentence, properties = {'annotators':'parse','pipelineLanguage': 'en','outputFormat': 'json'}))
-		
-		pprint.pprint(dic)
-		
-		return dic
+		#print(dic)
+		segments = []
+		for s in dic['sentences']:
+			seg = []
+			for w in s['tokens']:
+				seg.append(w['word'])
+			segments.append(" ".join(seg))
+
+		return segments
