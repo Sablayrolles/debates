@@ -7,10 +7,11 @@
 
 # run test over the my_coreNLP module
 
-import parseNLP
-
 import sys
 sys.path.append("..")
+import parseNLP
+
+sys.path.append("../..")
 from counter import timer
 import random
 import pprint

@@ -7,6 +7,9 @@
 
 # file to test parse of corenlp on sentences
 
+import sys
+sys.path.append("..")
+
 import parseNLP
 import pprint
 from test.data_long_sentences import tab

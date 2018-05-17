@@ -7,6 +7,9 @@
 
 # test decoupage sur segment
 
+import sys
+sys.path.append("..")
+
 import pprint
 import segment
 import parseNLP
