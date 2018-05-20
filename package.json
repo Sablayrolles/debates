@@ -1,3 +1,21 @@
-"devDependencies": {
-   CoreNLP:stanfordnlp/CoreNLP.git#master"
-} 
+{
+  "name": "debates",
+  "productName": "debates",
+  "description": "A hackable text editor for the 21st Century.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debates/debates.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Sablayrolles/debates/issues"
+  },
+  "dependencies": {
+    "@stanfordnlp/CoreNLP": "^3.9.1"
+  },
+  "packageDependencies": {
+  },
+  "private": false,
+  "scripts": {
+    "preinstall": "pip install -r step2_M1/requirements.txt"
+  }
+}
