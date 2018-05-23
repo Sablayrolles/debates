@@ -88,7 +88,7 @@ class Spliter:
 		lEDU = []
 		
 		for s in sentences:
-			dependancy = self.sNLP.dependancy_parse(s)
+			dependancy = self.sNLP.dependency_parse(s)
 			tokens = self.sNLP.getTokens(s)
 			l = ""
 			for id in tokens.keys():
