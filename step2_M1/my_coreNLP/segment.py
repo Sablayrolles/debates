@@ -89,7 +89,7 @@ class Spliter:
 		
 		for s in sentences:
 			dependancy = self.sNLP.dependancy_parse(s)
-			tokens = self.sNLP.tokens_to_dict()
+			tokens = self.sNLP.getTokens(s)
 			l = ""
 			for id in tokens.keys():
 				l += " " + tokens[id]['word']
