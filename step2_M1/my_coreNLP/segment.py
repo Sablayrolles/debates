@@ -7,7 +7,6 @@
 
 # own class of segment parse of corenlp
 
-import pprint
 import parseNLP as parseNLP
 
 from test.data_long_sentences import tab
@@ -35,10 +34,15 @@ class Spliter:
 			oldc = ""
 			l = ""
 			for c in s:
-				if c in self.list_punct_simple or oldc+c in self.list_punct_cmplx:
-					lEDU.append(l)
-					l = ""
 				l += c
+				if c in self.list_punct_simple or oldc+c in self.list_punct_cmplx:
+					if oldc == c and c == "-":
+						lEDU.append(l[:-2])
+						l = "--"
+					else:
+						lEDU.append(l)
+						l = ""
+				oldc = c
 			lEDU.append(l)
 		return lEDU
 		
@@ -48,12 +52,12 @@ if __name__ == "__main__":
 	
 	for sentences in tab:
 		print("Sentences :")
-		pprint.pprint(sentences)
+		print(sentences)
 		sentences_tab = sNLP.segmente(sentences) #segmentation par phrase
 		#print(sentences_tab)
 		
 		sSpliter = Spliter()
 		EDU_punct_tab = sSpliter.punct_split(sentences_tab)
 		print("Punct splitter : ")
-		pprint.pprint(EDU_punct_tab)
+		print(EDU_punct_tab)
 		print("\n\n----------------------------------------------------------------------------------------------------\n\n")
