@@ -168,7 +168,7 @@ class StanfordNLP:
 			t = {}
 			for d in s['tokens']:
 				t[d['index']] = {'word' : d['originalText'], 'lemma' : d['lemma'], 'pos' : d['pos']}
-			tok.append'(t)
+			tok.append(t)
 		
 		return tok
 		
