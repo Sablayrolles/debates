@@ -112,7 +112,7 @@ if __name__ == "__main__":
 		sSpliter = Spliter(sNLP)
 		EDU_punct_tab = []
 		for s in sentences_tab:
-			EDU_punct_tab.entend(sSpliter.punct_split(s))
+			EDU_punct_tab.extend(sSpliter.punct_split(s))
 			
 		EDUs = sSpliter.linkwords_split(s)
 		
