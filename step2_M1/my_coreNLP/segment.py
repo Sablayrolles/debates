@@ -8,6 +8,7 @@
 # own class of segment parse of corenlp
 
 import parseNLP as parseNLP
+import pprint
 
 from test.data_long_sentences import tab
 
@@ -47,9 +48,11 @@ class LinksWords:
 
 	def default(self):
 		self.link_words = ['accordingly', 'actually', 'and', 'also', 'although', 'as', 'because', 'besides', 'but', 'consequently', 'conversely', 'eventually', 'firstly', 'furthermore', 'hence', 'however', 'meanwhile', 'moreover', 'namely', 'nevertheless', 'next', 'nonetheless', 'once', 'otherwise', 'secondly', 'similarly', 'since', 'so', 'still', 'that', 'then', 'therefore', 'thirdly', 'though', 'thus', 'till', 'tofirst', 'unless', 'unlike', 'until', 'whatever', 'when', 'whenever', 'where', 'whereas', 'whether', 'while', 'while', 'yet']
+
 class Spliter:
-	def __init__(self, sNLP, link_words=LinksWords().default(), list_punct_simple = [';','(',')'], list_punct_cmplx = ["--"]):
-		self.link_words = link_words
+	def __init__(self, sNLP, link_words=None, list_punct_simple = [';','(',')'], list_punct_cmplx = ["--"]):
+		self.link_words = LinksWords()
+		self.link_words.default()
 		self.list_punct_simple = list_punct_simple
 		self.list_punct_cmplx = list_punct_cmplx
 		self.sNLP = sNLP
@@ -87,17 +90,18 @@ class Spliter:
 	def linkwords_split(self, tab_sentences):
 		lEDU = []
 		
-		for s in sentences:
+		for s in tab_sentences:
 			dependancy = self.sNLP.dependency_parse(s)
 			tokens = self.sNLP.getTokens(s)
 			l = ""
 			for id in tokens.keys():
 				l += " " + tokens[id]['word']
-				if tokens[id]['lemma'] in self.link_words.list():
+				if tokens[id]['lemma'] in self.link_words.list() or tokens[id]['lemma'] in [';', ',']:
 					if VB_Before(id, tokens) and VB_After(id, tokens):
 						#on split
 						lEDU.append(l)
 						l = ""
+			lEDU.append(l)
 		return lEDU
 
 if __name__ == "__main__":
@@ -107,18 +111,18 @@ if __name__ == "__main__":
 		print("Sentences :")
 		print(sentences)
 		sentences_tab = sNLP.segmente(sentences) #segmentation par phrase
-		#print(sentences_tab)
+		pprint.pprint(sentences_tab)
 		
 		sSpliter = Spliter(sNLP)
 		EDU_punct_tab = []
 		for s in sentences_tab:
 			EDU_punct_tab.extend(sSpliter.punct_split(s))
 			
-		EDUs = sSpliter.linkwords_split(s)
+		EDUs = sSpliter.linkwords_split(EDU_punct_tab)
 		
-		print("Punct splitter : ")
+		print("\nPunct splitter : ")
 		print(EDU_punct_tab)
-		print("#################################")
-		print("link_words splitter : ")
+		print("\n#################################")
+		print("\nlink_words splitter : ")
 		print(EDUs)
 		print("\n\n----------------------------------------------------------------------------------------------------\n\n")
