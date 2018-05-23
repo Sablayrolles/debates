@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# Module Test of my_coreNLP
+# Module my_coreNLP/test/test_NLP
 # Author : SABLAYROLLES Louis
 # Date : 07 / 05 / 17
 
