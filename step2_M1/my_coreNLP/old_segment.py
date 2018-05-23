@@ -5,174 +5,162 @@
 # Author : SABLAYROLLES Louis
 # Date : 09 / 05 / 17
 
-# own class of segment parse of corenlp [set hidden temporary]
+# own class of segment parse of corenlp
 
 import pickle
 import pprint
+import re
 
 """
 	Module old_segment
 	===============
 	
-	This module can be use to segment parsing of corenlp.
+	This module can be use to segment parsing of corenlp using parse method of corenlp.
 	
 """
 
-def links_words():
-	"""
-		def links_words()
-		------------------------------
-		
-		retourne la liste des links_words a traiter en anglais
-		
-		:return: liste des links_words en anglais a traiter
-		:rtype: string list
-	"""
-	return ["first", "firstly", "secondly", "thirdly", "then", "next", "actually", "whereas", "while", "unlike", "conversely", "otherwise", "although", "though", "whatever", "however", "unless", "whether", "yet", "still", "nevertheless", "nonetheless", "namely", "as", "because", "since", "so", "that", "therefore", "accordingly", "consequently", "thus", "hence", "eventually", "till", "until", "while", "whenever", "once", "meanwhile", "besides", "furthermore", "moreover", "also", "similarly", "but", "where", "when"]
-	
-def list_words_SubjectVerb_cut():
-	"""
-		def list_words_SubjectVerb_cut()
-		------------------------------
-		
-		retourne la liste des links_words a traiter en anglais qui nécessite un découpage de type Sujet-Verbe
-		
-		:return: liste des links_words en anglais a traiterqui nécessite un découpage de type Sujet-Verbe
-		:rtype: string list
-	"""
-	return ["and", "to", "that", 'for', "when", "where", "so"]
-	
-def cutWords(data_struct, list_words_cut, list_words_SubjectVerb_cut):
-	"""
-		def cutWords(data_struct, list_words_cut, list_words_SubjectVerb_cut)
-		---------------------------------------------------------------------
-		
-		retourne la liste des nouvelles phrases ainsi que la liste des données de corenlp en fonction de ces nouvelles phrases
-		
-		:param data_struct: structure de données du parseur corenlp
-		:param list_words_cut: liste des mots où l'on doit absolument sectionner si pas premier mot de la phrase
-		:param list_words_SubjectVerb_cut: liste des mots où l'on doit sectionner si Sujet + Verbe avant et apres
-		:type data_struct: corenlp parsing struct
-		:type list_words_cut: string list
-		:type list_words_SubjectVerb_cut: string list
-		:return: liste des nouvelles phrases ainsi que la liste des données de corenlp en fonction de ces nouvelles phrases
-		:rtype: list, list
-	"""
-	cutSentences = [[e['word'] for e in s["tokens"]] for s in data_struct["sentences"]]
-	posWords = [[(e['word'],e['pos']) for e in s["tokens"]] for s in data_struct["sentences"]]
-	
-	structWords = []
-	for sentence in data_struct['sentences']:
-		for data in sentence["tokens"]:
-			structWords.append(data)
-	
-	newSentences = []
-	tmp = []
-	new_temp = []
-	hasVerbBefore = False
-	hasNounBefore = False
-	inAfter = False
-	hasVerbAfter = False
-	hasNounAfter = False
-	for sentence, sentencePos in zip(cutSentences, posWords):
-		hasVerbBefore = False
-		hasNounBefore = False
-		inAfter = False
-		hasVerbAfter = False
-		hasNounAfter = False
-		previous = None
-		
-		oldstate = {}
-		first = True
-		for word, pos in zip(sentence, sentencePos):			
-			#on gère les pos
-			if not inAfter:
-				hasNounBefore = hasNounBefore or ('NN' in pos) or ('PRP' in pos)
-				hasVerbBefore = hasVerbBefore or ('VB' in pos and pos not in ['VB', 'VBG', 'VBN'])
-			else:
-				hasNounAfter = hasNounAfter or ('NN' in pos) or ('PRP' in pos)
-				hasVerbAfter = hasVerbAfter or ('VB' in pos and pos not in ['VB', 'VBG', 'VBN'])
-			
-			#on vient de passer le links_word donc on veut effectuer les tests apres
-			if word in list_words_SubjectVerb_cut and not first and hasVerbBefore and previous not in list_words_SubjectVerb_cut:
-				#on rencontre un link pb 
-				if inAfter and previous not in list_words_SubjectVerb_cut: #on en a deja rencontré un et qui ne le précède pas de suite
-					oldstate = [newSentences, tmp, new_temp, hasNounBefore, hasVerbBefore, hasNounAfter, hasVerbAfter, inAfter]
-					newSentences.append(tmp+new_temp)
-					tmp = []
-					new_temp = []
-					hasNounBefore = hasNounAfter
-					hasVerbBefore = hasVerbAfter
-					hasNounAfter = False
-					hasVerbAfter = False
-					inAfter = False
-				else:
-					inAfter = True
-			
-			if word in list_words_cut and not first and word not in list_words_SubjectVerb_cut: #on split sur les links_words
-				if hasVerbBefore and hasVerbAfter:
-					newSentences.append(new_temp)
-					newSentences.append(tmp)
-				else:
-					if new_temp != []:
-						newSentences.append(tmp+new_temp)
-					else:
-						newSentences.append(tmp)
-				tmp = []
-				new_temp = []
-				hasVerbBefore = False
-				hasNounBefore = False
-				inAfter = False
-				hasVerbAfter = False
-				hasNounAfter = False	
-				
-			if not inAfter:
-				tmp.append(word)
-			else:
-				new_temp.append(word)
-			
-			first = False
-			
-			# print("", "word:", word, "\n", "previous:", previous, "\n", "pos:", pos, "\n", "tmp:", tmp, "\n", "new_temp:", new_temp, "\n", "in pb link word : ", inAfter, "\nres:", newSentences, "\n")
-			# print("hasNounBefore",hasNounBefore,"hasVerbBefore",hasVerbBefore,"hasNounAfter",hasNounAfter,"hasVerbAfter",hasVerbAfter)
-			# a = input()
-			
-			previous = word
-			
-		#on split en fin de phrase
-		if hasNounBefore and hasVerbBefore and hasVerbAfter:
-			newSentences.append(new_temp)
-			newSentences.append(tmp)
-		else:
-			if new_temp != []:
-				newSentences.append(tmp+new_temp)
-			else:
-				newSentences.append(tmp)
-		tmp = []
-		new_temp = []
-		hasVerbBefore = False
-		hasNounBefore = False
-		inAfter = False
-		hasVerbAfter = False
-		hasNounAfter = False
-		
-		struct = []
-		i = 0
-		for sentence in newSentences : 
-			d = []
-			for words in sentence:
-				d.append(structWords[i])
-				i += 1
-			struct.append(d)
-	
-	return newSentences, struct
+flksndflndsln = 0
 
+def generateNamesGraph():
+	global flksndflndsln
+	
+	flksndflndsln += 1
+
+	return "s"+str(flksndflndsln)
+
+class Ligne:
+	def __init__(self, l):
+		self.l = l
+		
+	def countBeginningSpace(self):
+		n = 0
+		while self.l[n] == " ":
+			n += 1
+		
+		return n
+
+	def formatStringGraph(self):
+		nbopenparenthesis = self.l.count("(")
+		nbcloseparenthesis = self.l.count(")")
+		lig = self.l.strip()
+		if nbopenparenthesis < nbcloseparenthesis:
+			for i in range(nbcloseparenthesis-nbopenparenthesis):
+				lig = lig[0:-1]
+		if nbopenparenthesis > nbcloseparenthesis:
+			for i in range(nbopenparenthesis-nbcloseparenthesis):
+				lig += ")"
+
+		return lig
+
+	def getLemma(self):
+		reg = re.compile('[A-Z]?[a-z\',]+')
+		return reg.findall(self.l), " ".join(reg.findall(self.l)).strip()
+
+	def removeMultiplesSpaces(self):
+		while self.l.count("  ") > 0:
+			self.l = self.l.replace("  ", " ")
+
+		return self.l
+
+class Parser:
+	def __init__(self, parse):
+		self.parse = parse
+
+	def exportGraph(self):
+		old = {}
+		preced_level = 0
+
+		nodes,edges = "",""
+		for lig in self.parse.split('\n'):
+			myL = Ligne(lig)
+			level = int(myL.countBeginningSpace() / 2)
+			old_l = lig
+			lig = myL.formatStringGraph()
+
+			name = generateNamesGraph()
+			nodes += "\t"+name+'[label="'+lig+'"];\n'
+
+			if level != 0:
+				edges += "\t"+old[level-1]+" -> "+name+"\n"
+				
+			old[level] = name
+
+		print("digraph G{\n"+nodes+"\n"+edges+"\n"+"}\n")
+
+	def getDictGraph(self):
+		old = {}
+		preced_level = 0
+
+		rac = []
+		correspond = {}
+		dependance = {}
+		for lig in self.parse.split('\n'):
+			myL = Ligne(lig)
+			level = int(myL.countBeginningSpace() / 2)
+			old_l = lig
+			lig = myL.formatStringGraph()
+
+			name = generateNamesGraph()
+			correspond[name] = lig
+			dependance[name] = []
+			if level != 0:
+				dependance[old[level-1]].append(name)
+			else:
+				rac.append(name)
+
+			if 'SBAR' in lig:
+				rac.append(name)
+
+			old[level] = name
+
+			print('('+str(level)+')', old_l)
+		return correspond, dependance, rac
+
+	def getDictSubGraph(self):
+		names, edges, rac = self.getDictGraph()
+
+		subsgraphs = {}
+		for r in rac:
+			subsgraphs[r] = {'nodes' : {r:names[r]}
+							,'edges' : {r:edges[r]}}
+			lnodestodo = subsgraphs[r]['edges'][r]
+			while lnodestodo != []:
+				n = lnodestodo.pop()
+				if n not in rac:
+					subsgraphs[r]['nodes'][n] = names[n]
+					subsgraphs[r]['edges'][n] = edges[n]
+					lnodestodo += edges[n]
+
+		return subsgraphs
+
+	def segmente(self):
+		subg = self.getDictSubGraph()
+		
+		seg = []
+		for r in sorted(subg.keys()):
+			edu = ""
+			for n in sorted(subg[r]['nodes'].keys()):
+				myL = Ligne(subg[r]['nodes'][n])
+				lems, joined = myL.getLemma()
+				edu += " " + joined
+			myL = Ligne(edu)
+			seg.append(myL.removeMultiplesSpaces())
+
+		return seg
+		
+	
 if __name__ == '__main__':
 	data = pickle.load(open("segmentation.nlp", "rb"))
 	
-	res, struct = cutWords(data,links_words(), list_words_SubjectVerb_cut())
-	# pprint.pprint(res)
-	print(struct[0])
+	j = 0;
+	for i in data['sentences']:
+		print("j:",j)
+
+		myP = Parser(i['parse'])
+		correspond, dependance, rac = myP.getDictGraph()
+
+		seg = myP.segmente()
+		pprint.pprint(seg)
+
+		j += 1
 	
-	for split in [" ".join(t) for t in res]:
-		print(split)
