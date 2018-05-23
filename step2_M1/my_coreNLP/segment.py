@@ -45,9 +45,9 @@ if __name__ == "__main__":
 	sNLP = parseNLP.StanfordNLP()
 	
 	for sentences in tab:
+		print("Sentences :", sentences)
 		sentences_tab = sNLP.segmente(sentences) #segmentation par phrase
 		
 		sSpliter = Spliter()
 		EDU_punct_tab = sSpliter.punct_split(sentences_tab)
-		
 		print(EDU_punct_tab)
