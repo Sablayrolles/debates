@@ -199,7 +199,6 @@ class StanfordNLP:
 		
 		dic = self.annotate(sentence)
 
-		#print(dic)
 		segments = []
 		for s in dic['sentences']:
 			seg = []

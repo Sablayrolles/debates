@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# Module my_coreNLP/test/depenancy_segmentation
+# Module my_coreNLP/test/test_dependancy_segmentation
 # Author : SABLAYROLLES Louis
 # Date : 17 / 05 / 17
 

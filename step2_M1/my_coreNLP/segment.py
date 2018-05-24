@@ -10,8 +10,6 @@
 import parseNLP as parseNLP
 import pprint
 
-from test.data_long_sentences import tab
-
 """
 	Module segment
 	===============
@@ -144,7 +142,36 @@ class LinksWords:
 		self.link_words = ['accordingly', 'actually', 'and', 'also', 'although', 'as', 'because', 'besides', 'but', 'consequently', 'conversely', 'eventually', 'firstly', 'furthermore', 'how', 'hence', 'however', 'if', 'meanwhile', 'moreover', 'namely', 'nevertheless', 'next', 'nonetheless', 'once', 'otherwise', 'secondly', 'similarly', 'since', 'so', 'still', 'that', 'then', 'therefore', 'thirdly', 'though', 'thus', 'till', 'tofirst', 'unless', 'unlike', 'until', 'whatever', 'when', 'whenever', 'where', 'whereas', 'whether', 'while', 'while', 'who', 'yet']
 
 class Spliter:
+	"""
+		Class Spliter
+		=============
+		
+		Use it to split sentences in EDU
+		
+		def __init__(self, sNLP, link_words=None, list_punct_simple = [';','(',')'], list_punct_cmplx = ["--"]) : initialize the splitter
+		def getListPunctSimple(self) : return the list of punctuation with only one character
+		def getListPunctCmplx(self)	: return the list of punctuation with only two character
+		def setListPunctSimple(self) : set the list of punctuation with only one character
+		def setListPunctCmplx(self) : set the list of punctuation with only two character
+		def punct_split(self, sentence) : split a sentence over the punctuation
+		def linkwords_split(self, tab_sentences) : split a tabular of sentences or EDU over the linkwords and minor ponctuation (',', ':')
+	"""
 	def __init__(self, sNLP, link_words=None, list_punct_simple = [';','(',')'], list_punct_cmplx = ["--"]):
+		"""
+			def __init__(self, sNLP, link_words=None, list_punct_simple = [';','(',')'], list_punct_cmplx = ["--"])
+			-------------------------------------------------------------------------------------------------------
+			
+			initialize the splitter
+			
+			:param sNLP: StanfordCoreNLP object(parseNLP.py)
+			:param link_words: link object
+			:param list_punct_simple: list of punctuation with only one character
+			:param list_punct_cmplx: list of punctuation with only two character
+			:type sNLP: object 
+			:type link_words: object
+			:type list_punct_simple: string list
+			:type list_punct_cmplx: string list
+		"""
 		if link_words == None:
 			self.link_words = LinksWords()
 			self.link_words.default()
@@ -153,18 +180,65 @@ class Spliter:
 		self.sNLP = sNLP
 	
 	def getListPunctSimple(self):
+		"""
+			def getListPunctSimple(self)
+			----------------------------
+			
+			return the list of punctuation with only one character
+			
+			:return: list of one character's ponctuation
+			:rtype: string list
+		"""
 		return self.list_punct_simple
 		
 	def getListPunctCmplx(self):
+		"""
+			def getListPunctCmplx(self)
+			---------------------------
+			
+			return the list of punctuation with only two character
+			
+			:return: list of one character's ponctuation
+			:rtype: string list
+		"""
 		return self.list_punct_cmplx
 		
 	def setListPunctSimple(self, list):
+		"""
+			def setListPunctSimple(self)
+			----------------------------
+			
+			set the list of punctuation with only one character
+			
+			:param list: list of one character's ponctuation
+			:type list: string list
+		"""
 		self.list_punct_simple = list
 	
 	def setListPunctCmplx(self, list):
+		"""
+			def setListPunctCmplx(self)
+			---------------------------
+			
+			set the list of punctuation with only two character
+			
+			:param list: list of two character's ponctuation
+			:type list: string list
+		"""
 		self.list_punct_cmplx = list
 	
 	def punct_split(self, sentence):
+		"""
+			def punct_split(self, sentence)
+			-------------------------------
+			
+			split a sentence over the punctuation
+			
+			:param sentence: sentence to split
+			:type sentence: string 
+			:return: list of EDU
+			:rtype: string list
+		"""
 		lEDU = []
 		oldc = ""
 		l = ""
@@ -183,6 +257,17 @@ class Spliter:
 		return lEDU
 	
 	def linkwords_split(self, tab_sentences):
+		"""
+			def linkwords_split(self, tab_sentences)
+			----------------------------------------
+			
+			split a tabular of sentences or EDU over the linkwords and minor ponctuation (',', ':')
+			
+			:param tab_sentences: list of sentences or EDU to split
+			:type tab_sentences: string list
+			:return: list of EDU
+			:rtype: string list
+		"""
 		lEDU = []
 		
 		for s in tab_sentences:

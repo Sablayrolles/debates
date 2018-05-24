@@ -12,9 +12,11 @@ sys.path.append("..")
 import parseNLP
 import segment
 
+from test.data_long_sentences import tab
+
 """
 	Module Test-Segment
-	===============
+	===================
 	
 	This module can be use to do module segment on the module parseNLP
 	
