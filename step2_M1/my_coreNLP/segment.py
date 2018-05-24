@@ -3,7 +3,7 @@
 
 # Module my_coreNLP/segment
 # Author : SABLAYROLLES Louis
-# Date : 09 / 05 / 17
+# Date : 24 / 05 / 17
 
 # own class of segment parse of corenlp
 
@@ -12,7 +12,30 @@ import pprint
 
 from test.data_long_sentences import tab
 
+"""
+	Module segment
+	===============
+	
+	This module can be use with its own class to segment texts.
+	
+"""
+
 def VB_Before(min_id, id, tokens):
+	"""
+		VB_Before(min_id, id, tokens)
+		-----------------------------
+		
+		Test if a verb present before the word id.
+		
+		:param min_id: id tokens min pour commencer les recherches
+		:param id: id du token jusqu'ou rechercher
+		:param tokens: liste des tokens de corenlp
+		:type min_id: int 
+		:type id: int
+		:type tokens: list
+		:return: True if a verbe is present before the tokens number id
+		:rtype: Boolean
+	"""
 	p = False
 	i = min_id
 	while not p and i < id:
@@ -21,6 +44,19 @@ def VB_Before(min_id, id, tokens):
 	return p
 	
 def VB_After(id, tokens):
+	"""
+		VB_After(id, tokens)
+		-----------------------------
+		
+		Test if a verb present after the word id.
+		
+		:param id: id du token jusqu'ou rechercher
+		:param tokens: liste des tokens de corenlp
+		:type id: int
+		:type tokens: list
+		:return: True if a verbe is present after the tokens number id
+		:rtype: Boolean
+	"""
 	p = False
 	i = id + 1
 	while not p and i < max(tokens.keys()):
@@ -121,36 +157,3 @@ class Spliter:
 						min_id = id
 			lEDU2.append(l)
 		return lEDU2
-
-def print_tab(t):
-	i = 0
-	for e in t:
-		print("["+str(i)+"]",e)
-		i += 1
-
-
-if __name__ == "__main__":
-	sNLP = parseNLP.StanfordNLP()
-	
-	for sentences in tab:
-		print("Sentences :")
-		print(sentences)
-		sentences_tab = sNLP.segmente(sentences) #segmentation par phrase
-		print("\nSentence splitter : ")
-		print_tab(sentences_tab)
-		
-
-		sSpliter = Spliter(sNLP)
-		EDU_punct_tab = []
-		for s in sentences_tab:
-			EDU_punct_tab.extend(sSpliter.punct_split(s))
-			
-		print("\nPunct splitter : ")
-		print_tab(EDU_punct_tab)
-		print("\n#################################")
-
-
-		EDUs = sSpliter.linkwords_split(EDU_punct_tab)
-		print("\nlink_words splitter : ")
-		print_tab(EDUs)
-		print("\n\n----------------------------------------------------------------------------------------------------\n\n")

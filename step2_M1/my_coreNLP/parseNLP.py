@@ -3,7 +3,7 @@
 
 # Module my_coreNLP/parseNLP
 # Author : SABLAYROLLES Louis
-# Date : 17 / 05 / 17
+# Date : 24 / 05 / 17
 
 # own class to interact with stanfordcorenlp java api
 
@@ -168,7 +168,7 @@ class StanfordNLP:
 	def getTokens(self, sentence):
 		"""
 			def getTokens(self, sentence)
-			----------------------------------
+			-----------------------------
 			
 			retourne la liste des tokens de l'analyse de corenlp
 			
