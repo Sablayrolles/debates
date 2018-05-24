@@ -29,10 +29,14 @@ class StanfordNLP:
 		Use it to create a StanfordNLP object to use a stanfordcorenlp lib.
 		
 		def __init__(self, host='http://localhost', port=9000) : instanciation of StanfordNLP object
-		def start(self) : start or restart the timer 
-		def pause(self) : pause the timer
-		def getTime(self) : return the actual elapse time without stopping the timer
-		def stop(self) : stop the timer and return the elapse time
+		def word_tokenize(self, sentence) : retourne l'objet complet de l'analyse de corenlp
+		def pos(self, sentence) : retourne part of speech de l'analyse de corenlp
+		def ner(self, sentence) : retourne named entity reference de l'analyse de corenlp
+		def parse(self, sentence) :  retourne parse de l'analyse de corenlp
+		def dependency_parse(self, sentence) : retourne les dependances de l'analyse de corenlp
+		def annotate(self, sentence) : retourne les annotations de l'analyse de corenlp
+		def getTokens(self, sentence) : retourne la liste des tokens de l'analyse de corenlp
+		def segmente(self, sentence) : retourne la liste des segments de l'analyse de corenlp
 	"""
 	def __init__(self, host='http://localhost', port=9221):
 		"""
@@ -144,11 +148,11 @@ class StanfordNLP:
 			def tokens_to_dict(self, sentence)
 			----------------------------------
 			
-			retourne la liste des tokens de l'analyse de corenlp
+			retourne la liste des tokens de l'analyse de corenlp (méthode interne)
 			
-			:param sentence: phrase a traiter
-			:type sentence: string
-			:return: liste des tokens de sentence
+			:param _tokens: attribut de l'objet
+			:type _tokens: dictionnary
+			:return: dictionnaire des tokens
 			:rtype: dictionnary
 		"""
 		tokens = defaultdict(dict)
@@ -162,6 +166,17 @@ class StanfordNLP:
 		return tokens
 		
 	def getTokens(self, sentence):
+		"""
+			def getTokens(self, sentence)
+			----------------------------------
+			
+			retourne la liste des tokens de l'analyse de corenlp
+			
+			:param sentence: phrase a traiter
+			:type sentence: string
+			:return: dictionnaire des tokens
+			:rtype: dictionnary
+		"""
 		tok = {}
 
 		for s in self.annotate(sentence)['sentences']:
