@@ -12,9 +12,9 @@ import pprint
 
 from test.data_long_sentences import tab
 
-def VB_Before(id, tokens):
+def VB_Before(min_id, id, tokens):
 	p = False
-	i = 1
+	i = min_id
 	while not p and i < id:
 		p = 'VB' in tokens[i]['pos'] or 'MD' in tokens[i]['pos']
 		i += 1
@@ -47,7 +47,7 @@ class LinksWords:
 		return word in self.link_words
 
 	def default(self):
-		self.link_words = ['accordingly', 'actually', 'and', 'also', 'although', 'as', 'because', 'besides', 'but', 'consequently', 'conversely', 'eventually', 'firstly', 'furthermore', 'hence', 'however', 'meanwhile', 'moreover', 'namely', 'nevertheless', 'next', 'nonetheless', 'once', 'otherwise', 'secondly', 'similarly', 'since', 'so', 'still', 'that', 'then', 'therefore', 'thirdly', 'though', 'thus', 'till', 'tofirst', 'unless', 'unlike', 'until', 'whatever', 'when', 'whenever', 'where', 'whereas', 'whether', 'while', 'while', 'yet']
+		self.link_words = ['accordingly', 'actually', 'and', 'also', 'although', 'as', 'because', 'besides', 'but', 'consequently', 'conversely', 'eventually', 'firstly', 'furthermore', 'how', 'hence', 'however', 'meanwhile', 'moreover', 'namely', 'nevertheless', 'next', 'nonetheless', 'once', 'otherwise', 'secondly', 'similarly', 'since', 'so', 'still', 'that', 'then', 'therefore', 'thirdly', 'though', 'thus', 'till', 'tofirst', 'unless', 'unlike', 'until', 'whatever', 'when', 'whenever', 'where', 'whereas', 'whether', 'while', 'while', 'yet']
 
 class Spliter:
 	def __init__(self, sNLP, link_words=None, list_punct_simple = [';','(',')'], list_punct_cmplx = ["--"]):
@@ -94,15 +94,40 @@ class Spliter:
 			dependancy = self.sNLP.dependency_parse(s)
 			tokens = self.sNLP.getTokens(s)
 			l = ""
+			min_id = 1
 			for id in tokens.keys():
-				l += " " + tokens[id]['word']
-				if tokens[id]['lemma'] in self.link_words.list() or tokens[id]['lemma'] in [';', ',']:
-					if VB_Before(id, tokens) and VB_After(id, tokens):
+				if tokens[id]['lemma'] in self.link_words.list():
+					if VB_Before(min_id, id, tokens) and VB_After(id, tokens):
 						#on split
 						lEDU.append(l)
 						l = ""
+						min_id = id
+				l += " " + tokens[id]['word']
 			lEDU.append(l)
-		return lEDU
+		
+		lEDU2 = []
+		for s in lEDU:
+			dependancy = self.sNLP.dependency_parse(s)
+			tokens = self.sNLP.getTokens(s)
+			l = ""
+			min_id = 1
+			for id in tokens.keys():
+				l += " " + tokens[id]['word']
+				if tokens[id]['lemma'] in [',', ":"]:
+					if VB_Before(min_id, id, tokens) and VB_After(id, tokens):
+						#on split
+						lEDU2.append(l)
+						l = ""
+						min_id = id
+			lEDU2.append(l)
+		return lEDU2
+
+def print_tab(t):
+	i = 0
+	for e in t:
+		print("["+str(i)+"]",e)
+		i += 1
+
 
 if __name__ == "__main__":
 	sNLP = parseNLP.StanfordNLP()
@@ -111,18 +136,21 @@ if __name__ == "__main__":
 		print("Sentences :")
 		print(sentences)
 		sentences_tab = sNLP.segmente(sentences) #segmentation par phrase
-		pprint.pprint(sentences_tab)
+		print("\nSentence splitter : ")
+		print_tab(sentences_tab)
 		
+
 		sSpliter = Spliter(sNLP)
 		EDU_punct_tab = []
 		for s in sentences_tab:
 			EDU_punct_tab.extend(sSpliter.punct_split(s))
 			
-		EDUs = sSpliter.linkwords_split(EDU_punct_tab)
-		
 		print("\nPunct splitter : ")
-		print(EDU_punct_tab)
+		print_tab(EDU_punct_tab)
 		print("\n#################################")
+
+
+		EDUs = sSpliter.linkwords_split(EDU_punct_tab)
 		print("\nlink_words splitter : ")
-		print(EDUs)
+		print_tab(EDUs)
 		print("\n\n----------------------------------------------------------------------------------------------------\n\n")
