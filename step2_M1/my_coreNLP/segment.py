@@ -7,7 +7,6 @@
 
 # own class of segment parse of corenlp
 
-import parseNLP as parseNLP
 import pprint
 
 """
