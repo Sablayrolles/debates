@@ -65,30 +65,89 @@ def VB_After(id, tokens):
 	return p
 
 class LinksWords:
+	"""
+		Class LinksWords
+		=================
+		
+		Use it to manage link_words
+		
+		def __init__(self) : creating the link_words list
+		def list(self) : return the link_words list
+		def add(self, word) : add a link word to the list if not present
+		def remove(self, word) : delete a link word to the list if present
+		def isPresent(self, word) : test if a link word is present in the list
+		def default(self) : set the link_words list to a default list of some english link_words.
+	"""
 	def __init__(self):
+		"""
+			def __init__(self)
+			------------------
+			
+			creating the link_words list
+		"""
 		self.link_words = []
 	
 	def list(self):
+		"""
+			def list(self)
+			--------------
+			
+			return the link_words list
+		"""
 		return self.link_words
 	
 	def add(self, word):
+		"""
+			def add(self, word)
+			-------------------
+			
+			add a link word to the list if not present
+			
+			:param word: word to add
+			:type word: string
+		"""
 		if word not in self.link_words:
 			self.link_words.append(word)
 	
 	def remove(self, word):
+		"""
+			def remove(self, word)
+			----------------------
+			
+			remove a link word to the list if present
+			
+			:param word: word to delete
+			:type word: string
+		"""
 		if word in self.link_words:
 			self.link_words.remove(word)
 	
 	def isPresent(self, word):
+		"""
+			def isPresent(self, word)
+			-------------------------
+			
+			test if a link word is present in the list
+			
+			:param word: word to search
+			:type word: string
+		"""
 		return word in self.link_words
 
 	def default(self):
+		"""
+			def default(self)
+			-----------------
+			
+			set the link_words list to a default list of some english link_words.
+		"""
 		self.link_words = ['accordingly', 'actually', 'and', 'also', 'although', 'as', 'because', 'besides', 'but', 'consequently', 'conversely', 'eventually', 'firstly', 'furthermore', 'how', 'hence', 'however', 'if', 'meanwhile', 'moreover', 'namely', 'nevertheless', 'next', 'nonetheless', 'once', 'otherwise', 'secondly', 'similarly', 'since', 'so', 'still', 'that', 'then', 'therefore', 'thirdly', 'though', 'thus', 'till', 'tofirst', 'unless', 'unlike', 'until', 'whatever', 'when', 'whenever', 'where', 'whereas', 'whether', 'while', 'while', 'who', 'yet']
 
 class Spliter:
 	def __init__(self, sNLP, link_words=None, list_punct_simple = [';','(',')'], list_punct_cmplx = ["--"]):
-		self.link_words = LinksWords()
-		self.link_words.default()
+		if link_words == None:
+			self.link_words = LinksWords()
+			self.link_words.default()
 		self.list_punct_simple = list_punct_simple
 		self.list_punct_cmplx = list_punct_cmplx
 		self.sNLP = sNLP
