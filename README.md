@@ -27,7 +27,5 @@ Documentation
 
 [Documentation link](https://github.com/Sablayrolles/debates/wiki)
 
-.. ---------------------------------------------------------------
-
-.. http:\//python.physique.free.fr\/aide/Partie1.html
-.. ---------------------------------------------------------------
+.. hint:: 
+	http://python.physique.free.fr/aide/Partie1.html
