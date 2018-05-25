@@ -8,6 +8,51 @@
 # dataset test
 
 tab = [ 
+		#small (10)
+		"I did not. I did not. I do not say that.",
+		
+		"Secretary, is it President Obama's fault?",
+		
+		"You called it the gold standard of trade deals. You said it's the finest deal you've ever seen.",
+		
+		"Let me get you to pause right there, because we're going to move into -- we're going to move into the next segment. We're going to talk taxes...",
+		
+		"See, you're telling the enemy everything you want to do. No wonder you've been fighting -- no wonder you've been fighting ISIS your entire adult life.",
+		
+		"I don't mind releasing -- I'm under a routine audit. And it'll be released. And -- as soon as the audit's finished, it will be released.",
+		
+		"... of your taxes -- you're perfectly free to release your taxes during an audit. And so the question, does the public's right to know outweigh your personal...",
+		
+		"Maybe he didn't do a good job and I was unsatisfied with his work...",
+		
+		"Well, sometimes there's not a direct transfer of skills from business to government, but sometimes what happened in business would be really bad for government.",
+		
+		"No, the argument is that we have to take the guns away from these people that have them and they are bad people that shouldn't have them.",
+		
+		#medium (11)
+		"And I have -- well, not quite that long. I think my husband did a pretty good job in the 1990s. I think a lot about what worked and how we can make it work again...",
+		
+		"Well, that is just not accurate. I was against it once it was finally negotiated and the terms were laid out. I wrote about that in...",
+		
+		"In fact, I have written a book about it. It's called \"Stronger Together\". You can pick it up tomorrow at a bookstore...",
+		
+		"Yeah, well, let's start the clock again, Lester. We've looked at your tax proposals. I don't see changes in the corporate tax rates or the kinds of proposals you're referring to that would cause the repatriation, bringing back of money that's stranded overseas. I happen to support that.",
+		
+		"I happen to -- I happen to support that in a way that will actually work to our benefit. But when I look at what you have proposed, you have what is called now the Trump loophole, because it would so advantage you and the business you do. You've proposed an approach that has a...",
+		
+		"I will. Look, the African-American community has been let down by our politicians. They talk good around election time, like right now, and after the election, they said, see ya later, I'll see you in four years. The African-American community -- because -- look, the community within the inner cities has been so badly treated. They've been abused and used in order to get votes by Democrat politicians, because that's what it is. They've controlled these communities for up to 100 years.",
+		
+		"I think -- I think -- I think Donald just criticized me for preparing for this debate. And, yes, I did. And you know what else I prepared for? I prepared to be president. And I think that's a good thing.",
+		
+		"You mention ISIS, and we think of ISIS certainly as over there, but there are American citizens who have been inspired to commit acts of terror on American soil, the latest incident, of course, the bombings we just saw in New York and New Jersey, the knife attack at a mall in Minnesota, in the last year, deadly attacks in San Bernardino and Orlando. I'll ask this to both of you. Tell us specifically how you would prevent homegrown attacks by American citizens, Mr. Trump?",
+		
+		"The record shows that I'm right. When I did an interview with Howard Stern, very lightly, first time anyone's asked me that, I said, very lightly, I don't know, maybe, who knows? Essentially. I then did an interview with Neil Cavuto. We talked about the economy is more important. I then spoke to Sean Hannity, which everybody refuses to call Sean Hannity. I had numerous conversations with Sean Hannity at Fox. And Sean Hannity said -- and he called me the other day -- and I spoke to him about it -- he said you were totally against the war, because he was for the war.",
+		
+		"And, in fact, his cavalier attitude about nuclear weapons is so deeply troubling. That is the number-one threat we face in the world. And it becomes particularly threatening if terrorists ever get their hands on any nuclear material. So a man who can be provoked by a tweet should not have his fingers anywhere near the nuclear codes, as far as I think anyone with any sense about this should be concerned.",
+		
+		"And she doesn't say that, because she's got no business ability. We need heart. We need a lot of things. But you have to have some basic ability. And sadly, she doesn't have that. All of the things that she's talking about could have been taken care of during the last 10 years, let's say, while she had great power. But they weren't taken care of. And if she ever wins this race, they won't be taken care of.",
+		
+		#long (12)
 		"It's a great thing for companies to expand. And when these people are going to put billions and billions of dollars into companies, and when they're going to bring $2.5 trillion back from overseas, where they can't bring the money back, because politicians like Secretary Clinton won't allow them to bring the money back, because the taxes are so onerous, and the bureaucratic red tape, so what -- is so bad. So what they're doing is they're leaving our country, and they're, believe it or not, leaving because taxes are too high and because some of them have lots of money outside of our country. And instead of bringing it back and putting the money to work, because they can't work out a deal. We have a president that can't sit them around a table and get them to approve something. And here's the thing. Republicans and Democrats agree but we have no leadership. And honestly, that starts with Secretary Clinton.",
 		
 		"Typical politician. All talk, no action. Sounds good, doesn't work. Never going to happen. And we have a Fed that's doing political things. This Janet Yellen of the Fed. The Fed is doing political -- by keeping the interest rates at this level. And believe me: The day Obama goes off, and he leaves, and goes out to the golf course for the rest of his life to play golf, when they raise interest rates, you're going to see some very bad things happen, because the Fed is not doing their job.",

@@ -12,7 +12,7 @@ sys.path.append("..")
 import parseNLP
 import segment
 
-from test.data_long_sentences import tab
+from test.data_sentences import tab
 
 """
 	Module Test-Segment

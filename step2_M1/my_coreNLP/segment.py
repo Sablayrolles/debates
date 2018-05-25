@@ -153,9 +153,9 @@ class Spliter:
 		def setListPunctSimple(self) : set the list of punctuation with only one character
 		def setListPunctCmplx(self) : set the list of punctuation with only two character
 		def punct_split(self, sentence) : split a sentence over the punctuation
-		def linkwords_split(self, tab_sentences) : split a tabular of sentences or EDU over the linkwords and minor ponctuation (',', ':')
+		def linkwords_split(self, tab_sentences) : split a tabular of sentences or EDU over the linkwords 
 	"""
-	def __init__(self, sNLP, link_words=None, list_punct_simple = [';','(',')'], list_punct_cmplx = ["--"]):
+	def __init__(self, sNLP, link_words=None, list_punct_simple = [';',':','(',')'], list_punct_cmplx = ["--"]):
 		"""
 			def __init__(self, sNLP, link_words=None, list_punct_simple = [';','(',')'], list_punct_cmplx = ["--"])
 			-------------------------------------------------------------------------------------------------------
@@ -260,7 +260,7 @@ class Spliter:
 			def linkwords_split(self, tab_sentences)
 			----------------------------------------
 			
-			split a tabular of sentences or EDU over the linkwords and minor ponctuation (',', ':')
+			split a tabular of sentences or EDU over the linkwords
 			
 			:param tab_sentences: list of sentences or EDU to split
 			:type tab_sentences: string list
