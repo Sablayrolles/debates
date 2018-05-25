@@ -37,8 +37,6 @@ Some of examples files in examples/ can help you to use this project
 |----------|-------------|
 | *sentences_segmentation.py* | Segmentation of a paragraph in sentences tabular |
 | *sentences_n_punctuation_segmentation.py* |   Segmentation of a paragraph in EDU tabular using punctuation   |
-| *sentences_n_link_words_segmentation.py* | Segmentation of a paragraph in EDU tabular using link words |
-| *sentences_n_punctuation_n_lwords_seg.py* | Segmentation of a paragraph in EDU tabular using punctuation and link words |
 
 <!---
 http://python.physique.free.fr/aide/Partie1.html 

@@ -283,20 +283,4 @@ class Spliter:
 						min_id = id
 				l += " " + tokens[id]['word']
 			lEDU.append(l)
-		
-		lEDU2 = []
-		for s in lEDU:
-			dependancy = self.sNLP.dependency_parse(s)
-			tokens = self.sNLP.getTokens(s)
-			l = ""
-			min_id = 1
-			for id in tokens.keys():
-				l += " " + tokens[id]['word']
-				if tokens[id]['lemma'] in [',', ":"]:
-					if VB_Before(min_id, id, tokens) and VB_After(id, tokens):
-						#on split
-						lEDU2.append(l)
-						l = ""
-						min_id = id
-			lEDU2.append(l)
-		return lEDU2
+		return lEDU
