@@ -66,7 +66,7 @@ class FScores:
 			:type nbPreditFauxSegments: int
 			:type nbNonPreditsBonSegments: int
 		"""
-		self.fscore[type].append({'VP':nbPreditsBonSegments, 'FP': nbPreditFauxSegments, 'FN':nbNonPreditsBonSegments})
+		self.fscore[type].append({'VP':int(nbPreditsBonSegmentas), 'FP': int(nbPreditFauxSegments), 'FN':int(nbNonPreditsBonSegments)})
 		
 	def saisieScore(self, type):
 		"""

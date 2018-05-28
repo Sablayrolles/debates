@@ -15,7 +15,7 @@ import segment
 sys.path.append("../..")
 import tools.RappelPrecisionFMesure as RPF
 
-from data_sentences import tab
+from data_sentences import tab, tab_segmented
 
 """
 	Module Test-Segment
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 	
 	for kind in tab.keys():
 		for sentences, want in zip(tab[kind], tab_segmented[kind]):
-			print("Sentences :")
+			print("["+kind+"]Sentences :")
 			print(sentences)
 			sentences_tab = sNLP.segmente(sentences) #segmentation par phrase
 			print("\nSentence splitter : ")
@@ -50,7 +50,7 @@ if __name__ == "__main__":
 			
 			rpf_sentences.saisieScore(kind)
 
-			sSpliter = Spliter(sNLP)
+			sSpliter = segment.Spliter(sNLP)
 			EDU_punct_tab = []
 			for s in sentences_tab:
 				EDU_punct_tab.extend(sSpliter.punct_split(s))
@@ -69,13 +69,13 @@ if __name__ == "__main__":
 			#print_tab(EDUs)
 			#print("\n\n----------------------------------------------------------------------------------------------------\n\n")
 		
-	for kind in tab.keys():
-		print("**** Kind", kind, "****")
-		print("- Sentences")
-		print("\tP:", rpf_sentences.getMoyPrecision(kind))
-		print("\tR:", rpf_sentences.getMoyRappel(kind))
-		print("\tFMesures:", rpf_sentences.getMoyFMesure(kind))
-		print("- Punct")
-		print("\tP:", rpf_punct.getMoyPrecision(kind))
+	#for kind in tab.keys():
+	#	print("**** Kind", kind, "****")
+	#	print("- Sentences")
+	#	print("\tP:", rpf_sentences.getMoyPrecision(kind))
+	#	print("\tR:", rpf_sentences.getMoyRappel(kind))
+	#	print("\tFMesures:", rpf_sentences.getMoyFMesure(kind))
+	#	print("- Punct")
+	#	print("\tP:", rpf_punct.getMoyPrecision(kind))
 		print("\tR:", rpf_punct.getMoyRappel(kind))
 		print("\tFMesures:", rpf_punct.getMoyFMesure(kind))
