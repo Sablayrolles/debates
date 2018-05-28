@@ -38,6 +38,16 @@ Some of examples files in examples/ can help you to use this project
 | *sentences_segmentation.py* | Segmentation of a paragraph in sentences tabular |
 | *sentences_n_punctuation_segmentation.py* |   Segmentation of a paragraph in EDU tabular using punctuation   |
 
+Results
+-----------
+
+###Precision and recall for splitters
+
+| **Size paragraph**  | **Sentences splitter**   |      **Sentences and punctuation splitter**      |
+|----------|----------|-------------|
+| *<u>small</u>* | *p* = 1.0, *r* = 0.74 | *p* = 0.94, *r* = 0.83|
+| *<u>medium</u>* | *p* = 0.97, *r* = 0.74 | *p* = 0.92, *r* = 0.80|
+| *<u>long</u>* | *p* = 1.0, *r* = 0.64 | *p* = 1.0, *r* = 0.72|
 <!---
 http://python.physique.free.fr/aide/Partie1.html 
 --->
