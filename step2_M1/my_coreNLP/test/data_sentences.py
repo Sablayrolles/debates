@@ -54,7 +54,7 @@ tab_segmented = { 'small' : [
 					["Let me get you to pause right there," ,"because we're going to move into", "-- we're going to move into the next segment.", "We're going to talk taxes..."],
 					["See, you're telling the enemy everything you want to do." ,"No wonder you've been fighting", "-- no wonder you've been fighting ISIS your entire adult life."],
 					["I don't mind releasing", "-- I'm under a routine audit.", "And it'll be released.", "And -- as soon as the audit's finished, it will be released."],
-					["... of your taxes -- you're perfectly free to release your taxes during an audit. And so the question, does the public's right to know outweigh your personal..."],
+					["... of your taxes -- you're perfectly free to release your taxes during an audit.", "And so the question, does the public's right to know outweigh your personal..."],
 					["Maybe he didn't do a good job" ,"and I was unsatisfied with his work..."],
 					["Well, sometimes there's not a direct transfer of skills from business to government,", "but sometimes what happened in business would be really bad for government."],
 					["No, the argument is that we have to take the guns away from these people that have them ", "and they are bad people that shouldn't have them."]
