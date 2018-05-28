@@ -12,6 +12,9 @@ sys.path.append("..")
 import parseNLP
 import segment
 
+sys.path.append("../..")
+import tools.RappelPrecisionFMesure as RPF
+
 from test.data_sentences import tab
 
 """
@@ -32,25 +35,47 @@ def print_tab(t):
 if __name__ == "__main__":
 	sNLP = parseNLP.StanfordNLP()
 	
-	for sentences in tab:
-		print("Sentences :")
-		print(sentences)
-		sentences_tab = sNLP.segmente(sentences) #segmentation par phrase
-		print("\nSentence splitter : ")
-		print_tab(sentences_tab)
-		
-
-		sSpliter = Spliter(sNLP)
-		EDU_punct_tab = []
-		for s in sentences_tab:
-			EDU_punct_tab.extend(sSpliter.punct_split(s))
+	rpf_sentences = RPF.FScores(tab.keys())
+	rpf_punct = RPF.FScores(tab.keys())
+	
+	for kind in tab.keys():
+		for sentences, want in zip(tab[kind], tab_segmented[kind]):
+			print("Sentences :")
+			print(sentences)
+			sentences_tab = sNLP.segmente(sentences) #segmentation par phrase
+			print("\nSentence splitter : ")
+			print_tab(sentences_tab)
+			print("\nReal :")
+			print_tab(want)
 			
-		print("\nPunct splitter : ")
-		print_tab(EDU_punct_tab)
-		print("\n#################################")
+			rpf_sentences.saisieScore(kind)
 
+			sSpliter = Spliter(sNLP)
+			EDU_punct_tab = []
+			for s in sentences_tab:
+				EDU_punct_tab.extend(sSpliter.punct_split(s))
+			
+			print("\nReal :")
+			print_tab(want)
+			
+			print("\nPunct splitter : ")
+			print_tab(EDU_punct_tab)
+			print("\n#################################")
 
-		EDUs = sSpliter.linkwords_split(EDU_punct_tab)
-		print("\nlink_words splitter : ")
-		print_tab(EDUs)
-		print("\n\n----------------------------------------------------------------------------------------------------\n\n")
+			rpf_punct.saisieScore(kind)
+
+			#EDUs = sSpliter.linkwords_split(EDU_punct_tab)
+			#print("\nlink_words splitter : ")
+			#print_tab(EDUs)
+			#print("\n\n----------------------------------------------------------------------------------------------------\n\n")
+		
+	for kind in tab.keys():
+		print("**** Kind", kind, "****")
+		print("- Sentences")
+		print("\tP:", rpf_sentences.getMoyPrecision(kind))
+		print("\tR:", rpf_sentences.getMoyRappel(kind))
+		print("\tFMesures:", rpf_sentences.getMoyFMesure(kind))
+		print("- Punct")
+		print("\tP:", rpf_punct.getMoyPrecision(kind))
+		print("\tR:", rpf_punct.getMoyRappel(kind))
+		print("\tFMesures:", rpf_punct.getMoyFMesure(kind))
