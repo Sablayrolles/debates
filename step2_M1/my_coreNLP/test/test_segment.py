@@ -15,7 +15,7 @@ import segment
 sys.path.append("../..")
 import tools.RappelPrecisionFMesure as RPF
 
-from test.data_sentences import tab
+from data_sentences import tab
 
 """
 	Module Test-Segment
