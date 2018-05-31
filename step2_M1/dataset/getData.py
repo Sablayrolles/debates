@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# Module Test of getData
+# Module dataset/getData
 # Author : SABLAYROLLES Louis
 # Date : 07 / 05 / 17
 
@@ -55,6 +55,8 @@ class Sentences():
 			if l.strip() != "":
 				n += 1
 				m = re.search(entete_to_split, l)
+				if m == None:
+					print("entete:",entete_to_split,"\nlig:",l)
 				
 				if type == "EDU":
 					for edu in re.sub(entete_to_split, '', l).split("&"):
@@ -91,7 +93,7 @@ class Sentences():
 		"""
 		self.cur_ligne += 1
 		
-		if self.cur_ligne > len(self.f):
+		if self.cur_ligne >= len(self.f):
 			raise StopIteration
 		
 		return self.f[self.cur_ligne]
@@ -109,7 +111,7 @@ class Sentences():
 		return self.next()
 		
 if __name__ == "__main__":
-	file = "C:\\Users\\louis\\Documents\\GitHub\\debates\\step2_M1\\dataset\\usa\\2016\\1\\hand-segmented\\2.txt"
+	file = "C:\\Users\\louis\\Documents\\GitHub\\debates\\step2_M1\\dataset\\usa\\2016\\1\\hand-segmented\\1.txt"
 	
 	for s in Sentences(file, "(^[A-Z]+: )"):
 		print(s)
