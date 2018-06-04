@@ -1,4 +1,4 @@
-``debates`` - A TAL project, conceived to predict a winner of a presidential debates.
+﻿``debates`` - A TAL project, conceived to predict a winner of a presidential debates.
 =====================================================================================
 
 Global Informations
@@ -28,7 +28,10 @@ Description
 Installation
 ------------
 
-\`\` $ pip install -r ./step2\_M1/requirements.txt \`\`
+.. code-block:: sh
+   :linenos:
+   :emphasize-lines: 3,5
+   $ pip install -r ./step2\_M1/requirements.txt
 
 Documentation
 -------------
