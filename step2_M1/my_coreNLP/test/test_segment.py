@@ -37,39 +37,44 @@ if __name__ == "__main__":
 	
 	rpf_sentences = RPF.FScores(tab.keys())
 	rpf_punct = RPF.FScores(tab.keys())
+	rpf_linkwords = RPF.FScores(tab.keys())
 	
 	for kind in tab.keys():
 		for sentences, want in zip(tab[kind], tab_segmented[kind]):
 			print("["+kind+"]Sentences :")
 			print(sentences)
 			sentences_tab = sNLP.segmente(sentences) #segmentation par phrase
-			print("\nSentence splitter : ")
-			print_tab(sentences_tab)
-			print("\nReal :")
-			print_tab(want)
+			# print("\nSentence splitter : ")
+			# print_tab(sentences_tab)
+			# print("\nReal :")
+			# print_tab(want)
 			
-			rpf_sentences.saisieScore(kind)
+			# rpf_sentences.saisieScore(kind)
 
 			sSpliter = segment.Spliter(sNLP)
 			EDU_punct_tab = []
 			for s in sentences_tab:
 				EDU_punct_tab.extend(sSpliter.punct_split(s))
 			
+			# print("\nReal :")
+			# print_tab(want)
+			
+			# print("\nPunct splitter : ")
+			# print_tab(EDU_punct_tab)
+			# print("\n#################################")
+
+			# rpf_punct.saisieScore(kind)
+
 			print("\nReal :")
 			print_tab(want)
+			EDUs = sSpliter.linkwords_split(EDU_punct_tab)
+			print("\nlink_words splitter : ")
+			print_tab(EDUs)
 			
-			print("\nPunct splitter : ")
-			print_tab(EDU_punct_tab)
-			print("\n#################################")
-
-			rpf_punct.saisieScore(kind)
-
-			#EDUs = sSpliter.linkwords_split(EDU_punct_tab)
-			#print("\nlink_words splitter : ")
-			#print_tab(EDUs)
+			rpf_linkwordssaisieScore(kind)
 			#print("\n\n----------------------------------------------------------------------------------------------------\n\n")
 		
-	#for kind in tab.keys():
+	for kind in tab.keys():
 	#	print("**** Kind", kind, "****")
 	#	print("- Sentences")
 	#	print("\tP:", rpf_sentences.getMoyPrecision(kind))
