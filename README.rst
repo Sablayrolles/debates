@@ -28,7 +28,7 @@ Description
 Installation
 ------------
 
-.. code-block:: sh
+.. code:: sh
    $ pip install -r ./step2\_M1/requirements.txt
 
 Documentation
