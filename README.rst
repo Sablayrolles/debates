@@ -28,9 +28,9 @@ Description
 Installation
 ------------
 
-```sh
+::
    $ pip install -r ./step2\_M1/requirements.txt
-```
+
 
 Documentation
 -------------
