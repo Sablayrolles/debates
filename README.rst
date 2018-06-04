@@ -67,4 +67,8 @@ Precision and recall for splitters
 | **Corpus**           | ***p* = 0.99, *r* = 0.73**   | ***p* = 0.91, *r* = 0.75**               | ***p* = 0.89, *r* = 0.95**                         |
 +----------------------+------------------------------+------------------------------------------+----------------------------------------------------+
 
-<!--- http://python.physique.free.fr/aide/Partie1.html --->
+<!--- http://python.physique.free.fr/aide/Partie1.html
+
+Markdown fichier export restructured text
+
+--->
