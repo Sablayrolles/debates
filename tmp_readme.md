@@ -37,6 +37,7 @@ Some of examples files in examples/ can help you to use this project
 |----------|-------------|
 | *sentences_segmentation.py* | Segmentation of a paragraph in sentences tabular |
 | *sentences\_n\_punctuation_segmentation.py* |   Segmentation of a paragraph in EDU tabular using punctuation   |
+| *sentences\_n\_punctuation_n_linkwords_segmentation.py* | Segmentation of a paragraph in EDU tabular using punctuation and linkwords |
 
 Results
 -----------
@@ -51,4 +52,7 @@ Precision and recall for splitters
 | **<u>Corpus</u>** | ***p* = 0.99, *r* = 0.73**  | ***p* = 0.91, *r* = 0.75** | ***p* = 0.89, *r* = 0.95** |
 <!---
 http://python.physique.free.fr/aide/Partie1.html 
+
+Markdown fichier export restructured text
+
 --->
