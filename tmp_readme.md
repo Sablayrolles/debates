@@ -36,7 +36,7 @@ Some of examples files in examples/ can help you to use this project
 | **Files**   |      **Description**      |
 |----------|-------------|
 | *sentences_segmentation.py* | Segmentation of a paragraph in sentences tabular |
-| *sentences_n_punctuation_segmentation.py* |   Segmentation of a paragraph in EDU tabular using punctuation   |
+| *sentences\_n\_punctuation_segmentation.py* |   Segmentation of a paragraph in EDU tabular using punctuation   |
 
 Results
 -----------
