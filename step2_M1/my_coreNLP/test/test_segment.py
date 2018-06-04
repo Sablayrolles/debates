@@ -71,7 +71,7 @@ if __name__ == "__main__":
 			print("\nlink_words splitter : ")
 			print_tab(EDUs)
 			
-			rpf_linkwordssaisieScore(kind)
+			rpf_linkwords.saisieScore(kind)
 			#print("\n\n----------------------------------------------------------------------------------------------------\n\n")
 		
 	for kind in tab.keys():
