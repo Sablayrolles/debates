@@ -27,9 +27,11 @@ Description
 
 Installation
 ------------
-.. code-block:: bash
-   $ git clone git@github.com:Sablayrolles/debates.git
-   $ pip install -r ./step2\_M1/requirements.txt
+
+::
+
+	$ git clone git@github.com:Sablayrolles/debates.git
+	$ pip install -r ./step2\_M1/requirements.txt
 
 Documentation
 -------------
