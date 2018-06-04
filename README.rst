@@ -31,7 +31,8 @@ Installation
 ::
 
 	$ git clone git@github.com:Sablayrolles/debates.git
-	$ pip install -r ./step2\_M1/requirements.txt
+	$ pip install -r ./step\_1/requirements.txt		#installation des requirements
+	$ pip install -r ./step2\_M1/requirements.txt		#installation des requirements
 
 Documentation
 -------------
