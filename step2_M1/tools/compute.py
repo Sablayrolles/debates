@@ -15,7 +15,7 @@ rpfPunct = rpf.FScores(["small", "medium", "long"])
 for i in ["small", "medium", "long"]:
 	continu = " "
 	while continu != "":
-		for j in ["Sentences", "Punct"]:
+		for j in ["LinksWords"]:
 			print(i,j)
 			if j == "Sentences":
 				rpfSentences.saisieScore(i)
@@ -25,7 +25,7 @@ for i in ["small", "medium", "long"]:
 		continu = input()
 		
 for i in ["small", "medium", "long"]:
-	for j in ["Sentences", "Punct"]:
+	for j in ["LinksWords"]:
 		print("-------------\n",i,j)
 		if j == "Sentences":
 			print("p:",rpfSentences.getMoyPrecision(i))

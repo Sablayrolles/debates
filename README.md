@@ -41,13 +41,14 @@ Some of examples files in examples/ can help you to use this project
 Results
 -----------
 
-###Precision and recall for splitters
+Precision and recall for splitters
 
-| **Size paragraph**  | **Sentences splitter**   |      **Sentences and punctuation splitter**      |
+| **Size paragraph**  | **Sentences splitter**   |      **Sentences and punctuation splitter**      |      **Sentences, punctuation and linkword splitter**      |
 |----------|----------|-------------|
-| *<u>small</u>* | *p* = 1.0, *r* = 0.74 | *p* = 0.94, *r* = 0.83|
-| *<u>medium</u>* | *p* = 0.97, *r* = 0.74 | *p* = 0.92, *r* = 0.80|
-| *<u>long</u>* | *p* = 1.0, *r* = 0.64 | *p* = 1.0, *r* = 0.72|
+| *<u>small</u>* | *p* = 1.0, *r* = 0.74 | *p* = 0.94, *r* = 0.83 | *p* = 0.89, *r* = 1.0|
+| *<u>medium</u>* | *p* = 0.97, *r* = 0.74 | *p* = 0.92, *r* = 0.80 | *p* = 0.89, *r* = 0.81|
+| *<u>long</u>* | *p* = 1.0, *r* = 0.64 | *p* = 1.0, *r* = 0.72| *p* = 0.92, *r* = 0.88 |
+| **<u>Corpus</u>** | ***p* = 0.99, *r* = 0.73**  | ***p* = 0.91, *r* = 0.75** | ***p* = 0.89, *r* = 0.95** |
 <!---
 http://python.physique.free.fr/aide/Partie1.html 
 --->
