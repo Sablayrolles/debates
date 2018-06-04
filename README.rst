@@ -28,9 +28,7 @@ Description
 Installation
 ------------
 
-.. code-block:: sh
-   :linenos:
-   :emphasize-lines: 3,5
+.. code-block::
    $ pip install -r ./step2\_M1/requirements.txt
 
 Documentation
