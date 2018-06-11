@@ -9,6 +9,8 @@
 
 import sys
 sys.path.append("..")
+import joblib
+
 import dataset.getData as getData
 import my_coreNLP.parseNLP as parseNLP
 
@@ -33,7 +35,7 @@ def saveWords(data):
 nbEDU = 0
 NLP = parseNLP.StanfordNLP();
 for num in [1,2,3,4,5,6,7,8,9]:
-		file = "C:\\Users\\louis\\Documents\\GitHub\\debates\\step2_M1\\dataset\\usa\\2016\\1\\hand-segmented\\"+str(num)+".txt"
+		file = "../dataset/usa/2016/1/hand-segmented/"+str(num)+".txt"
 		it = getData.Sentences(file, "(^[A-Z]+: )", num, "EDU", nbEDU);
 		nbEDU = it.nbEDU()
 		for s in it:
@@ -44,5 +46,6 @@ for num in [1,2,3,4,5,6,7,8,9]:
 			s["tokens"] = NLP.getTokens(s["edu"]);
 			s["dependencies"] = NLP.dependency_parse(s["edu"]);
 			
+			joblib.dump(s,"./data/"+str(s["num"])+".data");
 			print(s)
 			a = input()
