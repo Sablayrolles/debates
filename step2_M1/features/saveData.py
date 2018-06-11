@@ -31,6 +31,8 @@ def saveWords(data):
 		
 		:param data: dictionnary obtain with iterator in dataset.getData
 		:type data: dictionary
+		:return: dictionnary for the feature extraction
+		:rtype: dictionnary
 	"""
 	data["words"] = data["edu"]
 	for e in [",", ".", "!", "--", "?", ";"]:
@@ -42,13 +44,17 @@ def saveWords(data):
 	
 def compute(dictEDU, NLP):
 	"""
-		def saveWords(data)
-		-------------------
+		def compute(dictEDU, NLP)
+		-------------------------
 		
-		add list of words to dictionnary of data of EDU / sentences
+		calc all for the feature extraction and return it in a dictionnary
 		
-		:param data: dictionnary obtain with iterator in dataset.getData
-		:type data: dictionary
+		:param dictEDU: dictionnary obtain with iterator in dataset.getData
+		:param NLP: corenlp object
+		:type dictEDU: dictionary
+		:type data: object
+		:return: dictionnary for the feature extraction
+		:rtype: dictionnary
 	"""
 	dictEDU = saveWords(dictEDU)
 	dictEDU["tokens"] = NLP.getTokens(s["edu"])

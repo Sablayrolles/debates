@@ -36,13 +36,21 @@ def returnFeatures(data, featuresList):
 	
 	for f in featuresList:
 		if f == "nbWhWords":
-			features["nbWhWords"] = wFeatures.nbWhw(data["words"])
+			features["nbWhWords"] = wFeatures.nbWhWords(data["words"])
 		if f == "as?":
 			features["as?"] = tFeatures.asQuestionMark(data["tokens"])
 		if f == "as!":
 			features["as!"] = tFeatures.asExclamativeMark(data["tokens"])
 		if f == "as...":
 			features["as..."] = tFeatures.asTriplePointsMark(data["tokens"])
+		if f == "nb1stPers":
+			features["nb1stPers"] = tFeatures.nb1stPers(data["tokens"])
+		if f == "nb2ndPers":
+			features["nb2ndPers"] = tFeatures.nb2ndPers(data["tokens"])
+		if f == "nb3rdSingPers":
+			features["nb3rdSingPers"] = tFeatures.nb3rdSingPers(data["tokens"])
+		if f == "nb3rdPluPers":
+			features["nb3rdPluPers"] = tFeatures.nb3rdSingPers(data["tokens"])
 			
 	return features
 	
@@ -50,6 +58,6 @@ for n in range(1,730):
 	print("EDU num : ",n)
 	
 	data = joblib.load("./data/"+str(n)+".data")
-	print(data.keys())
+	print(returnFeatures(data, ["nbWhWords", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers"]))
 	
 	a=input()
