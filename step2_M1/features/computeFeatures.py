@@ -54,10 +54,13 @@ def returnFeatures(data, featuresList):
 			
 	return features
 	
-for n in range(1,730):
-	print("EDU num : ",n)
-	
-	data = joblib.load("./data/"+str(n)+".data")
-	print(returnFeatures(data, ["nbWhWords", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers"]))
-	
-	a=input()
+if __name__ == '__main__':
+	for n in range(1,730):
+		print("EDU num : ",n)
+		
+		data = joblib.load("./data/"+str(n)+".data")
+		f = returnFeatures(data, ["nbWhWords", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers"])
+
+		print(f)
+		
+		joblib.dump(f,"./data/"+str(s["num"])+".features");

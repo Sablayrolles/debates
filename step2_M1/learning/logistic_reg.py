@@ -7,11 +7,15 @@
 
 # learn over features
 
+import sys
+sys.path.append("..")
 import sklearn.linear_model as linear_model
 
-#constantes for leaning
+#constantes for learning
 NB_CORE = 4
 MAX_ITER = 100
+
+#recupération des données
 
 model = linear_model.LogisticRegression(solver='saga', max_iter=MAX_ITER, multi_class='ovr', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
