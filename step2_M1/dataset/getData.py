@@ -31,43 +31,56 @@ class Sentences():
 		def __next__(self) : calculate and return the next iteration
 	"""
 	cur_ligne = -1
-	def __init__(self, fichier, entete_to_split, type="Sentences"):
+	n = 0
+	def __init__(self, fichier, entete_to_split, numq, type="Sentences", nbE=0):
 		"""
-			def __init__(self, fichier, entete_to_split, type="Sentences")
+			def __init__(self, fichier, entete_to_split, numq, type="Sentences", nbE=0)
 			--------------------------------------------------------------
 			
 			instanciation of iterator object
 			
 			:param fichier: nom du fichier a iterer
 			:param entete_to_split: regex contenant l'entete a enlever
+			:param numq: numero de la question du débat en train d'être traitée (1 par fichier normalement)
 			:param type: "Sentences(blocs sur une ligne)" || "EDU(&)"
+			:param nbE: numero d'EDU à partir duquel commencer
 			:type fichier: string 
 			:type entete_to_split: string
 			:type type: string
+			:type nbE: int
 		"""
 		fic = open(fichier,"r")
 		f = fic.readlines()
 		fic.close()
 		
+		if nbE > 0:
+			self.n = nbE
+		
 		self.f = []
-		n = 0
 		for l in f:
 			if l.strip() != "":
-				n += 1
 				m = re.search(entete_to_split, l)
 				if m == None:
 					print("entete:",entete_to_split,"\nlig:",l)
 				
 				if type == "EDU":
 					for edu in re.sub(entete_to_split, '', l).split("&"):
+						self.n += 1
 						emmiter = m.group(0)
-						d = {"num":n, "emmiter": emmiter, "edu": edu}
-						if edu != '\n':
+						d = {"num":self.n, "emmiter": emmiter, "question": numq, "edu": edu}
+						if edu != '\n' and edu != '':
 							self.f.append(d)
+						else:
+							self.n -= 1
+							
 				else:
+					self.n += 1
 					emmiter = m.group(0)
-					d = {"num":n, "emmiter": emmiter, "sentences": re.sub(entete_to_split, '', l).replace("&", "").replace("\n", "")}
+					d = {"num":self.n, "emmiter": emmiter, "question": numq, "sentences": re.sub(entete_to_split, '', l).replace("&", "").replace("\n", "")}
 					self.f.append(d)
+	
+	def nbEDU(self):
+		return self.n
 					
 	def __iter__(self):
 		"""

@@ -181,7 +181,7 @@ class StanfordNLP:
 
 		for s in self.annotate(sentence)['sentences']:
 			for d in s['tokens']:
-				tok[d['index']] = {'word' : d['originalText'], 'lemma' : d['lemma'], 'pos' : d['pos']}
+				tok[d['index']] = {'word' : d['originalText'], 'lemma' : d['lemma'], 'pos' : d['pos'], 'ner': d['ner']}
 		return tok
 		
 	def segmente(self, sentence):
