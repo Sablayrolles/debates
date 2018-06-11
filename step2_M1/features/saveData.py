@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# Module dataset/evaluate_type_paragraph
+# Module features/saveData.py
 # Author : SABLAYROLLES Louis
-# Date : 31 / 05 / 17
+# Date : 11 / 06 / 17
 
 # save date extract from corenlp
 

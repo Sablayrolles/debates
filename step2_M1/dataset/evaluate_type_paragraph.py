@@ -3,7 +3,7 @@
 
 # Module dataset/evaluate_type_paragraph
 # Author : SABLAYROLLES Louis
-# Date : 31 / 05 / 17
+# Date : 11 / 06 / 17
 
 # comptage de chaque type d'EDU
 
