@@ -63,4 +63,4 @@ if __name__ == '__main__':
 
 		print(f)
 		
-		joblib.dump(f,"./data/"+str(s["num"])+".features");
+		joblib.dump(f,"./data/"+str(f["num"])+".features");
