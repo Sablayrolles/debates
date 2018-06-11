@@ -48,4 +48,4 @@ for num in [1,2,3,4,5,6,7,8,9]:
 			
 			joblib.dump(s,"./data/"+str(s["num"])+".data");
 			print(s)
-			a = input()
+			
