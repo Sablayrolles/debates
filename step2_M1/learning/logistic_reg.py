@@ -92,4 +92,4 @@ print("Testing")
 
 print("Mean train accuracy:",model.score(features_train, target_train))
 print("Types:", le.inverse_transform(model.classes_))
-print("weights:", model.densify())
+print("weights:", model.coef_)
