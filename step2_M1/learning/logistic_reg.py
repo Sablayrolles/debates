@@ -14,6 +14,7 @@ import dataset.parse_types_annoted as getTarget
 import sklearn.model_selection as modelSelect
 import sklearn.linear_model as linear_model
 import sklearn.preprocessing as preprocess
+import sklearn.metrics as metrics
 import joblib
 
 #constantes for learning
@@ -73,6 +74,7 @@ for MAX_ITER in range(100,1000):
 	print("Testing")
 
 	print("Mean train accuracy:",model.score(features_train, target_train))
+	print("Mean valid accuracy:",model.score(features_valid, target_valid))
 	v = model.score(features_valid, target_valid)
 	if v > max_scr:
 		max_scr = v
@@ -93,5 +95,11 @@ model = model.fit(features_train, target_train)
 print("Testing")
 
 print("Mean train accuracy:",model.score(features_train, target_train))
+print("Mean valid accuracy:",model.score(features_valid, target_valid))
 print("Types:", le.inverse_transform(model.classes_))
 print("weights:", model.coef_)
+
+y_pred = model.predict(features_valid)
+
+print("------------------------------")
+print(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))
