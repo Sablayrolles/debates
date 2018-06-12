@@ -30,8 +30,8 @@ for i in range(1,730):
 	f = []
 	#on fait une matrice il n'aime pas les dics
 	for k in sorted(data.keys()):
-		f.append(data[k])
-	del f["edu"]
+		if k != "edu":
+			f.append(data[k])
 	features.append(f)
 
 print("Loading targets...")
