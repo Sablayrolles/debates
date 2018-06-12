@@ -22,24 +22,31 @@ MAX_ITER = 100
 
 #recupération des données
 features = []
+f_dic = []
 print("Loading features...")
 for i in range(1,730):
-	features.append(joblib.load("../features/data/"+str(i)+".features"))
+	data = joblib.load("../features/data/"+str(i)+".features")
+	f_dic.append(data)
+	f = []
+	#on fait une matrice il n'aime pas les dics
+	for k in sorted(data.keys()):
+		f.append(data[k])
+	del f["edu"]
+	features.append(f)
 
 print("Loading targets...")
 targets_full, types = getTarget.getTypes1stdebate("../dataset/usa/2016/1/output/ac-aa/", 9)
 targets = []
-for i in features:
+for i in f_dic:
 	if (i["question"],i["edu"]) not in targets_full:
 		targets.append("ToDetermine")
 		if "ToDetermine" not in types:
 			types.append("ToDetermine")
 	else:
 		targets.append(targets_full[(i["question"],i["edu"])])
-	del i["edu"]
 
 print("Preprocessing...")
-#on transform le nom des classes en nombre
+#on trandfVsdfvgdfsg,lkrzpqfjdsmlk,fpsqdkjgform le nom des classes en nombre
 le = preprocess.LabelEncoder()
 le = le.fit(types)
 targets_trans = le.transform(targets)
