@@ -54,7 +54,7 @@ targets_trans = le.transform(targets)
 #on split le dataset
 features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=0.33)
 
-model = linear_model.LogisticRegression(solver='saga', max_iter=MAX_ITER, multi_class='ovr', n_jobs=NB_CORE)
+model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='ovr', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
 #solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
 
