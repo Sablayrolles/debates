@@ -108,7 +108,12 @@ print("Mean valid accuracy:",model.score(features_valid, target_valid))
 print("Types:", le.inverse_transform(model.classes_))
 print("weights:", model.coef_)
 
+
 y_pred = model.predict(features_valid)
+y_pred_all = model.predict(features)
 
 print("------------------------------")
+print("On valid test")
 print(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))
+print("On all corpus")
+print(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))
