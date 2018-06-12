@@ -59,7 +59,7 @@ iter_max = 0
 max_scr = 0
 for MAX_ITER in range(100,1000):
 	print("================= NB ITER :", MAX_ITER, "======================================")
-	features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=0.33, shuffle=True)
+	features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=0.33)
 
 	model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
