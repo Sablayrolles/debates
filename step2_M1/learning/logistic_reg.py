@@ -30,7 +30,7 @@ for i in range(1,730):
 	f = []
 	#on fait une matrice il n'aime pas les dics
 	for k in sorted(data.keys()):
-		if k != "edu":
+		if k != "edu" and k != "num":
 			f.append(data[k])
 	features.append(f)
 
@@ -49,6 +49,7 @@ print("Preprocessing...")
 #on transform le nom des classes en nombre
 le = preprocess.LabelEncoder()
 le = le.fit(types)
+print("Types:", types)
 targets_trans = le.transform(targets)
 
 print("Number ex:", len(features))
@@ -77,3 +78,17 @@ for MAX_ITER in range(100,1000):
 	print("Mean valid accuracy:",v)
 	
 print("Best accuracy for", iter_max, "iteration with valid accuracy of", max_scr)
+MAX_ITER = iter_max
+print("================= NB ITER :", MAX_ITER, "======================================")
+features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=0.33)
+
+model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
+#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
+#solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
+
+print("Learning...")
+model = model.fit(features_train, target_train)
+print("Testing")
+
+print("Mean train accuracy:",model.score(features_train, target_train))
+print("weights:", model.get_params())
