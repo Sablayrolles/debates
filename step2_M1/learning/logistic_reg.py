@@ -37,7 +37,6 @@ for i in range(1,730):
 			keys.append(k)
 			f.append(data[k])
 	features.append(f)
-a = input()
 print("Features keys:", keys)
 
 print("Loading targets...")
