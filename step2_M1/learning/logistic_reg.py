@@ -17,7 +17,7 @@ import sklearn.preprocessing as preprocess
 import joblib
 
 #constantes for learning
-NB_CORE = 4
+NB_CORE = 16 
 MAX_ITER = 100
 
 #recupération des données
@@ -91,5 +91,5 @@ model = model.fit(features_train, target_train)
 print("Testing")
 
 print("Mean train accuracy:",model.score(features_train, target_train))
-print("Types:", types)
-print("weights:", model.get_params())
+print("Types:", le.inverse_transform(model.classes_))
+print("weights:", model.densify())
