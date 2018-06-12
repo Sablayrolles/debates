@@ -34,6 +34,7 @@ for i in range(1,730):
 			print(k)
 			f.append(data[k])
 	features.append(f)
+a = input()
 
 print("Loading targets...")
 targets_full, types = getTarget.getTypes1stdebate("../dataset/usa/2016/1/output/ac-aa/", 9)
