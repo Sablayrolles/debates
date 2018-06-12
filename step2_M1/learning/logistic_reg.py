@@ -31,6 +31,7 @@ for i in range(1,730):
 	#on fait une matrice il n'aime pas les dics
 	for k in sorted(data.keys()):
 		if k != "edu" and k != "num":
+			print(k)
 			f.append(data[k])
 	features.append(f)
 
