@@ -31,7 +31,7 @@ for k in tab.keys():
 
 #iter file
 for i in [1,2,3,4,5,6,7,8,9]:
-	file = "C:\\Users\\louis\\Documents\\GitHub\\debates\\step2_M1\\dataset\\usa\\2016\\1\\hand-segmented\\"+str(i)+".txt"
+	file = "./usa/2016/1/hand-segmented/"+str(i)+".txt"
 	
 	for s in getData.Sentences(file, "(^[A-Z]+: )"):
 		l = len(s["sentences"])
