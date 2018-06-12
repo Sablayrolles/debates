@@ -22,7 +22,7 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 		:type repertory: string
 		:type number: int
 		:type entete_to_split: string
-		:return: dictionnary of types indexed by (numfile, start, stop)
+		:return: dictionnary of types indexed by (numfile, sentences)
 		:rtype: dictionnary
 	"""
 	

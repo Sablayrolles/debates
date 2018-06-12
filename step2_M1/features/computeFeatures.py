@@ -32,7 +32,7 @@ def returnFeatures(data, featuresList):
 		:return: 1 if as '!' / 0 else
 		:rtype: int
 	"""
-	features = {"num": data["num"]}
+	features = {"num": data["num"], "edu": data["edu"], "question": data["question"]}
 	
 	for f in featuresList:
 		#words features
