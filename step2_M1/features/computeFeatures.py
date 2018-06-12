@@ -35,8 +35,11 @@ def returnFeatures(data, featuresList):
 	features = {"num": data["num"]}
 	
 	for f in featuresList:
+		#words features
 		if f == "nbWhWords":
 			features["nbWhWords"] = wFeatures.nbWhWords(data["words"])
+			
+		#tokens features	
 		if f == "as?":
 			features["as?"] = tFeatures.asQuestionMark(data["tokens"])
 		if f == "as!":
