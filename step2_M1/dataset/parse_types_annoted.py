@@ -27,6 +27,7 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 	"""
 	
 	types = {}
+	t = []
 	for i in range(1,number+1):
 		print("Parsing q",i)
 		file = repertory+str(i)+"-hand_parsed.aa"
@@ -60,11 +61,14 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 				# print("type:", type, "start:", start, "stop:", stop)
 				if type.lower() not in ['paragraph', 'turn', 'segment', 'default']:
 					txt = sentences[int(start):int(stop)]
+					if type not in t:
+						t.append(type)
 					# print(re.sub(entete_to_split, '', txt))
 					types[(i, re.sub(entete_to_split, '', txt))] = type
-	return types
+	return types, t
 
 if __name__ == "__main__":
-	data = getTypes1stdebate("./usa/2016/1/output/ac-aa/", 9)
+	data, t = getTypes1stdebate("./usa/2016/1/output/ac-aa/", 9)
 	print(data)
 	print("	nbTT:",len(data.keys()))
+	print("types: ", t)
