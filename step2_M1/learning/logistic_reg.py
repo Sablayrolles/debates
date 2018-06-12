@@ -50,6 +50,8 @@ print("Preprocessing...")
 le = preprocess.LabelEncoder()
 le = le.fit(types)
 targets_trans = le.transform(targets)
+
+print("Number ex:", len(features))
 	
 #on split le dataset
 features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=0.33)
@@ -61,4 +63,6 @@ model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_c
 print("Learning...")
 model = model.fit(features_train, target_train)
 print("Testing")
-print("Mean accuracy:",model.score(features_valid, target_valid))
+
+print("Mean train accuracy:",model.score(features_train, target_train))
+print("Mean valid accuracy:",model.score(features_valid, target_valid))
