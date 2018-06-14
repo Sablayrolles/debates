@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 
 types = {}
 for i in [1,2,3,4,5,6,7,8,9]:
-	file = "C:\\Users\\louis\\Documents\\GitHub\\debates\\step2_M1\\dataset\\usa\\2016\\1\\output\\ac-aa\\"+str(i)+"-hand_parsed.aa"
+	file = "C:\\Users\\louis\\Documents\\GitHub\\debates\\step2_M1\\dataset\\usa\\2016\\1\\annotated\\ac-aa\\"+str(i)+"-hand_parsed.aa"
 	
 	tree = ET.parse(file)
 	root = tree.getroot()

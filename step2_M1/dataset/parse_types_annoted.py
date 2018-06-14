@@ -71,7 +71,7 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 	return types, t
 
 if __name__ == "__main__":
-	data, t = getTypes1stdebate("./usa/2016/1/output/ac-aa/", 9)
+	data, t = getTypes1stdebate("./usa/2016/1/annotated/ac-aa/", 9)
 	print(data)
 	print("	nbTT:",len(data.keys()))
 	print("types: ", t)
