@@ -107,7 +107,15 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "full":
 		print("================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
-	features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
+	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
+	sss = modelSelect.StratifiedShuffleSplit(n_splits=1, test_size=TEST_PERCENT)
+	train_idx, test_idx = list(sss.split(featuresOthers, targetsToDet_trans))[0]
+	features_train, features_valid, target_train, target_valid = [], [], [], []
+	for i, j in zip(train_idx, test_idx):
+		features_train.append(featuresOthers[i])
+		features_valid.append(featuresOthers[j])
+		target_train.append(targetsToDet_trans[i])
+		target_valid.append(targetsToDet_trans[j])
 
 	model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
@@ -130,7 +138,7 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",v)
 	
 print("[Info][Model=Others] Best accuracy for", iter_max, "iteration with valid accuracy of", max_scr)
-# a = input("Press Enter to Continue ...")
+a = input("Press Enter to Continue ...")
 
 MAX_ITER = iter_max
 print("[Valid] ================= NB ITER :", MAX_ITER, "======================================")
@@ -158,6 +166,7 @@ print(metrics.classification_report(target_valid, y_pred, target_names=le_others
 print("[Valid] On all corpus")
 print(metrics.classification_report(targetsToDet_trans, y_pred_all, target_names=le_others.classes_))
 
+"""
 ### LEARNING CLASSES
 # a = input("Press Enter to Continue ...")
 print("[Info] Learning Classes...\n")
@@ -219,3 +228,4 @@ print("[Valid] On valid test")
 print(metrics.classification_report(target_valid, y_pred, target_names=le_classes.classes_))
 print("[Valid] On all corpus")
 print(metrics.classification_report(targetsTypes_trans, y_pred_all, target_names=le_classes.classes_))
+"""
