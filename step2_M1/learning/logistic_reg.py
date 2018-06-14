@@ -108,14 +108,13 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 		print("================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
 	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
-	sss = modelSelect.StratifiedShuffleSplit(n_splits=1, test_size=TEST_PERCENT)
-	train_idx, test_idx = list(sss.split(featuresOthers, targetsToDet_trans, groups=targetsOthers))[0]
+	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 	features_train, features_valid, target_train, target_valid = [], [], [], []
-	for i, j in zip(train_idx, test_idx):
-		features_train.append(featuresOthers[i])
-		features_valid.append(featuresOthers[j])
-		target_train.append(targetsToDet_trans[i])
-		target_valid.append(targetsToDet_trans[j])
+	for train_i, test_i in sss.split(featuresOthers, targetsToDet_trans):
+		features_train.append(featuresOthers[train_i])
+		features_valid.append(featuresOthers[test_i])
+		target_train.append(targetsToDet_trans[train_i])
+		target_valid.append(targetsToDet_trans[test_i])
 
 	model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
