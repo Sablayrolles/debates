@@ -1,3 +1,12 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+# Module features/getInfos.py
+# Author : SABLAYROLLES Louis
+# Date : 11 / 06 / 17
+
+# return infos of a debates
+
 import xml.etree.ElementTree as ET
 import re
 
