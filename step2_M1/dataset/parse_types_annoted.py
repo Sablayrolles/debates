@@ -64,7 +64,7 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 					if type not in t:
 						t.append(type)
 					# print(re.sub(entete_to_split, '', txt))
-					if type.lower() == 'segment:
+					if type.lower() == 'segment':
 						type = 'Others'
 					types[(i, re.sub(entete_to_split, '', txt))] = type
 
