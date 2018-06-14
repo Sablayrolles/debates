@@ -7,7 +7,7 @@
 
 # declaration of getData module to iterate on dataset files
 
-file="C:\\Users\\louis\\Documents\\GitHub\\debates\\step2_M1\\dataset\\usa\\2016\\1\\annotated\\ac-aa\\"
+file="./usa/2016/1/annotated/ac-aa/"
 
 nbEDU = 0
 types = {}
