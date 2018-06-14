@@ -116,8 +116,8 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 			target_train.append(targetsToDet_trans[i])
 	
 		for i in test_i:
-			features_valid.append(featuresOthers[test_i])
-			target_valid.append(targetsToDet_trans[test_i])
+			features_valid.append(featuresOthers[i])
+			target_valid.append(targetsToDet_trans[i])
 
 
 	model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, n_jobs=NB_CORE)
@@ -154,8 +154,8 @@ for train_i, test_i in sss.split(featuresOthers, targetsToDet_trans):
 		target_train.append(targetsToDet_trans[i])
 	
 	for i in test_i:
-		features_valid.append(featuresOthers[test_i])
-		target_valid.append(targetsToDet_trans[test_i])
+		features_valid.append(featuresOthers[i])
+		target_valid.append(targetsToDet_trans[i])
 
 
 model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, n_jobs=NB_CORE)
@@ -200,8 +200,8 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 			target_train.append(targetsTypes_trans[i])
 	
 		for i in test_i:
-			features_valid.append(featuresTypes[test_i])
-			target_valid.append(targetsTypes_trans[test_i])
+			features_valid.append(featuresTypes[i])
+			target_valid.append(targetsTypes_trans[i])
 
 	model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
@@ -237,8 +237,8 @@ for train_i, test_i in sss.split(featuresTypes, targetsTypes_trans):
 		target_train.append(targetsTypes_trans[i])
 	
 	for i in test_i:
-		features_valid.append(featuresTypes[test_i])
-		target_valid.append(targetsTypes_trans[test_i])
+		features_valid.append(featuresTypes[i])
+		target_valid.append(targetsTypes_trans[i])
 
 model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
