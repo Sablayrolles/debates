@@ -20,7 +20,7 @@ for num in [1,2,3,4,5,6,7,8,9]:
 		if "<unit" in line:
 			nbEDU += 1
 			
-		if "<type>" in line and line[6:-8][0].isupper():
+		if "<type>" in line: # and line[6:-8][0].isupper():
 			if line[6:-8] not in types.keys():
 				types[line[6:-8]] = 1
 			else:
