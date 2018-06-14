@@ -159,6 +159,7 @@ print("[Valid] On all corpus")
 print(metrics.classification_report(targetsToDet_trans, y_pred_all, target_names=le_others.classes_))
 
 ### LEARNING CLASSES
+a = input("Press Enter to Continue ...")
 print("[Info] Learning Classes...\n")
 iter_max = 0
 max_scr = 0
