@@ -29,7 +29,7 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 	types = {}
 	t = []
 	for i in range(1,number+1):
-		print("Parsing q",i)
+		# print("Parsing q",i)
 		file = repertory+str(i)+"-hand_parsed.aa"
 		f = open(repertory+str(i)+"-hand_parsed.ac")
 		sentences = f.readline()
