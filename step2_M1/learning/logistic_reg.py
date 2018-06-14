@@ -64,21 +64,21 @@ targetsTypes = []
 othersType = []
 typesType = []
 for f, t in zip(features, targets):
-	if t == "None" or t == "Other":
+	if t == "Other":
 		if t not in othersType:
 			othersType.append(t)
 		featuresOthers.append(f)
 		targetsOthers.append(t)
 	else:
-		if "NotToDetermine" not in othersType:
-			othersType.append("NotToDetermine")
+		if "ToDetermine" not in othersType:
+			othersType.append("ToDetermine")
 		if t not in typesType:
 			typesType.append(t)
 		featuresOthers.append(f)
-		targetsOthers.append("NotToDetermine")
+		targetsOthers.append("ToDetermine")
 		featuresTypes.append(f)
 		targetsTypes.append(t)
-print("[Data] Targets ToDetermine classifier : ", othersType)
+print("[Data] Targets Others classifier : ", othersType)
 print("[Data] Targets Types classifier : ", typesType)
 a = input("Press Enter to Continue ...")
 
