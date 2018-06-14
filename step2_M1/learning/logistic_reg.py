@@ -91,6 +91,7 @@ for MAX_ITER in range(100,1000):
 		print("Mean valid accuracy:",v)
 	
 print("Best accuracy for", iter_max, "iteration with valid accuracy of", max_scr)
+a = input()
 MAX_ITER = iter_max
 print("================= NB ITER :", MAX_ITER, "======================================")
 features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=0.33)
@@ -111,6 +112,8 @@ print("weights:", model.coef_)
 
 y_pred = model.predict(features_valid)
 y_pred_all = model.predict(features)
+print("y_pred:", le.inverse_transform(y_pred))
+print("y_target:", le.inverse_transform(target_valid))
 
 print("------------------------------")
 print("On valid test")
