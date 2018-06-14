@@ -98,7 +98,7 @@ print("[Info] Number examples (Classes):", len(featuresTypes))
 		
 a = input("Press Enter to Continue ...")	
 
-"""
+
 ### LEARNING OTHERS
 print("[Info] Learning Others...\n")
 iter_max = 0
@@ -181,7 +181,7 @@ print("[Valid] On valid test")
 print(metrics.classification_report(target_valid, y_pred, target_names=le_others.classes_))
 print("[Valid] On all corpus")
 print(metrics.classification_report(targetsToDet_trans, y_pred_all, target_names=le_others.classes_))
-"""
+
 
 ### LEARNING CLASSES
 # a = input("Press Enter to Continue ...")
