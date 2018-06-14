@@ -109,7 +109,7 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	#on split le dataset
 	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
 	#mais on veut au moins un exemple de chaque classes
-	sss = modelSelect.StratifiedShuffleSplit(n_split=2, test_size=TEST_PERCENT)
+	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 	features_train, features_valid, target_train, target_valid = [], [], [], []
 	for train_i, test_i in sss.split(featuresOthers, targetsToDet_trans):
 		features_train.append(featuresOthers[train_i])
@@ -145,7 +145,7 @@ print("[Valid] ================= NB ITER :", MAX_ITER, "========================
 #on split le dataset
 # features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
 #mais on veut au moins un exemple de chaque classes
-sss = modelSelect.StratifiedShuffleSplit(n_split=2, test_size=TEST_PERCENT)
+sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 features_train, features_valid, target_train, target_valid = [], [], [], []
 for train_i, test_i in sss.split(featuresOthers, targetsToDet_trans):
 	features_train.append(featuresOthers[train_i])
