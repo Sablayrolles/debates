@@ -59,13 +59,13 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 									# print("\t\t\tn4:",subsubsubchild.tag)
 									stop = subsubsubchild.get("index")
 				# print("type:", type, "start:", start, "stop:", stop)
-				if type.lower() not in ['paragraph', 'turn', 'default', 'dialogue']:
+				if type not in ["default", "paragraph", "Dialogue", "Turn"]:
 					txt = sentences[int(start):int(stop)]
+					# print(re.sub(entete_to_split, '', txt))
+					if type == 'Segment':
+						type = 'Other'
 					if type not in t:
 						t.append(type)
-					# print(re.sub(entete_to_split, '', txt))
-					if type.lower() == 'segment':
-						type = 'Other'
 					types[(i, re.sub(entete_to_split, '', txt))] = type
 
 	return types, t
@@ -75,3 +75,6 @@ if __name__ == "__main__":
 	print(data)
 	print("	nbTT:",len(data.keys()))
 	print("types: ", t)
+	v = list(data.values())
+	for k in t:
+		print(k, ":", v.count(k))
