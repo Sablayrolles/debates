@@ -208,7 +208,7 @@ print("[Valid] Testing")
 
 print("[Valid] Mean train accuracy:",model.score(features_train, target_train))
 print("[Valid] Mean valid accuracy:",model.score(features_valid, target_valid))
-print("[Valid] Types:", le_others.inverse_transform(model.classes_))
+print("[Valid] Types:", le_classes.inverse_transform(model.classes_))
 print("[Valid] weights:", model.coef_)
 
 y_pred = model.predict(features_valid)
@@ -216,6 +216,6 @@ y_pred_all = model.predict(featuresOthers)
 
 print("------------------------------")
 print("[Valid] On valid test")
-print(metrics.classification_report(target_valid, y_pred, target_names=le_others.classes_))
+print(metrics.classification_report(target_valid, y_pred, target_names=le_classes.classes_))
 print("[Valid] On all corpus")
-print(metrics.classification_report(targetsTypes_trans, y_pred_all, target_names=le_others.classes_))
+print(metrics.classification_report(targetsTypes_trans, y_pred_all, target_names=le_classes.classes_))
