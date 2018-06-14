@@ -48,10 +48,10 @@ for i in range(1,730):
 print("[Data] Features keys:", keys)
 
 print("[Info] Loading targets...")
-targets_full = getTarget.getTypes1stdebate("../dataset/usa/2016/1/output/ac-aa/", 9)
+targets_full, _ = getTarget.getTypes1stdebate("../dataset/usa/2016/1/output/ac-aa/", 9)
 targets = []
 for i in f_dic:
-	if (i["question"],i["edu"]) not in targets_full:
+	if (i["question"],i["edu"]) not in targets_full.keys():
 		targets.append("ToDetermine")
 	else:
 		targets.append(targets_full[(i["question"],i["edu"])])
