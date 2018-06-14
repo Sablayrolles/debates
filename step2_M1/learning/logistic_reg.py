@@ -22,7 +22,7 @@ NB_CORE = 16
 MAX_ITER_MIN = 100
 MAX_ITER_MAX = 1000
 TEST_PERCENT = 0.33
-VERBOSE = ""
+VERBOSE = "min"
 
 print("[Param] NB_CORE :", NB_CORE)
 print("[Param] MAX_ITER_MIN :", MAX_ITER_MIN)
@@ -97,13 +97,13 @@ print("[Info] Number examples (To determine):", len(featuresOthers))
 print("[Info] Number examples (Classes):", len(featuresTypes))
 a = input("Press Enter to Continue ...")	
 
-### LEARNING TO DETERMINE
-print("[Info] Learning To determine...")
+### LEARNING OTHERS
+print("[Info] Learning Others...")
 iter_max = 0
 max_scr = 0
 for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "min":
-		print("Learning test :", round(float(MAX_ITER) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
+		print("\e[1A; Learning test :", round(float(MAX_ITER) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
 	if VERBOSE == "full":
 		print("================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
@@ -114,22 +114,22 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	#solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
 
 	if VERBOSE == "full":
-		print("[Info][Model=Todetermine][MAX_ITER="+str(MAX_ITER)+"] Learning...")
+		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Learning...")
 	model = model.fit(features_train, target_train)
 	if VERBOSE == "full":
-		print("[Info][Model=Todetermine][MAX_ITER="+str(MAX_ITER)+"] Testing")
+		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Testing")
 
 	if VERBOSE == "full":
-		print("[Info][Model=Todetermine][MAX_ITER="+str(MAX_ITER)+"] Mean train accuracy:",model.score(features_train, target_train))
-		print("[Info][Model=Todetermine][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",model.score(features_valid, target_valid))
+		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Mean train accuracy:",model.score(features_train, target_train))
+		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",model.score(features_valid, target_valid))
 	v = model.score(features_valid, target_valid)
 	if v > max_scr:
 		max_scr = v
 		iter_max = MAX_ITER
 	if VERBOSE == "full":
-		print("[Info][Model=Todetermine][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",v)
+		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",v)
 	
-print("[Info][Model=Todetermine] Best accuracy for", iter_max, "iteration with valid accuracy of", max_scr)
+print("[Info][Model=Others] Best accuracy for", iter_max, "iteration with valid accuracy of", max_scr)
 a = input("Press Enter to Continue ...")
 
 MAX_ITER = iter_max
@@ -164,9 +164,9 @@ iter_max = 0
 max_scr = 0
 for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "min":
-		print("Learning test :", round(float(MAX_ITER) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
+		print("\e[1A; Learning test :[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"]", round(float(MAX_ITER) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
 	if VERBOSE == "full":
-		print("================= NB ITER :", MAX_ITER, "======================================")
+		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"]================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
 	features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresTypes, targetsTypes_trans, test_size=TEST_PERCENT)
 
