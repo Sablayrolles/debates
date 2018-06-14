@@ -111,10 +111,14 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 	features_train, features_valid, target_train, target_valid = [], [], [], []
 	for train_i, test_i in sss.split(featuresOthers, targetsToDet_trans):
-		features_train.append(featuresOthers[train_i])
-		features_valid.append(featuresOthers[test_i])
-		target_train.append(targetsToDet_trans[train_i])
-		target_valid.append(targetsToDet_trans[test_i])
+		for i in train_i:
+			features_train.append(featuresOthers[i])
+			target_train.append(targetsToDet_trans[i])
+	
+		for i in test_i:
+			features_valid.append(featuresOthers[test_i])
+			target_valid.append(targetsToDet_trans[test_i])
+
 
 	model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
@@ -145,10 +149,13 @@ print("[Valid] ================= NB ITER :", MAX_ITER, "========================
 sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 features_train, features_valid, target_train, target_valid = [], [], [], []
 for train_i, test_i in sss.split(featuresOthers, targetsToDet_trans):
-	features_train.append(featuresOthers[train_i])
-	features_valid.append(featuresOthers[test_i])
-	target_train.append(targetsToDet_trans[train_i])
-	target_valid.append(targetsToDet_trans[test_i])
+	for i in train_i:
+		features_train.append(featuresOthers[i])
+		target_train.append(targetsToDet_trans[i])
+	
+	for i in test_i:
+		features_valid.append(featuresOthers[test_i])
+		target_valid.append(targetsToDet_trans[test_i])
 
 
 model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, n_jobs=NB_CORE)
@@ -188,10 +195,13 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 	features_train, features_valid, target_train, target_valid = [], [], [], []
 	for train_i, test_i in sss.split(featuresTypes, targetsTypes_trans):
-		features_train.append(featuresTypes[train_i])
-		features_valid.append(featuresTypes[test_i])
-		target_train.append(targetsTypes_trans[train_i])
-		target_valid.append(targetsTypes_trans[test_i])
+		for i in train_i:
+			features_train.append(featuresTypes[i])
+			target_train.append(targetsTypes_trans[i])
+	
+		for i in test_i:
+			features_valid.append(featuresTypes[test_i])
+			target_valid.append(targetsTypes_trans[test_i])
 
 	model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
@@ -222,10 +232,13 @@ print("[Valid] ================= NB ITER :", MAX_ITER, "========================
 sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 features_train, features_valid, target_train, target_valid = [], [], [], []
 for train_i, test_i in sss.split(featuresTypes, targetsTypes_trans):
-	features_train.append(featuresTypes[train_i])
-	features_valid.append(featuresTypes[test_i])
-	target_train.append(targetsTypes_trans[train_i])
-	target_valid.append(targetsTypes_trans[test_i])
+	for i in train_i:
+		features_train.append(featuresTypes[i])
+		target_train.append(targetsTypes_trans[i])
+	
+	for i in test_i:
+		features_valid.append(featuresTypes[test_i])
+		target_valid.append(targetsTypes_trans[test_i])
 
 model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
