@@ -22,7 +22,7 @@ NB_CORE = 16
 MAX_ITER_MIN = 100
 MAX_ITER_MAX = 1000
 TEST_PERCENT = 0.33
-VERBOSE = "min"
+VERBOSE = ""
 
 print("[Param] NB_CORE :", NB_CORE)
 print("[Param] MAX_ITER_MIN :", MAX_ITER_MIN)
@@ -52,48 +52,48 @@ targets_full, _ = getTarget.getTypes1stdebate("../dataset/usa/2016/1/output/ac-a
 targets = []
 for i in f_dic:
 	if (i["question"],i["edu"]) not in targets_full.keys():
-		targets.append("ToDetermine")
+		targets.append("Other")
 	else:
 		targets.append(targets_full[(i["question"],i["edu"])])
 		
-### Split ToDetermine / others
-featuresToDet = []
-targetsToDet = []
+### Split Others / types
+featuresOthers = []
+targetsOthers = []
 featuresTypes = []
 targetsTypes = []
-toDetType = []
+othersType = []
 typesType = []
 for f, t in zip(features, targets):
-	if t == "ToDetermine":
-		if t not in toDetType:
-			toDetType.append(t)
-		featuresToDet.append(f)
-		targetsToDet.append(t)
+	if t == "None" or t == "Other":
+		if t not in othersType:
+			othersType.append(t)
+		featuresOthers.append(f)
+		targetsOthers.append(t)
 	else:
-		if "NotToDetermine" not in toDetType:
-			toDetType.append("NotToDetermine")
+		if "NotToDetermine" not in othersType:
+			othersType.append("NotToDetermine")
 		if t not in typesType:
 			typesType.append(t)
-		featuresToDet.append(f)
-		targetsToDet.append("NotToDetermine")
+		featuresOthers.append(f)
+		targetsOthers.append("NotToDetermine")
 		featuresTypes.append(f)
 		targetsTypes.append(t)
-print("[Data] Targets ToDetermine classifier : ", toDetType)
+print("[Data] Targets ToDetermine classifier : ", othersType)
 print("[Data] Targets Types classifier : ", typesType)
 a = input("Press Enter to Continue ...")
 
 ### PRE PROCESSING
 print("[Info] Preprocessing...")
 #on transform le nom des classes en nombre
-le_to_det = preprocess.LabelEncoder()
-le_to_det = le_to_det.fit(toDetType)
-targetsToDet_trans = le_to_det.transform(targetsToDet)
+le_others = preprocess.LabelEncoder()
+le_others = le_others.fit(othersType)
+targetsToDet_trans = le_others.transform(targetsOthers)
 
 le_classes = preprocess.LabelEncoder()
 le_classes = le_classes.fit(typesType)
 targetsTypes_trans = le_classes.transform(targetsTypes)
 
-print("[Info] Number examples (To determine):", len(featuresToDet))
+print("[Info] Number examples (To determine):", len(featuresOthers))
 print("[Info] Number examples (Classes):", len(featuresTypes))
 a = input("Press Enter to Continue ...")	
 
@@ -107,7 +107,7 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "full":
 		print("================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
-	features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresToDet, targetsToDet_trans, test_size=TEST_PERCENT)
+	features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
 
 	model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
@@ -134,7 +134,7 @@ a = input("Press Enter to Continue ...")
 
 MAX_ITER = iter_max
 print("[Valid] ================= NB ITER :", MAX_ITER, "======================================")
-features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresToDet, targetsToDet_trans, test_size=TEST_PERCENT)
+features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
 
 model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
@@ -146,17 +146,17 @@ print("[Valid] Testing")
 
 print("[Valid] Mean train accuracy:",model.score(features_train, target_train))
 print("[Valid] Mean valid accuracy:",model.score(features_valid, target_valid))
-print("[Valid] Types:", le_to_det.inverse_transform(model.classes_))
+print("[Valid] Types:", le_others.inverse_transform(model.classes_))
 print("[Valid] weights:", model.coef_)
 
 y_pred = model.predict(features_valid)
-y_pred_all = model.predict(featuresToDet)
+y_pred_all = model.predict(featuresOthers)
 
 print("------------------------------")
 print("[Valid] On valid test")
-print(metrics.classification_report(target_valid, y_pred, target_names=le_to_det.classes_))
+print(metrics.classification_report(target_valid, y_pred, target_names=le_others.classes_))
 print("[Valid] On all corpus")
-print(metrics.classification_report(targetsToDet_trans, y_pred_all, target_names=le_to_det.classes_))
+print(metrics.classification_report(targetsToDet_trans, y_pred_all, target_names=le_others.classes_))
 
 ### LEARNING CLASSES
 print("[Info] Learning Classes...")
@@ -207,14 +207,14 @@ print("[Valid] Testing")
 
 print("[Valid] Mean train accuracy:",model.score(features_train, target_train))
 print("[Valid] Mean valid accuracy:",model.score(features_valid, target_valid))
-print("[Valid] Types:", le_to_det.inverse_transform(model.classes_))
+print("[Valid] Types:", le_others.inverse_transform(model.classes_))
 print("[Valid] weights:", model.coef_)
 
 y_pred = model.predict(features_valid)
-y_pred_all = model.predict(featuresToDet)
+y_pred_all = model.predict(featuresOthers)
 
 print("------------------------------")
 print("[Valid] On valid test")
-print(metrics.classification_report(target_valid, y_pred, target_names=le_to_det.classes_))
+print(metrics.classification_report(target_valid, y_pred, target_names=le_others.classes_))
 print("[Valid] On all corpus")
-print(metrics.classification_report(targetsTypes_trans, y_pred_all, target_names=le_to_det.classes_))
+print(metrics.classification_report(targetsTypes_trans, y_pred_all, target_names=le_others.classes_))
