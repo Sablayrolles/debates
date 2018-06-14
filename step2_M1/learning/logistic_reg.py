@@ -21,7 +21,7 @@ import joblib
 NB_CORE = 16 
 MAX_ITER_MIN = 100
 MAX_ITER_MAX = 1000
-TEST_PERCENT = 0.33
+TEST_PERCENT = 0.1
 VERBOSE = "min"
 
 print("[Param] NB_CORE :", NB_CORE)
@@ -80,7 +80,7 @@ for f, t in zip(features, targets):
 		targetsTypes.append(t)
 print("[Data] Targets Others classifier : ", othersType)
 print("[Data] Targets Types classifier : ", typesType)
-a = input("Press Enter to Continue ...")
+# a = input("Press Enter to Continue ...")
 
 ### PRE PROCESSING
 print("[Info] Preprocessing...")
@@ -95,7 +95,7 @@ targetsTypes_trans = le_classes.transform(targetsTypes)
 
 print("[Info] Number examples (To determine):", len(featuresOthers))
 print("[Info] Number examples (Classes):", len(featuresTypes))
-a = input("Press Enter to Continue ...")	
+# a = input("Press Enter to Continue ...")	
 
 ### LEARNING OTHERS
 print("[Info] Learning Others...\n")
@@ -109,7 +109,7 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	#on split le dataset
 	features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
 
-	model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
+	model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
 	#solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
 
@@ -130,13 +130,13 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",v)
 	
 print("[Info][Model=Others] Best accuracy for", iter_max, "iteration with valid accuracy of", max_scr)
-a = input("Press Enter to Continue ...")
+# a = input("Press Enter to Continue ...")
 
 MAX_ITER = iter_max
 print("[Valid] ================= NB ITER :", MAX_ITER, "======================================")
 features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
 
-model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
+model = linear_model.LogisticRegression(solver='saga', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
 #solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
 
@@ -159,7 +159,7 @@ print("[Valid] On all corpus")
 print(metrics.classification_report(targetsToDet_trans, y_pred_all, target_names=le_others.classes_))
 
 ### LEARNING CLASSES
-a = input("Press Enter to Continue ...")
+# a = input("Press Enter to Continue ...")
 print("[Info] Learning Classes...\n")
 iter_max = 0
 max_scr = 0
@@ -192,7 +192,7 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",v)
 	
 print("[Info][Model=Classes] Best accuracy for", iter_max, "iteration with valid accuracy of", max_scr)
-a = input("Press Enter to Continue ...")
+# a = input("Press Enter to Continue ...")
 
 MAX_ITER = iter_max
 print("[Valid] ================= NB ITER :", MAX_ITER, "======================================")
