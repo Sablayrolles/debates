@@ -192,6 +192,8 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"]================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
 	print("targetsTypes:",targetsTypes)
+	for k in set(targetsTypes):
+		print(k, targetsTypes.count(k))
 	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresTypes, targetsTypes_trans, test_size=TEST_PERCENT)
 	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 	features_train, features_valid, target_train, target_valid = [], [], [], []
