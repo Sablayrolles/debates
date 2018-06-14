@@ -95,8 +95,10 @@ targetsTypes_trans = le_classes.transform(targetsTypes)
 
 print("[Info] Number examples (To determine):", len(featuresOthers))
 print("[Info] Number examples (Classes):", len(featuresTypes))
-# a = input("Press Enter to Continue ...")	
+		
+a = input("Press Enter to Continue ...")	
 
+"""
 ### LEARNING OTHERS
 print("[Info] Learning Others...\n")
 iter_max = 0
@@ -179,6 +181,7 @@ print("[Valid] On valid test")
 print(metrics.classification_report(target_valid, y_pred, target_names=le_others.classes_))
 print("[Valid] On all corpus")
 print(metrics.classification_report(targetsToDet_trans, y_pred_all, target_names=le_others.classes_))
+"""
 
 ### LEARNING CLASSES
 # a = input("Press Enter to Continue ...")
@@ -191,9 +194,6 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"]================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
-	print("targetsTypes:",targetsTypes)
-	for k in set(targetsTypes):
-		print(k, targetsTypes.count(k))
 	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresTypes, targetsTypes_trans, test_size=TEST_PERCENT)
 	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 	features_train, features_valid, target_train, target_valid = [], [], [], []
