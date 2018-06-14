@@ -212,7 +212,7 @@ print("[Valid] Types:", le_classes.inverse_transform(model.classes_))
 print("[Valid] weights:", model.coef_)
 
 y_pred = model.predict(features_valid)
-y_pred_all = model.predict(featuresOthers)
+y_pred_all = model.predict(featuresTypes)
 
 print("------------------------------")
 print("[Valid] On valid test")
