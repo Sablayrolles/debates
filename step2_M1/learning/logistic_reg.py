@@ -103,7 +103,7 @@ iter_max = 0
 max_scr = 0
 for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "min":
-		print('\033[1A'+" Learning test :[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"]", round(float(MAX_ITER) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
+		print('\033[1H'+"[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Learning test :", round(float(MAX_ITER) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
 	if VERBOSE == "full":
 		print("================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
@@ -164,7 +164,7 @@ iter_max = 0
 max_scr = 0
 for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "min":
-		print('\033[1H'+" Learning test :[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"]", round(float(MAX_ITER) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
+		print('\033[1H'+"[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning test :", round(float(MAX_ITER) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"]================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
