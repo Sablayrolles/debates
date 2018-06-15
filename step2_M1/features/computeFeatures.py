@@ -11,8 +11,8 @@ import joblib
 import sys
 sys.path.append("./")
 
-import .wordFeatures as wFeatures
-import .tokenFeatures as tFeatures
+import wordFeatures as wFeatures
+import tokenFeatures as tFeatures
 
 """
 	Module computeFeatures
