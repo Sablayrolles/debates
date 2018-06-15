@@ -58,8 +58,8 @@ def compute(dictEDU, NLP):
 		:rtype: dictionnary
 	"""
 	dictEDU = saveWords(dictEDU)
-	dictEDU["tokens"] = NLP.getTokens(s["edu"])
-	dictEDU["dependencies"] = NLP.dependency_parse(s["edu"])
+	dictEDU["tokens"] = NLP.getTokens(dictEDU["edu"])
+	dictEDU["dependencies"] = NLP.dependency_parse(dictEDU["edu"])
 	
 	return dictEDU
 
