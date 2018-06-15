@@ -27,6 +27,18 @@ EDU_punct_tab = []
 for s in sentences_tab:
 	EDU_punct_tab.extend(sSpliter.punct_split(s)) #segmentation par sumbole de ponctuation
 
+#Use this to define where you specificily want to cut
+#
+#sSpliter = segment.Spliter(sNLP, list_punct_simple = [';',':','(',')'], list_punct_cmplx = ["--"])
+#linkW = segment.LinksWords()
+#linkW.add('and')
+#linkW.add('also')
+#linkW.add('although')
+#linkW.add('as')
+#linkW.add('as')
+#linkW.add('because')
+#
+#sSpliter = segment.Spliter(sNLP, link_words=linkW)
 EDUs = sSpliter.linkwords_split(EDU_punct_tab) #segmentation par link words and smaller ponctuation
 	
 print("\nOut:")
