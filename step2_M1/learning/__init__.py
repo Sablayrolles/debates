@@ -1,1 +1,1 @@
-from logistic_reg import *
+from .logistic_reg import *

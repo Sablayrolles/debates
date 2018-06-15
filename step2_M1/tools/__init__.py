@@ -1,1 +1,1 @@
-from RappelPrecisionFMesure import *
+from .RappelPrecisionFMesure import *
