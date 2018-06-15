@@ -24,7 +24,7 @@
 					</possibleValues>
 				</feature>
 				<feature name="recipient">
-					<possibleValues default="Please choose...">
+					<possibleValues default="?">
 						<value>All</value>
 						<value>?</value>
 						<value>HOLT</value>
@@ -37,14 +37,10 @@
 				</feature>
 				<feature name="emitter">
 					<possibleValues default="Please choose...">
-						<value>All</value>
 						<value>?</value>
 						<value>HOLT</value>
 						<value>CLINTON</value>
 						<value>TRUMP</value>
-						<value>CLINTON, HOLT</value>
-						<value>HOLT, TRUMP</value>
-						<value>CLINTON, TRUMP</value>
 					</possibleValues>
 				</feature>
 				<feature name="reaction_public">
@@ -67,6 +63,9 @@
 						<value>0</value>
 						<value>-</value>
 					</possibleValues>
+				</feature>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
 				</feature>
 			</featureSet>
 		</type>
@@ -74,61 +73,6 @@
 			<featureSet>
 				<feature name="Surface_act">
 					<possibleValues default="Please choose...">
-						<value>Assertion</value>
-						<value>Question</value>
-					</possibleValues>
-				</feature>
-				<feature name="recipient">
-					<possibleValues default="Please choose...">
-						<value>All</value>
-						<value>?</value>
-						<value>HOLT</value>
-						<value>CLINTON</value>
-						<value>TRUMP</value>
-						<value>CLINTON, HOLT</value>
-						<value>HOLT, TRUMP</value>
-						<value>CLINTON, TRUMP</value>
-					</possibleValues>
-				</feature>
-				<feature name="emitter">
-					<possibleValues default="Please choose...">
-						<value>All</value>
-						<value>?</value>
-						<value>HOLT</value>
-						<value>CLINTON</value>
-						<value>TRUMP</value>
-						<value>CLINTON, HOLT</value>
-						<value>HOLT, TRUMP</value>
-						<value>CLINTON, TRUMP</value>
-					</possibleValues>
-				</feature>
-				<feature name="reaction_public">
-					<possibleValues default="0">
-						<value>+</value>
-						<value>0</value>
-						<value>-</value>
-					</possibleValues>
-				</feature>
-				<feature name="reaction_emitter">
-					<possibleValues default="0">
-						<value>+</value>
-						<value>0</value>
-						<value>-</value>
-					</possibleValues>
-				</feature>
-				<feature name="reaction_recipient">
-					<possibleValues default="0">
-						<value>+</value>
-						<value>0</value>
-						<value>-</value>
-					</possibleValues>
-				</feature>
-			</featureSet>
-		</type>
-		<type groups="Complex_discourse_unit" name="Counterattack">
-			<featureSet>
-				<feature name="Surface_act">
-					<possibleValues default="0">
 						<value>Assertion</value>
 						<value>Question</value>
 					</possibleValues>
@@ -146,15 +90,11 @@
 					</possibleValues>
 				</feature>
 				<feature name="emitter">
-					<possibleValues default="0">
-						<value>All</value>
+					<possibleValues default="Please choose...">
 						<value>?</value>
 						<value>HOLT</value>
 						<value>CLINTON</value>
 						<value>TRUMP</value>
-						<value>CLINTON, HOLT</value>
-						<value>HOLT, TRUMP</value>
-						<value>CLINTON, TRUMP</value>
 					</possibleValues>
 				</feature>
 				<feature name="reaction_public">
@@ -177,6 +117,63 @@
 						<value>0</value>
 						<value>-</value>
 					</possibleValues>
+				</feature>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
+			</featureSet>
+		</type>
+		<type groups="Complex_discourse_unit" name="Counterattack">
+			<featureSet>
+				<feature name="Surface_act" default="Please choose...">
+					<possibleValues>
+						<value>Assertion</value>
+						<value>Question</value>
+					</possibleValues>
+				</feature>
+				<feature name="recipient">
+					<possibleValues default="?">
+						<value>All</value>
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+						<value>CLINTON, HOLT</value>
+						<value>HOLT, TRUMP</value>
+						<value>CLINTON, TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="emitter">
+					<possibleValues default="Please choose...">
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_public">
+					<possibleValues default="0">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_emitter">
+					<possibleValues default="0">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="reaction_recipient">
+					<possibleValues default="0">
+						<value>+</value>
+						<value>0</value>
+						<value>-</value>
+					</possibleValues>
+				</feature>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
 				</feature>
 			</featureSet>
 		</type>
@@ -188,6 +185,26 @@
 						<value>Question</value>
 					</possibleValues>
 				</feature>
+				<feature name="recipient">
+					<possibleValues default="?">
+						<value>All</value>
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+						<value>CLINTON, HOLT</value>
+						<value>HOLT, TRUMP</value>
+						<value>CLINTON, TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="emitter">
+					<possibleValues default="Please choose...">
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+					</possibleValues>
+				</feature>
 				<feature name="reaction_public">
 					<possibleValues default="0">
 						<value>+</value>
@@ -209,6 +226,9 @@
 						<value>-</value>
 					</possibleValues>
 				</feature>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
+				</feature>
 			</featureSet>
 		</type>
 		<type groups="Complex_discourse_unit" name="Change_of_subject">
@@ -218,6 +238,17 @@
 						<value>Assertion</value>
 						<value>Question</value>
 					</possibleValues>
+				</feature>
+				<feature name="emitter">
+					<possibleValues default="Please choose...">
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
 				</feature>
 			</featureSet>
 		</type>
@@ -230,7 +261,7 @@
 					</possibleValues>
 				</feature>
 				<feature name="recipient">
-					<possibleValues default="Please choose...">
+					<possibleValues default="?">
 						<value>All</value>
 						<value>?</value>
 						<value>HOLT</value>
@@ -240,6 +271,17 @@
 						<value>HOLT, TRUMP</value>
 						<value>CLINTON, TRUMP</value>
 					</possibleValues>
+				</feature>
+				<feature name="emitter">
+					<possibleValues default="Please choose...">
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
 				</feature>
 			</featureSet>
 		</type>
@@ -253,15 +295,14 @@
 				</feature>
 				<feature name="emitter">
 					<possibleValues default="Please choose...">
-						<value>All</value>
 						<value>?</value>
 						<value>HOLT</value>
 						<value>CLINTON</value>
 						<value>TRUMP</value>
-						<value>CLINTON, HOLT</value>
-						<value>HOLT, TRUMP</value>
-						<value>CLINTON, TRUMP</value>
 					</possibleValues>
+				</feature>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
 				</feature>
 			</featureSet>
 		</type>
@@ -275,15 +316,14 @@
 				</feature>
 				<feature name="emitter">
 					<possibleValues default="Please choose...">
-						<value>All</value>
 						<value>?</value>
 						<value>HOLT</value>
 						<value>CLINTON</value>
 						<value>TRUMP</value>
-						<value>CLINTON, HOLT</value>
-						<value>HOLT, TRUMP</value>
-						<value>CLINTON, TRUMP</value>
 					</possibleValues>
+				</feature>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
 				</feature>
 			</featureSet>
 		</type>
@@ -294,6 +334,17 @@
 						<value>Assertion</value>
 						<value>Question</value>
 					</possibleValues>
+				</feature>
+				<feature name="emitter">
+					<possibleValues default="Please choose...">
+						<value>?</value>
+						<value>HOLT</value>
+						<value>CLINTON</value>
+						<value>TRUMP</value>
+					</possibleValues>
+				</feature>
+				<feature name="Comments">
+					<value default="Please write in remarks..." type="free" />
 				</feature>
 			</featureSet>
 		</type>
