@@ -35,7 +35,7 @@ Installation
 	$ pip install -r ./step2\_M1/requirements.txt		#installation des requirements
 	
 We use the library coreNLP written by Stanford University:
-[How to Install coreNLP](https://stanfordnlp.github.io/CoreNLP/corenlp-server.html)
+`How to Install coreNLP <https://stanfordnlp.github.io/CoreNLP/corenlp-server.html>`__
 
 Documentation
 -------------
