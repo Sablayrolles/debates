@@ -11,6 +11,11 @@
 <invisibility value="false"/>
 </unit-style>
 <unit-style>
+<type name="Claim"/>
+<background-color b="0" g="102" r="255"/>
+<invisibility value="false"/>
+</unit-style>
+<unit-style>
 <type name="Counterattack"/>
 <background-color b="0" g="0" r="51"/>
 <invisibility value="false"/>
@@ -28,6 +33,11 @@
 <unit-style>
 <type name="Question"/>
 <background-color b="255" g="255" r="0"/>
+<invisibility value="false"/>
+</unit-style>
+<unit-style>
+<type name="Support"/>
+<background-color b="0" g="102" r="0"/>
 <invisibility value="false"/>
 </unit-style>
 <unit-style>
