@@ -10,7 +10,7 @@ import features.saveData as saveData
 import features.computeFeatures as computeFeatures
 
 NLP = parseNLP.StanfordNLP()
-txt = {"edu": "My cat is eating the mouse!"}
+txt = {"num": 1, "question": 1, "edu": "My cat is eating the mouse!"}
 
 s = saveData.compute(txt, NLP)
 f = computeFeatures.returnFeatures(s, ["as?", "as!", "nb1stPers", "nb2ndPers"])
