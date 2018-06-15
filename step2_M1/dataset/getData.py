@@ -124,7 +124,7 @@ class Sentences():
 		return self.next()
 		
 if __name__ == "__main__":
-	file = "./usa/2016/1/hand-segmented/1.txt"
+	file = "./usa/2016/1/segmented/1.txt"
 	
 	for s in Sentences(file, "(^[A-Z]+: )"):
 		print(s)
