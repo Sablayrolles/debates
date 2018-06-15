@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-# Module features/getInfos.py
+# Module dataset/getInfos.py
 # Author : SABLAYROLLES Louis
 # Date : 11 / 06 / 17
 
@@ -31,7 +31,7 @@ def getInfosDebates(file):
 	tree = ET.parse(file)
 	root = tree.getroot()
 	for child in root:
-		print("\tTag:",child.tag,"Text:",child.text)
+		# print("\tTag:",child.tag,"Text:",child.text)
 		if child.tag == "language":
 			infos["language"] = child.text
 		if child.tag == "debateNum":

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Create directories in dataset
+# Author : SABLAYROLLES Louis
+# Date : 15 / 06 / 17
+
+# Create directories in dataset
+
 echo "Usage : $0 -[h|c|y|d] (name) (year)"
 echo -e "\t -h : affiche l'aide et quitte"
 echo -e "\t -c : creer le pays 'name'"
