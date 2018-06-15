@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Usage : $0 -[h|c|y|d] (name) (year) (NAMES_CANDIDATS)"
+echo "Usage : $0 -[h|c|y|d] (name) (year)"
 echo -e "\t -h : affiche l'aide et quitte"
 echo -e "\t -c : creer le pays 'name'"
 echo -e "\t -y : ajoute l'annee 'year' pour le pays 'name'"
@@ -26,12 +26,6 @@ if [ ! -f ./config.txt ]; then
 	echo -e "Need config to create ....\n"
 	./config.sh
 fi;
-
-date=`head -1 ./config.txt`
-brut=`head -2 ./config.txt | tail -1 | cut -d\; -f2`
-segmented=`head -3 ./config.txt | tail -1 | cut -d\; -f2`
-full=`head -4 ./config.txt | tail -1 | cut -d\; -f2`
-reaction=`head -5 ./config.txt | tail -1 | cut -d\; -f2`
 
 echo -e "\n\nConfiguration from ./config.txt write on the $date loaded."
 echo -e "\t brut rep : $brut"
@@ -87,11 +81,11 @@ if [ $1 == "-d" ]; then
 		let "name_rep=$name_rep+1"
 	done;
 	mkdir ./$2/$3/$name_rep
-	mkdir ./$2/$3/$name_rep/$brut
-	mkdir ./$2/$3/$name_rep/$segmented
-	mkdir ./$2/$3/$name_rep/$full
-	mkdir ./$2/$3/$name_rep/$reaction
-	echo $4 >./$2/$3/$name_rep/NAMES.txt
+	mkdir ./$2/$3/$name_rep/brut/
+	mkdir ./$2/$3/$name_rep/segmented/
+	mkdir ./$2/$3/$name_rep/full/
+	mkdir ./$2/$3/$name_rep/reactions/
+	mkdir ./$2/$3/$name_rep/annotated/
 	echo "./$2/$3/$name_rep arborescence create"
 fi;
 
