@@ -20,6 +20,9 @@ sNLP = parseNLP.StanfordNLP()
 sentences_tab = sNLP.segmente(sentences) #segmentation par phrase
 
 sSpliter = segment.Spliter(sNLP)
+#Use this to define where you specificily want to cut
+#
+#sSpliter = segment.Spliter(sNLP, list_punct_simple = [';',':','(',')'], list_punct_cmplx = ["--"])
 EDU_punct_tab = []
 for s in sentences_tab:
 	EDU_punct_tab.extend(sSpliter.punct_split(s)) #segmentation par sumbole de ponctuation
