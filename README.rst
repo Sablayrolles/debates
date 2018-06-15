@@ -23,7 +23,7 @@ Description
    définition des types d'EDU et des relations possibles entre elles
 
 -  le dossier **step2\_M1** contient le travail effectué pour la
-   segmentation automatique, l'extraction ds features et l'apprentissage des types pour les EDU
+   segmentation automatique, l'extraction des features et l'apprentissage des types pour les EDU
 
 Installation
 ------------
