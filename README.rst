@@ -33,23 +33,11 @@ Installation
 	$ git clone git@github.com:Sablayrolles/debates.git
 	$ pip install -r ./step\_1/requirements.txt		#installation des requirements
 	$ pip install -r ./step2\_M1/requirements.txt		#installation des requirements
+	
+We use the library coreNLP written by Stanford University:
+[How to Install coreNLP](https://stanfordnlp.github.io/CoreNLP/corenlp-server.html)
 
 Documentation
 -------------
 
 `Documentation link <https://github.com/Sablayrolles/debates/wiki>`__
-
-Examples
---------
-
-Some of examples files in examples/ can help you to use this project
-
-+--------------------------------------------------------------+------------------------------------------------------------------------------+
-| **Files**                                                    | **Description**                                                              |
-+==============================================================+==============================================================================+
-| *sentences\_segmentation.py*                                 | Segmentation of a paragraph in sentences tabular                             |
-+--------------------------------------------------------------+------------------------------------------------------------------------------+
-| *sentences\_n\_punctuation\_segmentation.py*                 | Segmentation of a paragraph in EDU tabular using punctuation                 |
-+--------------------------------------------------------------+------------------------------------------------------------------------------+
-| *sentences\_n\_punctuation\_n\_linkwords\_segmentation.py*   | Segmentation of a paragraph in EDU tabular using punctuation and linkwords   |
-+--------------------------------------------------------------+------------------------------------------------------------------------------+
