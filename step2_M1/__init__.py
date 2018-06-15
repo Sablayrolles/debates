@@ -5,7 +5,7 @@ __all__ = [ basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('_
 
 import os
 for module in os.listdir(os.path.dirname(__file__)):
-    if module == '__init__.py' or module[-3:] != '.py' and module[0:2] != "__":
+    if !isfile(module) and (module == '__init__.py' or module[-3:] != '.py' or module[0:2] == "__"):
         continue
     __import__(module[:-3], locals(), globals())
 del module
