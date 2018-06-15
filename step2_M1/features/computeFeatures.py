@@ -8,6 +8,8 @@
 # compute features
 
 import joblib
+import sys
+sys.path.append("./")
 
 import wordFeatures as wFeatures
 import tokenFeatures as tFeatures
