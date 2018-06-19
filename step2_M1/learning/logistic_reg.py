@@ -18,7 +18,7 @@ import sklearn.metrics as metrics
 import joblib
 
 #constantes for learning
-NB_CORE = 16 
+NB_CORE = 2 
 MAX_ITER_MIN = 100
 MAX_ITER_MAX = 1000
 TEST_PERCENT = 0.1

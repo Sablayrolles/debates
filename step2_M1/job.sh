@@ -25,3 +25,7 @@ cd ../learning
 echo "Learning"
 echo "python3 logistic_reg.py $nbFiles >>$home/job.log 2>>$home/job.err"
 a=`python3 logistic_reg.py $nbFiles >>$home/job.log 2>>$home/job.err`
+
+#send result by mail
+date=`date "+%y/%m/%d %H:%M:%S"`
+echo -e "Result learning finish on $date" | mailx -v -s "Result learning" -a $home/job.log -a $home/job.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com
