@@ -67,6 +67,7 @@ if __name__ == "__main__":
 	nbEDU = 0
 	NLP = parseNLP.StanfordNLP();
 	infos = getInfos.getInfosDebates("../dataset/usa/2016/1/infos.xml")
+	nb = 0
 	for num in range(1, infos["numberQuestion"]):
 		file = "../dataset/usa/2016/1/segmented/"+str(num)+".txt"
 		it = getData.Sentences(file, "(^[A-Z]+: )", num, "EDU", nbEDU);
@@ -78,4 +79,7 @@ if __name__ == "__main__":
 			
 			joblib.dump(s,"./data/"+str(s["num"])+".data");
 			print(s)
+			nb = s["num"]
+			
+	print("Extracted ", nb, "files")
 				

@@ -24,6 +24,10 @@ MAX_ITER_MAX = 1000
 TEST_PERCENT = 0.1
 VERBOSE = "min"
 
+if len(sys.argv) != 2:
+	print("Usage ", sys.argv[0]," nbFeaturesFiles")
+	sys.exit(1)
+
 print("[Param] NB_CORE :", NB_CORE)
 print("[Param] MAX_ITER_MIN :", MAX_ITER_MIN)
 print("[Param] MAX_ITER_MAX :", MAX_ITER_MAX)
@@ -34,7 +38,7 @@ print("[Param] VERBOSE :", VERBOSE)
 features = []
 f_dic = []
 print("[Info] Loading features...")
-for i in range(1,730):
+for i in range(1,sys.argv[1]):
 	data = joblib.load("../features/data/"+str(i)+".features")
 	f_dic.append(data)
 	f = []
