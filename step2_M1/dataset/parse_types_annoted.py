@@ -104,4 +104,8 @@ if __name__ == "__main__":
 	v = list(data.values())
 	for k in t:
 		print(k, ":", v.count(k))
-	sys.exit(nb)
+	print("exiting with ", nb)
+	f = open("tmp", "w")
+	f.write(str(nb))
+	f.close()
+

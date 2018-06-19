@@ -10,7 +10,7 @@ home=`pwd`
 cd dataset
 python3 parse_types_annoted.py >$home/job.log 2>$home/job.err
 
-nbFiles=$?
+nbFiles=`cat tmp`
 echo "nbFiles="$nbFiles
 
 cd ../features
