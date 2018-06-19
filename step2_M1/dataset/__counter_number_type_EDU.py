@@ -47,7 +47,7 @@ for num in [1,2,3,4,5,6,7,8,9]:
 	print("\t","nEDU:", nFiles)
 	print("\t","types:", tFiles)
 	for t in tFiles.keys():
-		print("\t",t,":",tFiles[t]/nbEDU*100, "%")
+		print("\t",t,":",tFiles[t]/nFiles*100, "%")
 				
 
 print("nbEDU:", nbEDU)
