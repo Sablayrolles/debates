@@ -209,7 +209,7 @@ try:
 	f.write('		<type groups="Complex_discourse_unit" name="Question">'+"\n")
 	f.write('			<featureSet>'+"\n")
 	f.write('				<feature name="Surface_act">'+"\n")
-	f.write('					<possibleValues default="Please choose...">'+"\n")
+	f.write('					<possibleValues default="Question">'+"\n")
 	f.write('						<value>Assertion</value>'+"\n")
 	f.write('						<value>Question</value>'+"\n")
 	f.write('					</possibleValues>'+"\n")
