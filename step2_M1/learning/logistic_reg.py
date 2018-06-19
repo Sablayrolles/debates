@@ -64,11 +64,12 @@ for i in f_dic:
 print("[Data] Targets Types classifier : ", set(targets))
 for k in set(targets):
 	print(k, targets.count(k))
+types = set(targets)
 ### PRE PROCESSING
 print("[Info] Preprocessing...")
 #on transform le nom des classes en nombre
 le = preprocess.LabelEncoder()
-le = le.fit(typesType)
+le = le.fit(types)
 targets_trans = le.transform(targetsTypes)
 
 print("[Info] Number examples (Classes):", len(features))
