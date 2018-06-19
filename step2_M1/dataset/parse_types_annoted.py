@@ -9,6 +9,7 @@
 
 import xml.etree.ElementTree as ET
 import re
+import joblib
 
 def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )"):
 	"""
@@ -34,7 +35,6 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 		file = repertory+str(i)+"-hand_parsed.aa"
 		f = open(repertory+str(i)+"-hand_parsed.ac")
 		sentences = f.readline()
-		print(sentences)
 		f.close()
 		
 		d = {}
@@ -72,11 +72,16 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 					txt = sentences[int(start):int(stop)]
 					# print(re.sub(entete_to_split, '', txt))
 					if type == "Turn":
-						m = re.search("(^[A-Z]+: )", txt)
-						emmiter = m.group(0)
+						m = re.search("( [A-Z]+[ ]+: )", txt)
+						try:
+							emmiter = m.group(0)
+						except AttributeError:
+							print(txt)
+							a = input()
+
 					if type not in ["Dialogue", "Turn", "paragraph"]:
 						numEDU += 1	
-						s={"num":numEDU, "emitter": emitter, "question": i, "txt": txt}
+						s={"num":numEDU, "emitter": emitter, "question": i, "edu": txt}
 						joblib.dump(s,"../features/data/"+str(s["num"])+".info");
 						if type in ["default", "Segment"]:
 							type = 'Other'
