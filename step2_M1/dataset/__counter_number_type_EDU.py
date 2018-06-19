@@ -44,8 +44,10 @@ for num in [1,2,3,4,5,6,7,8,9]:
 						else:
 							tFiles["Other"] = 1
 	print("For file num",num)
-	print("nEDU:", nFiles)
-	print("types:", tFiles)
+	print("\t","nEDU:", nFiles)
+	print("\t","types:", tFiles)
+	for t in types.keys():
+		print("\t",t,":",types[t]/nbEDU*100, "%")
 				
 
 print("nbEDU:", nbEDU)
