@@ -68,7 +68,8 @@ if __name__ == "__main__":
 	NLP = parseNLP.StanfordNLP();
 	infos = getInfos.getInfosDebates("../dataset/usa/2016/1/infos.xml")
 	nb = 0
-	for num in range(1, infos["numberQuestion"]):
+	for num in range(1, int(infos["numberQuestion"])):
+		print("File : ",num)
 		file = "../dataset/usa/2016/1/segmented/"+str(num)+".txt"
 		it = getData.Sentences(file, "(^[A-Z]+: )", num, "EDU", nbEDU);
 		nbEDU = it.nbEDU()

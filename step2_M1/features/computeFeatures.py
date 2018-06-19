@@ -17,6 +17,9 @@ try:
 except ImportError:
 	import wordFeatures as wFeatures
 	import tokenFeatures as tFeatures
+except SystemError:
+	import wordFeatures as wFeatures
+	import tokenFeatures as tFeatures
 	
 """
 	Module computeFeatures
@@ -68,7 +71,7 @@ if __name__ == '__main__':
 		print("Usage ",sys.argv[0]," nbTTEDUFiles")
 		sys.exit(0)
 	else:
-		for n in range(1,sys.argv[1]):
+		for n in range(1,int(sys.argv[1])):
 			print("EDU num : ",n)
 			
 			data = joblib.load("./data/"+str(n)+".data")
