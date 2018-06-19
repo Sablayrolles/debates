@@ -66,7 +66,7 @@ def compute(dictEDU, NLP):
 	return dictEDU
 
 NB_FAITS = 0
-def processEDU(num, nbTT):
+def processEDU(n, nbTT):
 	global NB_FAITS
 	
 	#calcul words

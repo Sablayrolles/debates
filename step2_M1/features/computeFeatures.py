@@ -69,7 +69,7 @@ def returnFeatures(data, featuresList):
 	return features
 
 NB_FAITS = 0
-def processEDU(i, nbTT):
+def processEDU(n, nbTT):
 	global NB_FAITS
 	
 	#calcul words
