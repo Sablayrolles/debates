@@ -77,8 +77,8 @@ if __name__ == "__main__":
 			s = compute(s, NLP)
 			
 			joblib.dump(s,"./data/"+str(n)+".data");
-			print(s)
 			nb = s["num"]
+			print('\033[1A'+"[Features] Saving infos :",n,"/",sys.argv[1])
 			
 	print("Extracted ", nb, "files")
 				
