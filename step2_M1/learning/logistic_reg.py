@@ -63,108 +63,14 @@ for i in f_dic:
 print("[Data] Targets Types classifier : ", set(targets))
 for k in set(targets):
 	print(k, targets.count(k))
-a = input("Press Enter to Continue ...")
-
 ### PRE PROCESSING
 print("[Info] Preprocessing...")
 #on transform le nom des classes en nombre
-le_others = preprocess.LabelEncoder()
-le_others = le_others.fit(othersType)
-targetsToDet_trans = le_others.transform(targetsOthers)
+le = preprocess.LabelEncoder()
+le = le.fit(typesType)
+targets_trans = le.transform(targetsTypes)
 
-le_classes = preprocess.LabelEncoder()
-le_classes = le_classes.fit(typesType)
-targetsTypes_trans = le_classes.transform(targetsTypes)
-
-print("[Info] Number examples (To determine):", len(featuresOthers))
-print("[Info] Number examples (Classes):", len(featuresTypes))
-		
-a = input("Press Enter to Continue ...")	
-
-
-### LEARNING OTHERS
-print("[Info] Learning Others...\n")
-iter_max = 0
-max_scr = 0
-for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
-	if VERBOSE == "min":
-		print('\033[1A'+"[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Learning test :", round(float(MAX_ITER-MAX_ITER_MIN) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
-	if VERBOSE == "full":
-		print("================= NB ITER :", MAX_ITER, "======================================")
-	#on split le dataset
-	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
-	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
-	features_train, features_valid, target_train, target_valid = [], [], [], []
-	for train_i, test_i in sss.split(featuresOthers, targetsToDet_trans):
-		for i in train_i:
-			features_train.append(featuresOthers[i])
-			target_train.append(targetsToDet_trans[i])
-	
-		for i in test_i:
-			features_valid.append(featuresOthers[i])
-			target_valid.append(targetsToDet_trans[i])
-
-
-	model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, n_jobs=NB_CORE)
-	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
-	#solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
-
-	if VERBOSE == "full":
-		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Learning...")
-	model = model.fit(features_train, target_train)
-	if VERBOSE == "full":
-		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Testing")
-
-	if VERBOSE == "full":
-		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Mean train accuracy:",model.score(features_train, target_train))
-		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",model.score(features_valid, target_valid))
-	v = model.score(features_valid, target_valid)
-	if v > max_scr:
-		max_scr = v
-		iter_max = MAX_ITER
-	if VERBOSE == "full":
-		print("[Info][Model=Others][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",v)
-	
-print("[Info][Model=Others] Best accuracy for", iter_max, "iteration with valid accuracy of", max_scr)
-# a = input("Press Enter to Continue ...")
-
-MAX_ITER = iter_max
-print("[Valid] ================= NB ITER :", MAX_ITER, "======================================")
-# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresOthers, targetsToDet_trans, test_size=TEST_PERCENT)
-sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
-features_train, features_valid, target_train, target_valid = [], [], [], []
-for train_i, test_i in sss.split(featuresOthers, targetsToDet_trans):
-	for i in train_i:
-		features_train.append(featuresOthers[i])
-		target_train.append(targetsToDet_trans[i])
-	
-	for i in test_i:
-		features_valid.append(featuresOthers[i])
-		target_valid.append(targetsToDet_trans[i])
-
-
-model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, n_jobs=NB_CORE)
-#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
-#solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
-
-print("[Valid] Learning...")
-model = model.fit(features_train, target_train)
-print("[Valid] Testing")
-
-print("[Valid] Mean train accuracy:",model.score(features_train, target_train))
-print("[Valid] Mean valid accuracy:",model.score(features_valid, target_valid))
-print("[Valid] Types:", le_others.inverse_transform(model.classes_))
-print("[Valid] weights:", model.coef_)
-
-y_pred = model.predict(features_valid)
-y_pred_all = model.predict(featuresOthers)
-
-print("------------------------------")
-print("[Valid] On valid test")
-print(metrics.classification_report(target_valid, y_pred, target_names=le_others.classes_))
-print("[Valid] On all corpus")
-print(metrics.classification_report(targetsToDet_trans, y_pred_all, target_names=le_others.classes_))
-
+print("[Info] Number examples (Classes):", len(features))
 
 ### LEARNING CLASSES
 # a = input("Press Enter to Continue ...")
@@ -177,17 +83,17 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"]================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
-	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresTypes, targetsTypes_trans, test_size=TEST_PERCENT)
+	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
 	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 	features_train, features_valid, target_train, target_valid = [], [], [], []
-	for train_i, test_i in sss.split(featuresTypes, targetsTypes_trans):
+	for train_i, test_i in sss.split(features, targets_trans):
 		for i in train_i:
-			features_train.append(featuresTypes[i])
-			target_train.append(targetsTypes_trans[i])
+			features_train.append(features[i])
+			target_train.append(targets_trans[i])
 	
 		for i in test_i:
-			features_valid.append(featuresTypes[i])
-			target_valid.append(targetsTypes_trans[i])
+			features_valid.append(features[i])
+			target_valid.append(targets_trans[i])
 
 	model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
@@ -213,17 +119,17 @@ print("[Info][Model=Classes] Best accuracy for", iter_max, "iteration with valid
 
 MAX_ITER = iter_max
 print("[Valid] ================= NB ITER :", MAX_ITER, "======================================")
-# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(featuresTypes, targetsTypes_trans, test_size=TEST_PERCENT)
+# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
 sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 features_train, features_valid, target_train, target_valid = [], [], [], []
-for train_i, test_i in sss.split(featuresTypes, targetsTypes_trans):
+for train_i, test_i in sss.split(features, targets_trans):
 	for i in train_i:
-		features_train.append(featuresTypes[i])
-		target_train.append(targetsTypes_trans[i])
+		features_train.append(features[i])
+		target_train.append(targets_trans[i])
 	
 	for i in test_i:
-		features_valid.append(featuresTypes[i])
-		target_valid.append(targetsTypes_trans[i])
+		features_valid.append(features[i])
+		target_valid.append(targets_trans[i])
 
 model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
@@ -235,14 +141,14 @@ print("[Valid] Testing")
 
 print("[Valid] Mean train accuracy:",model.score(features_train, target_train))
 print("[Valid] Mean valid accuracy:",model.score(features_valid, target_valid))
-print("[Valid] Types:", le_classes.inverse_transform(model.classes_))
+print("[Valid] Types:", le.inverse_transform(model.classes_))
 print("[Valid] weights:", model.coef_)
 
 y_pred = model.predict(features_valid)
-y_pred_all = model.predict(featuresTypes)
+y_pred_all = model.predict(features)
 
 print("------------------------------")
 print("[Valid] On valid test")
-print(metrics.classification_report(target_valid, y_pred, target_names=le_classes.classes_))
+print(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))
 print("[Valid] On all corpus")
-print(metrics.classification_report(targetsTypes_trans, y_pred_all, target_names=le_classes.classes_))
+print(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))

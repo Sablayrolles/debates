@@ -15,6 +15,8 @@ import dataset.getData as getData
 import dataset.getInfos as getInfos
 import my_coreNLP.parseNLP as parseNLP
 
+NB_CORE = 8
+
 """
 	Module saveData
 	===============
@@ -63,6 +65,20 @@ def compute(dictEDU, NLP):
 	
 	return dictEDU
 
+NB_FAITS = 0
+def processEDU(num, nbTT):
+	global NB_FAITS
+	
+	#calcul words
+	s = joblib.load("./data/"+str(n)+".info")
+	s = compute(s, NLP)
+	joblib.dump(s,"./data/"+str(n)+".data");
+	
+	NB_FAITS += 1
+	print('\033[1A'+"[Features] Saving infos :",NB_FAITS,"/",nbTT)
+	
+	return 0
+	
 if __name__ == "__main__":
 	nbEDU = 0
 	NLP = parseNLP.StanfordNLP();
@@ -70,16 +86,11 @@ if __name__ == "__main__":
 	nb = 0
 	if len(sys.argv) != 2:
 		print("Usage ", sys.argv[0], "nbfichier.info in features/data")
-	print("\n")
-	for n in range(1,int(sys.argv[1])+1):
 		
-			#calcul words
-			s = joblib.load("./data/"+str(n)+".info")
-			s = compute(s, NLP)
-			
-			joblib.dump(s,"./data/"+str(n)+".data");
-			nb = s["num"]
-			print('\033[1A'+"[Features] Saving infos :",n,"/",sys.argv[1])
-			
-	print("Extracted ", nb, "files")
+	print("\n")
+	nbTT = int(sys.argv[1])+1
+	
+	ret = joblib.Parallel(n_jobs=NB_CORE)(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
+	
+	print("Extracted ", int(sys.argv[1])+1, "files")
 				

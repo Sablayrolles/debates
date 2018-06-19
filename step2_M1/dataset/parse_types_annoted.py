@@ -93,13 +93,13 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 							typ[type] += 1
 						types[(i, re.sub(entete_to_split, '', txt))] = type
 	print("Found : ", numEDU, "EDUs and save their infos")
-	return types, t
+	return types, t, numEDU
 
 if __name__ == "__main__":
-	data, t = getTypes1stdebate("./usa/2016/1/annotated/ac-aa/", 9)
-	print(data)
+	data, t, nb = getTypes1stdebate("./usa/2016/1/annotated/ac-aa/", 9)
 	print("	nbTT:",len(data.keys()))
 	print("types: ", t)
 	v = list(data.values())
 	for k in t:
 		print(k, ":", v.count(k))
+	sys.exit(nb)

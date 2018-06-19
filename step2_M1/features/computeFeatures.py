@@ -11,6 +11,8 @@ import joblib
 import sys
 sys.path.append("./")
 
+NB_CORE = 8
+
 try:
 	from . import wordFeatures as wFeatures
 	from . import tokenFeatures as tFeatures
@@ -65,17 +67,28 @@ def returnFeatures(data, featuresList):
 			features["nb3rdPluPers"] = tFeatures.nb3rdSingPers(data["tokens"])
 			
 	return features
+
+NB_FAITS = 0
+def processEDU(i, nbTT):
+	global NB_FAITS
 	
+	#calcul words
+	data = joblib.load("./data/"+str(n)+".data")
+	f = returnFeatures(data, ["nbWhWords", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers"])
+	joblib.dump(f,"./data/"+str(f["num"])+".features");
+	
+	NB_FAITS += 1
+	print('\033[1A'+"[Features] Computing features : ",NB_FAITS,"/",nbTT)
+	
+	return 0
 if __name__ == '__main__':
 	if len(sys.argv) != 2:
 		print("Usage ",sys.argv[0]," nbTTEDUFiles")
 		sys.exit(0)
-	else:
-		print("\n")
-		for n in range(1,int(sys.argv[1])+1):
-			
-			data = joblib.load("./data/"+str(n)+".data")
-			f = returnFeatures(data, ["nbWhWords", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers"])
-
-			print('\033[1A'+"Computing features : ",n, sys.argv[1])
-			joblib.dump(f,"./data/"+str(f["num"])+".features");
+		
+	print("\n")
+	nbTT = int(sys.argv[1])+1
+	
+	ret = joblib.Parallel(n_jobs=NB_CORE)(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
+	
+	print("Computing ", int(sys.argv[1])+1, "files")
