@@ -69,8 +69,8 @@ types = set(targets)
 print("[Info] Preprocessing...")
 #on transform le nom des classes en nombre
 le = preprocess.LabelEncoder()
-le = le.fit(types)
-targets_trans = le.transform(targetsTypes)
+le = le.fit(list(types))
+targets_trans = le.transform(targets)
 
 print("[Info] Number examples (Classes):", len(features))
 
