@@ -140,6 +140,12 @@ model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_c
 
 print("[Valid] Learning...")
 model = model.fit(features_train, target_train)
+
+#save the model
+print("[Saving] saving model")
+joblib.dump(model, "model.save")
+#loaded_model = joblib.load("model.save")
+
 print("[Valid] Testing")
 
 print("[Valid] Mean train accuracy:",model.score(features_train, target_train))
