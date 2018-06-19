@@ -69,8 +69,9 @@ if __name__ == "__main__":
 	infos = getInfos.getInfosDebates("../dataset/usa/2016/1/infos.xml")
 	nb = 0
 	if len(sys.argv) != 2:
-		print("Usage ", argv[0], "nbfichier.info in features/data")
-	for n in range(1,int(sys.argv[1])):
+		print("Usage ", sys.argv[0], "nbfichier.info in features/data")
+	print("\n")
+	for n in range(1,int(sys.argv[1])+1):
 		
 			#calcul words
 			s = joblib.load("./data/"+str(n)+".info")

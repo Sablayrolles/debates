@@ -71,12 +71,11 @@ if __name__ == '__main__':
 		print("Usage ",sys.argv[0]," nbTTEDUFiles")
 		sys.exit(0)
 	else:
-		for n in range(1,int(sys.argv[1])):
-			print("EDU num : ",n)
+		print("\n")
+		for n in range(1,int(sys.argv[1])+1):
 			
 			data = joblib.load("./data/"+str(n)+".data")
 			f = returnFeatures(data, ["nbWhWords", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers"])
 
-			print(f)
-			
+			print('\033[1A'+"Computing features : ",n, sys.argv[1])
 			joblib.dump(f,"./data/"+str(f["num"])+".features");
