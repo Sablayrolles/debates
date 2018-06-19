@@ -38,7 +38,7 @@ print("[Param] VERBOSE :", VERBOSE)
 features = []
 f_dic = []
 print("[Info] Loading features...")
-for i in range(1,sys.argv[1]):
+for i in range(1,int(sys.argv[1])):
 	data = joblib.load("../features/data/"+str(i)+".features")
 	f_dic.append(data)
 	f = []
@@ -52,39 +52,18 @@ for i in range(1,sys.argv[1]):
 print("[Data] Features keys:", keys)
 
 print("[Info] Loading targets...")
-targets_full, _ = getTarget.getTypes1stdebate("../dataset/usa/2016/1/output/ac-aa/", 9)
+targets_full, _ = getTarget.getTypes1stdebate("../dataset/usa/2016/1/annotated/ac-aa/", 9)
 targets = []
 for i in f_dic:
 	if (i["question"],i["edu"]) not in targets_full.keys():
-		targets.append("Other")
+		targets.append("Unknown")
 	else:
 		targets.append(targets_full[(i["question"],i["edu"])])
 		
-### Split Others / types
-featuresOthers = []
-targetsOthers = []
-featuresTypes = []
-targetsTypes = []
-othersType = []
-typesType = []
-for f, t in zip(features, targets):
-	if t == "Other":
-		if t not in othersType:
-			othersType.append(t)
-		featuresOthers.append(f)
-		targetsOthers.append(t)
-	else:
-		if "ToDetermine" not in othersType:
-			othersType.append("ToDetermine")
-		if t not in typesType:
-			typesType.append(t)
-		featuresOthers.append(f)
-		targetsOthers.append("ToDetermine")
-		featuresTypes.append(f)
-		targetsTypes.append(t)
-print("[Data] Targets Others classifier : ", othersType)
-print("[Data] Targets Types classifier : ", typesType)
-# a = input("Press Enter to Continue ...")
+print("[Data] Targets Types classifier : ", set(targets))
+for k in set(targets):
+	print(k, targets.count(k))
+a = input("Press Enter to Continue ...")
 
 ### PRE PROCESSING
 print("[Info] Preprocessing...")

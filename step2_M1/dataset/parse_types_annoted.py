@@ -28,18 +28,26 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 	
 	types = {}
 	t = []
+	numEDU = 0
 	for i in range(1,number+1):
-		# print("Parsing q",i)
+		print("Parsing q",i)
 		file = repertory+str(i)+"-hand_parsed.aa"
 		f = open(repertory+str(i)+"-hand_parsed.ac")
 		sentences = f.readline()
+		print(sentences)
 		f.close()
 		
+		d = {}
 		tree = ET.parse(file)
 		root = tree.getroot()
+		typ = {}
+		emitter = "Unknown"
 		for child in root:
 			if child.tag == "unit":
 				# print("n1:",child.tag)
+				type = None
+				start = None
+				stop = None
 				for subchild in child.iterfind("./"):
 					# print("\tn2:",subchild.tag)
 					if subchild.tag == "characterisation":
@@ -58,16 +66,28 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 								for subsubsubchild in subsubchild.iterfind("./"):
 									# print("\t\t\tn4:",subsubsubchild.tag)
 									stop = subsubsubchild.get("index")
-				# print("type:", type, "start:", start, "stop:", stop)
-				if type not in ["default", "paragraph", "Dialogue", "Turn"]:
+				if type != None and start != None and stop != None:
+					# print("type:", type, "start:", start, "stop:", stop)
+					#if type not in ["default", "paragraph", "Dialogue", "Turn"]:
 					txt = sentences[int(start):int(stop)]
 					# print(re.sub(entete_to_split, '', txt))
-					if type == 'Segment':
-						type = 'Other'
-					if type not in t:
-						t.append(type)
-					types[(i, re.sub(entete_to_split, '', txt))] = type
-
+					if type == "Turn":
+						m = re.search("(^[A-Z]+: )", txt)
+						emmiter = m.group(0)
+					if type not in ["Dialogue", "Turn", "paragraph"]:
+						numEDU += 1	
+						s={"num":numEDU, "emitter": emitter, "question": i, "txt": txt}
+						joblib.dump(s,"../features/data/"+str(s["num"])+".info");
+						if type in ["default", "Segment"]:
+							type = 'Other'
+						if type not in t:
+							t.append(type)
+						if type not in typ.keys():
+							typ[type] = 1
+						else:
+							typ[type] += 1
+						types[(i, re.sub(entete_to_split, '', txt))] = type
+	print("Found : ", numEDU, "EDUs and save their infos")
 	return types, t
 
 if __name__ == "__main__":
