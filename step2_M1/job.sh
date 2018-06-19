@@ -7,7 +7,8 @@ cd ~/stageM1/corenlp/
 echo "Extracting EDU"
 cd ~/stageM1/debates/step2_M1/
 cd dataset
-python3 parse_types_annotated.py
+echo `pwd`
+python3 parse_types_annoted.py
 
 nbFiles=$?
 echo "nbFiles="$nbFiles
