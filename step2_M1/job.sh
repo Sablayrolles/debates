@@ -15,13 +15,13 @@ echo "nbFiles="$nbFiles
 
 cd ../features
 echo "Extracting infos features"
-echo "python3 saveData.py $a >>$home/job.log 2>>$home/job.err"
-a=`python3 saveData.py $a >>$home/job.log 2>>$home/job.err`
+echo "python3 saveData.py $nbFiles >>$home/job.log 2>>$home/job.err"
+a=`python3 saveData.py $nbFiles >>$home/job.log 2>>$home/job.err`
 echo "Extracting features"
-echo "python3 computeFeatures.py $a >>$home/job.log 2>>$home/job.err"
-a=`python3 computeFeatures.py $a >>$home/job.log 2>>$home/job.err`
+echo "python3 computeFeatures.py $nbFiles >>$home/job.log 2>>$home/job.err"
+a=`python3 computeFeatures.py $nbFiles >>$home/job.log 2>>$home/job.err`
 
 cd ../learning
 echo "Learning"
-echo "python3 logistic_reg.py $a >>$home/job.log 2>>$home/job.err"
-a=`python3 logistic_reg.py $a >>$home/job.log 2>>$home/job.err`
+echo "python3 logistic_reg.py $nbFiles >>$home/job.log 2>>$home/job.err"
+a=`python3 logistic_reg.py $nbFiles >>$home/job.log 2>>$home/job.err`
