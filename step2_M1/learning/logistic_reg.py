@@ -52,7 +52,7 @@ for i in range(1,int(sys.argv[1])):
 print("[Data] Features keys:", keys)
 
 print("[Info] Loading targets...")
-targets_full, _ = getTarget.getTypes1stdebate("../dataset/usa/2016/1/annotated/ac-aa/", 9)
+targets_full, _, _ = getTarget.getTypes1stdebate("../dataset/usa/2016/1/annotated/ac-aa/", 9)
 targets = []
 for i in f_dic:
 	if (i["question"],i["edu"]) not in targets_full.keys():
