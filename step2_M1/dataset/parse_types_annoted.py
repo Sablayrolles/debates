@@ -10,6 +10,7 @@
 import xml.etree.ElementTree as ET
 import re
 import joblib
+import sys
 
 def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )"):
 	"""
