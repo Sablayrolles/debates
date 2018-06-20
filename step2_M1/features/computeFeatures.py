@@ -107,6 +107,9 @@ if __name__ == '__main__':
 		print("Usage ",sys.argv[0]," nbTTEDUFiles")
 		sys.exit(0)
 		
+	data = joblib.load("./data/1.data")
+	print("Infos:", data.keys())
+		
 	print("\n")
 	nbTT = int(sys.argv[1])+1
 	
