@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Usage : $0 -[esn0]"
+echo "\nUsage : $0 -[esn0]"
 echo "-e : Send email when error"
 echo "-s : Send email when success"
 echo "-n : Send email after each step"
@@ -20,6 +20,8 @@ if [ -n $1 ] && [ `echo $1 | grep "0" | wc -l` -eq 1 ]; then
 	notifS=0
 	notifN=0
 fi;
+
+echo "Notification error:"$notifE"\nNotification success:"$notifS"\nNotification step:"$notifN
 
 
 dated=`date "+%y/%m/%d %H:%M:%S"`
