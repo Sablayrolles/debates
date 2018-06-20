@@ -22,7 +22,7 @@ cd dataset
 python3 parse_types_annoted.py >$home/target.log 2>$home/target.err
 if [ $? -ne 0 ]; then
 	echo -e "Fail parse types" | mailx -v -s "[Error] Fail parse types" -a $home/target.log -a $home/target.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com
-	exit(1)
+	exit 1;
 fi
 
 nbFiles=`cat tmp`
@@ -34,14 +34,14 @@ echo "python3 saveData.py $nbFiles >>$home/job.log 2>>$home/job.err; echo $?"
 a=`python3 saveData.py $nbFiles >$home/features.log 2>$home/features.err; echo $?`
 if [ $a -ne 0 ]; then
 	echo -e "Fail saveData" | mailx -v -s "[Error] Fail run corenlp" -a $home/features.log -a $home/features.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com
-	exit(2)
+	exit 2;
 fi
 echo "Extracting features"
 echo "python3 computeFeatures.py $nbFiles >>$home/job.log 2>>$home/job.err; echo $?"
 a=`python3 computeFeatures.py $nbFiles >>$home/features.log 2>>$home/features.err; echo $?`
 if [ $a -ne 0 ]; then
 	echo -e "Fail computeFeatures" | mailx -v -s "[Error] Fail computeFeatures" -a $home/features.log -a $home/features.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com
-	exit(3)
+	exit 3;
 fi
 
 cd ../learning
@@ -50,7 +50,7 @@ echo "python3 logistic_reg.py $nbFiles >>$home/job.log 2>>$home/job.err; echo $?
 a=`python3 logistic_reg.py $nbFiles >>$home/learn.log 2>>$home/learn.err; echo $?`
 if [ $a -ne 0 ]; then
 	echo -e "Fail logistic_reg" | mailx -v -s "[Error] Fail logistic_reg" -a $home/learn.log -a $home/learn.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com
-	exit(4)
+	exit 4;
 fi
 
 echo "Kill corenlp"
