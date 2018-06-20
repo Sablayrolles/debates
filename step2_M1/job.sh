@@ -5,7 +5,7 @@ echo "-e : Send email when error"
 echo "-s : Send email when success"
 echo "-v : Send email after each step(verbose)"
 echo "-0 : No notification"
-echo "default : -es"
+echo -e "default : -es\n\n"
 
 notifE=1
 notifS=1
@@ -24,7 +24,6 @@ if [ -n $1 ]; then
 fi;
 
 echo -e "Notification error:"$notifE"\nNotification success:"$notifS"\nNotification step:"$notifN
-exit 1;
 
 dated=`date "+%y/%m/%d %H:%M:%S"`
 echo "Running java corenlp"
