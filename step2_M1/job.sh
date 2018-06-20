@@ -53,7 +53,6 @@ if [ $? -ne 0 ] && [ $notifE -eq 1 ]; then
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-	echo "kill -9 $pid"
 	kill -9 $pid
 	
 	exit 2
@@ -76,7 +75,6 @@ if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-	echo "kill -9 $pid"
 	kill -9 $pid
 	
 	exit 3
@@ -94,7 +92,6 @@ if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-	echo "kill -9 $pid"
 	kill -9 $pid
 	
 	exit 4
@@ -114,7 +111,6 @@ if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-	echo "kill -9 $pid"
 	kill -9 $pid
 
 	exit 5
@@ -122,7 +118,6 @@ fi
 
 echo "Kill corenlp"
 pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-echo "kill -9 $pid"
 kill -9 $pid
 
 #send result by mail
