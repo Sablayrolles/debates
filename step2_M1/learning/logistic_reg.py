@@ -134,6 +134,14 @@ for train_i, test_i in sss.split(features, targets_trans):
 		features_valid.append(features[i])
 		target_valid.append(targets_trans[i])
 
+print("Train composition : ")
+for k in set(target_train):
+	print(k, target_train.count(k))
+	
+print("Valid composition : ")
+for k in set(target_valid):
+	print(k, target_valid.count(k))
+
 model = linear_model.LogisticRegression(solver='lbfgs', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
 #solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
