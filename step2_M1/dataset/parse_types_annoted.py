@@ -76,6 +76,8 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 						m = re.search("( [A-Z]+\s+: )", txt)
 						try:
 							emmiter = m.group(0)
+							m = re.search("([A-Z]+)", emmiter)
+							emmiter = m.group(0)
 						except AttributeError:
 							print(txt)
 							a = input()
