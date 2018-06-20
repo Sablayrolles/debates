@@ -81,10 +81,10 @@ def returnFeatures(data, featuresList, namesCandidates):
 			n = namesCandidates.copy()
 			for i in range(len(n)):
 				n[i] = n[i].lower()
-			if data["emmiter"].lower() not in n:
+			if data["emitter"].lower() not in n:
 				features["speaker"] = 0
 			else:
-				features["speaker"] = n.index(data["emmiter"].lower())+1
+				features["speaker"] = n.index(data["emitter"].lower())+1
 			
 	return features
 
