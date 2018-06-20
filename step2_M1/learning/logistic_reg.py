@@ -141,11 +141,11 @@ for train_i, test_i in sss.split(features, targets_trans):
 
 print("Train composition : ")
 for k in set(target_train):
-	print(k, le.inverse_transform(target_train.count(k)))
+	print(le.inverse_transform(k), target_train.count(k))
 	
 print("Valid composition : ")
 for k in set(target_valid):
-	print(k, le.inverse_transform(target_valid.count(k)))
+	print(le.inverse_transform(k), target_valid.count(k))
 
 model = linear_model.LogisticRegression(solver='saga', max_iter=MAX_ITER, multi_class='ovr', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
