@@ -11,7 +11,7 @@ notifE=1
 notifS=1
 notifN=0
 
-if [ -n $1 
+if [ -n $1 ]; then
 	if [ `echo $1 | grep "n" | wc -l` -eq 1 ]; then
 		notifN=1
 	fi;
