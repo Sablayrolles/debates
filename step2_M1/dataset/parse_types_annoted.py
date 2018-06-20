@@ -73,7 +73,7 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 					txt = sentences[int(start):int(stop)]
 					# print(re.sub(entete_to_split, '', txt))
 					if type == "Turn":
-						m = re.search("( [A-Z]+[ ]+: )", txt)
+						m = re.search("( [A-Z]+\s+: )", txt)
 						try:
 							emmiter = m.group(0)
 						except AttributeError:
