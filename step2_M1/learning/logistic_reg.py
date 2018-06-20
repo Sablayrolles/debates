@@ -169,3 +169,20 @@ print("[Valid] On valid test")
 print(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))
 print("[Valid] On all corpus")
 print(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))
+
+f = open("res", "w")
+
+f.write("[Valid] Testing")
+
+f.write("[Valid] Mean train accuracy:",str(model.score(features_train, target_train)))
+f.write("[Valid] Mean valid accuracy:",strmodel.score(features_valid, target_valid)))
+f.write("[Valid] Types:", str(le.inverse_transform(model.classes_)))
+f.write("[Valid] weights:", str(model.coef_))
+
+f.write("------------------------------")
+f.write("[Valid] On valid test")
+f.write(repr(metrics.classification_report(target_valid, y_pred, target_names=le.classes_)))
+f.write("[Valid] On all corpus")
+f.write(repr(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_)))
+
+f.close()
