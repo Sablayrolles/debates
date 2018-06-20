@@ -3,7 +3,7 @@
 echo "\nUsage : $0 -[esn0]"
 echo "-e : Send email when error"
 echo "-s : Send email when success"
-echo "-n : Send email after each step"
+echo "-v : Send email after each step(verbose)"
 echo "-0 : No notification"
 echo "default : -es"
 
@@ -12,7 +12,7 @@ notifS=1
 notifN=0
 
 if [ -n $1 ]; then
-	if [ `echo $1 | grep "n" | wc -l` -eq 1 ]; then
+	if [ `echo $1 | grep "v" | wc -l` -eq 1 ]; then
 		notifN=1
 	fi;
 
