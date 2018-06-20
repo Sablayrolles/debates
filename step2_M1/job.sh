@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "\nUsage : $0 -[esn0]"
+echo "\nUsage : $0 -[esv0]"
 echo "-e : Send email when error"
 echo "-s : Send email when success"
 echo "-v : Send email after each step(verbose)"
