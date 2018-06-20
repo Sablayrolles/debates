@@ -3,7 +3,7 @@
 dated=`date "+%y/%m/%d %H:%M:%S"`
 echo "Running java corenlp"
 cd ~/stageM1/corenlp/
-./run.sh >~/stageM1/debates/step2\_M1/corenlp.log 2>~/stageM1/debates/step2\_M1/corenlp.err
+./run.sh >~/stageM1/debates/step2\_M1/corenlp.log 2>~/stageM1/debates/step2\_M1/corenlp.err &
 if [ $? -ne 0 ]; then
 	echo -e "Fail run corenlp" | mailx -v -s "[Error] Fail run corenlp" -a $home/target.log -a $home/target.err -a $home/features.log -a $home/features.err -a $home/learn.log -a $home/learn.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com
 	exit(1)
