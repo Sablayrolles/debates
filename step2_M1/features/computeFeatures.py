@@ -11,7 +11,7 @@ import joblib
 import sys
 sys.path.append("./")
 
-NB_CORE = 8
+NB_CORE = 16
 
 try:
 	from . import wordFeatures as wFeatures
@@ -89,6 +89,6 @@ if __name__ == '__main__':
 	print("\n")
 	nbTT = int(sys.argv[1])+1
 	
-	ret = joblib.Parallel(n_jobs=NB_CORE)(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
+	ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
 	
 	print("Computing ", int(sys.argv[1])+1, "files")

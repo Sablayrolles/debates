@@ -15,7 +15,7 @@ import dataset.getData as getData
 import dataset.getInfos as getInfos
 import my_coreNLP.parseNLP as parseNLP
 
-NB_CORE = 8
+NB_CORE = 16
 
 """
 	Module saveData
@@ -90,7 +90,7 @@ if __name__ == "__main__":
 	print("\n")
 	nbTT = int(sys.argv[1])+1
 	
-	ret = joblib.Parallel(n_jobs=NB_CORE)(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
+	ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
 	
 	print("Extracted ", int(sys.argv[1])+1, "files")
 				
