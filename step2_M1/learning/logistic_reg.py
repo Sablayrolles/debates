@@ -104,7 +104,12 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning...")
-	model = model.fit(features_train, target_train)
+	
+	try:
+		model = model.fit(features_train, target_train)
+	except ConvergenceWarning:
+		pass
+		
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Testing")
 
@@ -164,11 +169,16 @@ print("[Valid] weights:", model.coef_)
 y_pred = model.predict(features_valid)
 y_pred_all = model.predict(features)
 
-print("------------------------------")
-print("[Valid] On valid test")
-print(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))
-print("[Valid] On all corpus")
-print(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))
+try:
+	print("------------------------------")
+	print("[Valid] On valid test")
+	print(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))
+	print("[Valid] On all corpus")
+	print(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))
+except ConvergenceWarning:
+	pass
+except UndefinedMetricWarning:
+	pass
 
 f = open("res", "w")
 
