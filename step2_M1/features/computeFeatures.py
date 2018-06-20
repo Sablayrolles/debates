@@ -11,7 +11,7 @@ import joblib
 import sys
 sys.path.append("./")
 
-NB_CORE = 16
+NB_CORE = 8
 
 try:
 	from . import wordFeatures as wFeatures

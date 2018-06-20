@@ -15,7 +15,7 @@ import dataset.getData as getData
 import dataset.getInfos as getInfos
 import my_coreNLP.parseNLP as parseNLP
 
-NB_CORE = 16
+NB_CORE = 8
 
 """
 	Module saveData
