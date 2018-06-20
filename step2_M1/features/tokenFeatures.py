@@ -164,7 +164,10 @@ def moyLengthTok(tokens):
 	for t in tokens.keys():
 		sum += len(tokens[t]["lemma"])
 	
-	return float(sum) / float(len(tokens.keys()))
+	if len(tokens.keys()) != 0:
+		return float(sum) / float(len(tokens.keys()))
+	else:
+		return 0
 	
 def nbNER(tokens):
 	"""
