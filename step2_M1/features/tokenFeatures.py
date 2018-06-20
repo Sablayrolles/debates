@@ -185,3 +185,18 @@ def nbNER(tokens):
 			nbNER += 1
 	
 	return nbNER
+
+def nbTokens(tokens):
+	"""
+		def nbTokens(tokens)
+		--------------------
+		
+		return nb tokens
+		
+		:param tokens: list of tokens of the EDU
+		:type tokens: list
+		:return: nb tokens
+		:rtype: int
+	"""
+	
+	return len(tokens)
