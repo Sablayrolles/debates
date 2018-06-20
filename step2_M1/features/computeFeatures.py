@@ -31,7 +31,7 @@ except SystemError:
 	
 """
 
-def returnFeatures(data, featuresList):
+def returnFeatures(data, featuresList, namesCandidates):
 	"""
 		def returnFeatures(data, featuresList)
 		--------------------------------------
@@ -49,6 +49,14 @@ def returnFeatures(data, featuresList):
 		#words features
 		if f == "nbWhWords":
 			features["nbWhWords"] = wFeatures.nbWhWords(data["words"])
+		if f == "namesCandidates":
+			features["namesCandidates"] = wFeatures.namesCandidates(data["words"], namesCandidates)
+		if f == "incise":
+			features["incise"] = wFeatures.incise(data["words"])
+		if f == "nbGalTerms":
+			features["nbGalTerms"] = wFeatures.nbGalTerms(data["words"])
+		if f == "nbNoGalTerms":
+			features["nbNoGalTerms"] = wFeatures.nbNoGalTerms(data["words"])
 			
 		#tokens features	
 		if f == "as?":
@@ -65,6 +73,15 @@ def returnFeatures(data, featuresList):
 			features["nb3rdSingPers"] = tFeatures.nb3rdSingPers(data["tokens"])
 		if f == "nb3rdPluPers":
 			features["nb3rdPluPers"] = tFeatures.nb3rdSingPers(data["tokens"])
+		if f == "moyLengthTok":
+			features["moyLengthTok"] = tFeatures.moyLengthTok(data["tokens"])
+			
+		#env
+		if f == "speaker":
+			n = namesCandidates.copy()
+			for i in range(len(n)):
+				n[i] = n[i].lower()
+			features["speaker"] = n.index(data["emmiter"].lower())
 			
 	return features
 
@@ -72,9 +89,10 @@ NB_FAITS = 0
 def processEDU(n, nbTT):
 	global NB_FAITS
 	
+	NAMES =  ["Clinton", "Trump", "Holt", "Lester", "Donald", "Hillary"]
 	#calcul words
 	data = joblib.load("./data/"+str(n)+".data")
-	f = returnFeatures(data, ["nbWhWords", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers"])
+	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "speaker"], NAMES)
 	joblib.dump(f,"./data/"+str(f["num"])+".features");
 	
 	NB_FAITS += 1

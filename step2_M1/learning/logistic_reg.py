@@ -142,7 +142,7 @@ print("Valid composition : ")
 for k in set(target_valid):
 	print(k, le.inverse_transform(target_valid.count(k)))
 
-model = linear_model.LogisticRegression(solver='saga', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
+model = linear_model.LogisticRegression(solver='saga', max_iter=MAX_ITER, multi_class='ovr', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
 #solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
 
