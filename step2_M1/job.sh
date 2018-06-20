@@ -22,7 +22,7 @@ if [ -n $1 ] && [ `echo $1 | grep "0" | wc -l` -eq 1 ]; then
 fi;
 
 echo "Notification error:"$notifE"\nNotification success:"$notifS"\nNotification step:"$notifN
-
+exit 1;
 
 dated=`date "+%y/%m/%d %H:%M:%S"`
 echo "Running java corenlp"
