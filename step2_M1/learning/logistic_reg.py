@@ -98,9 +98,9 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 			features_valid.append(features[i])
 			target_valid.append(targets_trans[i])
 
-	model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
+	model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, multi_class='ovr', n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
-	#solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
+	#solver = For multiclass problems, liblinear, newton-cg, lbfgs and sag solvers,
 
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning...")
@@ -147,9 +147,9 @@ print("Valid composition : ")
 for k in set(target_valid):
 	print(le.inverse_transform(k), target_valid.count(k))
 
-model = linear_model.LogisticRegression(solver='saga', max_iter=MAX_ITER, multi_class='ovr', n_jobs=NB_CORE)
+model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, multi_class='ovr', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
-#solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
+#solver = For multiclass problems, liblinear, newton-cg, lbfgs and sag solvers,
 
 print("[Valid] Learning...")
 model = model.fit(features_train, target_train)
