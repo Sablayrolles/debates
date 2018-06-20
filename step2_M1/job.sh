@@ -11,14 +11,16 @@ notifE=1
 notifS=1
 notifN=0
 
-if [ -n $1 -a `echo $1 | grep "n" | wc -l` -eq 1 ]; then
-	notifN=1
-fi;
+if [ -n $1 
+	if [ `echo $1 | grep "n" | wc -l` -eq 1 ]; then
+		notifN=1
+	fi;
 
-if [ -n $1 -a `echo $1 | grep "0" | wc -l` -eq 1 ]; then
-	notifE=0
-	notifS=0
-	notifN=0
+	if [ `echo $1 | grep "0" | wc -l` -eq 1 ]; then
+		notifE=0
+		notifS=0
+		notifN=0
+	fi;
 fi;
 
 echo -e "Notification error:"$notifE"\nNotification success:"$notifS"\nNotification step:"$notifN
