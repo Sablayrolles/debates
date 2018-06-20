@@ -53,6 +53,10 @@ if [ $a -ne 0 ]; then
 	exit(4)
 fi
 
+echo "Kill corenlp"
+pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
+kill -9 $pid
+
 #send result by mail
 datef=`date "+%y/%m/%d %H:%M:%S"`
 echo -e "Result learning finish\nBegging on $dated \n Finnishing on $datef\n" | mailx -v -s "[Result] Result learning" -a $home/target.log -a $home/target.err -a $home/features.log -a $home/features.err -a $home/learn.log -a $home/learn.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com
