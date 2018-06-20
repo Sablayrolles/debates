@@ -184,10 +184,10 @@ f = open("res", "w")
 
 f.write("[Valid] Testing")
 
-f.write("[Valid] Mean train accuracy:",str(model.score(features_train, target_train)))
-f.write("[Valid] Mean valid accuracy:",str(model.score(features_valid, target_valid)))
-f.write("[Valid] Types:", str(le.inverse_transform(model.classes_)))
-f.write("[Valid] weights:", str(model.coef_))
+f.write("[Valid] Mean train accuracy:"+str(model.score(features_train, target_train)))
+f.write("[Valid] Mean valid accuracy:"+str(model.score(features_valid, target_valid)))
+f.write("[Valid] Types:"+ str(le.inverse_transform(model.classes_)))
+f.write("[Valid] weights:"+ str(model.coef_))
 
 f.write("------------------------------")
 f.write("[Valid] On valid test")
