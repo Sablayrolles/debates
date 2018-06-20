@@ -57,7 +57,7 @@ targets_full = d["data"]
 targets = []
 for i in f_dic:
 	if (i["question"],i["edu"]) not in targets_full.keys():
-		targets.append("Unknown")
+		targets.append("Other")
 	else:
 		targets.append(targets_full[(i["question"],i["edu"])])
 		
@@ -134,7 +134,7 @@ for train_i, test_i in sss.split(features, targets_trans):
 		features_valid.append(features[i])
 		target_valid.append(targets_trans[i])
 
-model = linear_model.LogisticRegression(solver='sag', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
+model = linear_model.LogisticRegression(solver='lbfgs', max_iter=MAX_ITER, multi_class='multinomial', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
 #solver = For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’
 

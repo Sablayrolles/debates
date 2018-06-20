@@ -99,7 +99,7 @@ def getTypes1stdebate(repertory, number, entete_to_split="([0-9]+ : [A-Z]+ : )")
 if __name__ == "__main__":
 	data, t, nb = getTypes1stdebate("./usa/2016/1/annotated/ac-aa/", 9)
 	joblib.dump({"data":data,"types":t}, "../features/data/targets.dat")
-	print("	nbTT:",len(data.keys()))
+	print("nbTT:",len(data.keys()))
 	print("types: ", t)
 	v = list(data.values())
 	for k in t:
