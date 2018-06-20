@@ -165,3 +165,23 @@ def moyLengthTok(tokens):
 		sum += len(tokens[t]["lemma"])
 	
 	return float(sum) / float(len(tokens.keys()))
+	
+def nbNER(tokens):
+	"""
+		def nbNER(tokens)
+		-----------------
+		
+		return nb Named Entities
+		
+		:param tokens: list of tokens of the EDU
+		:type tokens: list
+		:return: nb Named Entities
+		:rtype: int
+	"""
+	nbNER = 0
+	
+	for t in tokens.keys():
+		if len(tokens[t]["ner"]) > 3:
+			nbNER += 1
+	
+	return nbNER

@@ -75,6 +75,8 @@ def returnFeatures(data, featuresList, namesCandidates):
 			features["nb3rdPluPers"] = tFeatures.nb3rdSingPers(data["tokens"])
 		if f == "moyLengthTok":
 			features["moyLengthTok"] = tFeatures.moyLengthTok(data["tokens"])
+		if f == "nbNER":
+			features["nbNER"] = tFeatures.moyLengthTok(data["nbNER"])
 			
 		#env
 		if f == "speaker":
@@ -95,7 +97,7 @@ def processEDU(n, nbTT):
 	NAMES =  ["Clinton", "Trump", "Holt", "Lester", "Donald", "Hillary"]
 	#calcul words
 	data = joblib.load("./data/"+str(n)+".data")
-	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "speaker"], NAMES)
+	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "nbNER", "speaker"], NAMES)
 	joblib.dump(f,"./data/"+str(f["num"])+".features");
 	
 	NB_FAITS += 1
