@@ -17,15 +17,15 @@ NB_CORE = 4
 try:
 	from . import wordFeatures as wFeatures
 	from . import tokenFeatures as tFeatures
-	from ..my_emoLex import emoLex as emoLex
+	from ..my_emoLex import emoLex as my_emoLex
 except ImportError:
 	import wordFeatures as wFeatures
 	import tokenFeatures as tFeatures
-	import my_emoLex.emoLex as emoLex
+	import my_emoLex.emoLex as my_emoLex
 except SystemError:
 	import wordFeatures as wFeatures
 	import tokenFeatures as tFeatures
-	import my_emoLex.emoLex as emoLex
+	import my_emoLex.emoLex as my_emoLex
 	
 """
 	Module computeFeatures
