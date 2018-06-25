@@ -220,12 +220,12 @@ try:
 	print("------------------------------")
 	print("[Valid] On valid test")
 	print(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))
-	print("[Valid] Confusion valid test")
-	print(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))
+	# print("[Valid] Confusion valid test")
+	# print(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))
 	print("[Valid] On all corpus")
 	print(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))
-	print("[Valid] Confusion all corpus")
-	print(metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_))
+	# print("[Valid] Confusion all corpus")
+	# print(metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
 	pass
 
