@@ -186,8 +186,6 @@ try:
 	print(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))
 	print("[Valid] Confusion all corpus")
 	print(metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_))
-except ConvergenceWarning:
-	pass
 except UndefinedMetricWarning:
 	pass
 
@@ -203,15 +201,17 @@ f.write("[Valid] weights:"+ str(model.coef_))
 try:
 	f.write("------------------------------\n")
 	f.write("[Valid] On valid test\n")
-	f.write(str(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))+"\n")
+	d = metrics.classification_report(target_valid, y_pred, target_names=le.classes_)
+	f.write(str(d)+"\n")
 	f.write("[Valid] Confusion valid test"+"\n")
-	f.write(str(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))+"\n")
+	d = metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_)
+	f.write(str(d)+"\n")
 	f.write("[Valid] On all corpus"+"\n")
-	f.write(str(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))+"\n")
+	d = metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_)
+	f.write(str(d)+"\n")
 	f.write("[Valid] Confusion all corpus"+"\n")
-	f.write(str(metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_))+"\n")
-except ConvergenceWarning:
-	pass
+	d = metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_)
+	f.write(str(d)+"\n")
 except UndefinedMetricWarning:
 	pass
 f.close()

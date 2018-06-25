@@ -44,8 +44,8 @@ def returnFeatures(data, featuresList, namesCandidates, allNumbered=False):
 		
 		:param data: data extract from saveData.py
 		:type data: dictionnary
-		:return: 1 if as '!' / 0 else
-		:rtype: int
+		:return: dictionnary of features for an EDU
+		:rtype: dictionnary
 	"""
 	features = {"num": data["num"], "edu": data["edu"], "question": data["question"]}
 	boolean = not(allNumbered)
