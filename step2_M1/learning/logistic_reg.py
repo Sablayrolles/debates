@@ -60,6 +60,10 @@ for i in f_dic:
 		targets.append("Other")
 	else:
 		targets.append(targets_full[(i["question"],i["edu"])])
+
+#auto replace for low cat
+targets = targets.replace("Change_of_Subject", "Proposition")
+targets = targets.replace("Taking_part", "Support")
 		
 print("[Data] Targets Types classifier : ", set(targets))
 for k in set(targets):
