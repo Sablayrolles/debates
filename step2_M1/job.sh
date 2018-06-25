@@ -1,15 +1,16 @@
 #!/bin/sh
 
-echo "\nUsage : $0 -[esv0]"
+echo "\nUsage : $0 -[esv0] [-c NBCORE]"
 echo "-e : Send email when error"
 echo "-s : Send email when success"
 echo "-v : Send email after each step(verbose)"
 echo "-0 : No notification"
-echo -e "default : -ens\n\n"
+echo -e "default : -ens -c 8\n\n"
 
 notifE=1
 notifS=1
 notifN=1
+NBCORE=8
 
 if [ -n $1 ]; then	
 	if [ `echo $1 | grep "v" | wc -l` -eq 1 ]; then
@@ -35,9 +36,14 @@ if [ -n $1 ]; then
 		notifS=0
 		notifN=0
 	fi;
+	if [ `echo $1 | grep "c" | wc -l` -eq 1 ]; then
+		if [ -n $2 ]
+			NBCORE=$2
+		fi;
+	fi;
 fi;
 
-echo -e "Notification error:"$notifE"\nNotification success:"$notifS"\nNotification step:"$notifN
+echo -e "NBCORE"$NBCORE"\nNotification error:"$notifE"\nNotification success:"$notifS"\nNotification step:"$notifN
 
 dated=`date "+%y/%m/%d %H:%M:%S"`
 echo "Running java corenlp"
@@ -80,12 +86,12 @@ echo "nbFiles="$nbFiles
 
 cd ../features
 echo "Extracting infos features"
-echo "python3 saveData.py $nbFiles >>$home/features.log 2>>$home/features.err; echo \$?"
+echo "python3 saveData.py $nbFiles -c $NBCORE >>$home/features.log 2>>$home/features.err; echo \$?"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "" | mailx -v -s "[Info] Start extracting feature on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
 fi;
-a=`python3 saveData.py $nbFiles >$home/features.log 2>$home/features.err; echo $?`
+a=`python3 saveData.py $nbFiles -c $NBCORE >$home/features.log 2>$home/features.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "Fail saveData\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail saveData" -a $home/features.log -a $home/features.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
@@ -97,12 +103,12 @@ if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	exit 3
 fi
 echo "Extracting features"
-echo "python3 computeFeatures.py $nbFiles 1 >>$home/features.log 2>>$home/features.err; echo \$?"
+echo "python3 computeFeatures.py $nbFiles 1 -c $NBCORE >>$home/features.log 2>>$home/features.err; echo \$?"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "" | mailx -v -s "[Info] Start compute features on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
 fi;
-a=`python3 computeFeatures.py $nbFiles 1 >>$home/features.log 2>>$home/features.err; echo $?`
+a=`python3 computeFeatures.py $nbFiles 1 -c $NBCORE >>$home/features.log 2>>$home/features.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "Fail computeFeatures\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail computeFeatures" -a $home/features.log -a $home/features.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
@@ -116,12 +122,12 @@ fi
 
 cd ../learning
 echo "Learning"
-echo "python3 logistic_reg.py $nbFiles >>$home/learn.log 2>>$home/learn.err; echo \$?"
+echo "python3 logistic_reg.py $nbFiles -c $NBCORE >>$home/learn.log 2>>$home/learn.err; echo \$?"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "" | mailx -v -s "[Info] Start learning on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
 fi;
-a=`python3 logistic_reg.py $nbFiles >>$home/learn.log 2>>$home/learn.err; echo $?`
+a=`python3 logistic_reg.py $nbFiles -c $NBCORE >>$home/learn.log 2>>$home/learn.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "Fail logistic_reg\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail logistic_reg" -a $home/learn.log -a $home/learn.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null

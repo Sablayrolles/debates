@@ -11,8 +11,7 @@ import joblib
 import sys
 sys.path.append("./")
 sys.path.append("../")
-
-NB_CORE = 8
+import argparse
 
 try:
 	from . import wordFeatures as wFeatures
@@ -143,9 +142,24 @@ def processEDUCRF(n, nbTT, emoLex):
 	return 0
 	
 if __name__ == '__main__':
-	if len(sys.argv) != 3:
-		print("Usage ",sys.argv[0]," nbTTEDUFiles method of extraction\n 1: for logistical reg \n 2: for crf\n")
-		sys.exit(0)
+	parser = argparse.ArgumentParser(description="\tModule computeFeatures\n\t===============\n\n\t\tThis module can be use to compute and save features on a savedata computing on dataset")
+
+	parser.add_argument("numFiles", metavar="nbFiles", type=int, help="Number of file .data to extract and save features (from saveData)")
+	parser.add_argument("typeLearning", metavar="typeLearning", type=int, choices=[1, 2], help="Type of learning after\n\t1 : regression logistique\n\t 2 : CRF")
+	parser.add_argument("-c", "--core", metavar="core", type=int, nargs="?", help="Nb core to execute (default 1)")
+
+	args = parser.parse_args()
+
+	nbTT = int(args.numFiles) + 1
+	typeLearn = int(args.typeLearning)
+	if args.core != None:
+		NB_CORE = int(args.core)
+	else:
+		NB_CORE = 1
+		
+	print("Param : nbFiles="+str(nbTT))
+	print("Param : NB_CORE="+str(NB_CORE))
+	print("Param : typeLearn="+str(typeLearn)+" [1 : regression logistique, 2 : CRF]")
 		
 	data = joblib.load("./data/1.data")
 	print("Infos:", data.keys())
@@ -159,13 +173,14 @@ if __name__ == '__main__':
 	
 	if NB_CORE == 1:
 		for i in range(1,nbTT):
-			if sys.argv[2] == "1":
+			if typeLearn == 1:
 				processEDULogReg(i, nbTT, emoLex)
-			if sys.argv[2] == "2":
+			if typeLearn == 2:
 				processEDUCRF(i, nbTT, emoLex)
-	if sys.argv[2] == "1":
-		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDULogReg)(i, nbTT, emoLex) for i in range(1,nbTT))
-	if sys.argv[2] == "2":
-		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDUCRF)(i, nbTT, emoLex) for i in range(1,nbTT))
+	else:
+		if typeLearn == 1:
+			ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDULogReg)(i, nbTT, emoLex) for i in range(1,nbTT))
+		if typeLearn == 2:
+			ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDUCRF)(i, nbTT, emoLex) for i in range(1,nbTT))
 	
 	print("Computing ", int(sys.argv[1])+1, "files")

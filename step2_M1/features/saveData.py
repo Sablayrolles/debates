@@ -10,11 +10,11 @@
 import sys
 sys.path.append("..")
 import joblib
+import argparse
 
 import dataset.getData as getData
 import dataset.getInfos as getInfos
 import my_coreNLP.parseNLP as parseNLP
-import argparse
 
 """
 	Module saveData
@@ -79,21 +79,21 @@ def processEDU(n, nbTT):
 	return 0
 	
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description="Test")
+	parser = argparse.ArgumentParser(description="\tModule saveData\n\t===============\n\n\t\tThis module can be use saveData of corenlp computing on dataset")
 
-	parser.add_argument("numFiles", metavar="nbFiles", type=int, help="Number of file .info to saveData (from parse_types_annoatated)")
+	parser.add_argument("numFiles", metavar="nbFiles", type=int, help="Number of file .info to save data (from parse_types_annotated)")
 	parser.add_argument("-c", "--core", metavar="core", type=int, nargs="?", help="Nb core to execute (default 1)")
 
 	args = parser.parse_args()
 
 	nbTT = int(args.numFiles) + 1
 	if args.core != None:
-		NB_CORE = args.core
+		NB_CORE = int(args.core)
 	else:
 		NB_CORE = 1
 		
-	print(nbFiles, NB_CORE)
-
+	print("Param : nbFiles="+str(nbTT))
+	print("Param : NB_CORE="+str(NB_CORE))
 
 	nbEDU = 0
 	NLP = parseNLP.StanfordNLP();

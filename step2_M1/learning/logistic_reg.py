@@ -9,26 +9,66 @@
 
 import sys
 sys.path.append("..")
-import dataset.parse_types_annoted as getTarget
 
 import sklearn.model_selection as modelSelect
 import sklearn.linear_model as linear_model
 import sklearn.preprocessing as preprocess
 import sklearn.metrics as metrics
 import joblib
+import argparse
+
+import dataset.parse_types_annoted as getTarget
 
 #constantes for learning
-NB_CORE = 16 
-MAX_ITER_MIN = 100
-MAX_ITER_MAX = 1000
-TEST_PERCENT = 0.1
-VERBOSE = "min"
 
-if len(sys.argv) != 2:
-	print("Usage ", sys.argv[0]," nbFeaturesFiles")
-	sys.exit(1)
+parser = argparse.ArgumentParser(description="\tModule computeFeatures\n\t===============\n\n\t\tThis module can be use to compute and save features on a savedata computing on dataset")
 
+parser.add_argument("numFiles", metavar="nbFiles", type=int, help="Number of file .features to learn (from computeFeatures)")
+parser.add_argument("-c", "--core", metavar="core", type=int, nargs="?", help="Nb core to execute (default 1)")
+parser.add_argument("-v", "--verbose", metavar="verbose", type=int, choices=[1, 2], nargs="?", help="Level of verbose\n 0: None, 1: min (default), 2 : all")
+parser.add_argument("-t", "--test", metavar="testSize", type=float, nargs="?", help="Test size between 0 and 1")
+parser.add_argument("--iterMin", metavar="iterMin", type=int, nargs="?", help="Number of min iter")
+parser.add_argument("--iterMax", metavar="iterMax", type=int, nargs="?", help="Number of max iter")
+
+args = parser.parse_args()
+
+NB_FILES = int(args.numFiles) + 1
+if args.core != None:
+	NB_CORE = int(args.core)
+else:
+	NB_CORE = 1
+	
+if args.test != None:
+	if float(args.test) > 0.0 and float(args.test) < 1.0:
+		TEST_PERCENT = float(args.test)
+	else:
+		sys.stderr.write("Test percent need to be between 0.0 and 1.0")
+		sys.exit(-2)
+else:
+	TEST_PERCENT = 0.1
+	
+if args.iterMin != None:
+	MAX_ITER_MIN = int(args.iterMin)
+else:
+	MAX_ITER_MIN = 100
+	
+if args.iterMax != None:
+	MAX_ITER_MAX = int(args.iterMax)
+else:
+	MAX_ITER_MAX = 1000
+	
+if args.verbose != None:
+	if args.verbose == 0:
+		VERBOSE = ""
+	if args.verbose == 1:
+		VERBOSE = "min"
+	if args.verbose == 2:
+		VERBOSE = "full"
+else:
+	VERBOSE = "min"
+	
 print("[Param] NB_CORE :", NB_CORE)
+print("[Param] NB_FILES :", NB_FILES)
 print("[Param] MAX_ITER_MIN :", MAX_ITER_MIN)
 print("[Param] MAX_ITER_MAX :", MAX_ITER_MAX)
 print("[Param] TEST_PERCENT :", TEST_PERCENT)
@@ -37,8 +77,8 @@ print("[Param] VERBOSE :", VERBOSE)
 ### recupération des données
 features = []
 f_dic = []
-print("[Info] Loading features...")
-for i in range(1,int(sys.argv[1])):
+print("[Info] Loading features["+str(NB_FILES)+"] ...")
+for i in range(1,int(NB_FILES)):
 	data = joblib.load("../features/data/"+str(i)+".features")
 	f_dic.append(data)
 	f = []
