@@ -27,7 +27,10 @@ class EmoLex:
 			self.df.drop(columns=[col], inplace=True)
 			
 	def getVals(self, word, col):
-		return self.df.loc[word,col]
+		try:
+			return self.df.loc[word,col]
+		except KeyError:
+			return 0
 		
 if __name__ == "__main__":
 	el = EmoLex()
