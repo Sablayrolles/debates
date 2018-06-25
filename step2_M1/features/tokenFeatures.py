@@ -113,7 +113,7 @@ def nb1stPers(tokens):
 	nb1stPers = 0
 	
 	for t in tokens.keys():
-		if tokens[t]["lemma"] in ['I', 'my', "me", "mine", 'we', 'us', 'ours', 'our', 'i']:
+		if tokens[t]["lemma"] in defs.pronom1stPers:
 			nb1stPers += 1 
 	
 	return nb1stPers
@@ -133,7 +133,7 @@ def nb2ndPers(tokens):
 	nb2ndPers = 0
 	
 	for t in tokens.keys():
-		if tokens[t]["lemma"] in ['you', 'yours', 'your']:
+		if tokens[t]["lemma"] in defs.pronom2ndPers:
 			nb2ndPers += 1 
 	
 	return nb2ndPers
@@ -153,7 +153,7 @@ def nb3rdSingPers(tokens):
 	nb3rdSingPers = 0
 	
 	for t in tokens.keys():
-		if tokens[t]["lemma"] in ['he', 'she', 'it', 'him', 'her', 'his', 'hers', 'its']:
+		if tokens[t]["lemma"] in defs.pronom3rdSingPers:
 			nb3rdSingPers += 1 
 	
 	return nb3rdSingPers
@@ -173,7 +173,7 @@ def nb3rdPluPers(tokens):
 	nb3rdPluPers = 0
 	
 	for t in tokens.keys():
-		if tokens[t]["lemma"] in ['they', 'them', 'theirs', 'their']:
+		if tokens[t]["lemma"] in defs.pronom3rdPluPers:
 			nb3rdPluPers += 1 
 	
 	return nb3rdPluPers

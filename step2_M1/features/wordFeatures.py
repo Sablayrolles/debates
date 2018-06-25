@@ -123,7 +123,7 @@ def nbNoGalTerms(words):
 	nbNoGal = 0
 	
 	for w in words:
-		if "no" in w.lower():
+		if "no" in w.lower() and len(w.lower()) != 2:
 			nbNoGal += 1
 	
 	return nbNoGal
