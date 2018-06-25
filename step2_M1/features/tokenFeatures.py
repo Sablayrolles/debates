@@ -7,6 +7,21 @@
 
 # compute word features
 
+"""
+	Module tokenFeatures
+	====================
+	
+	This module contains tokens's features
+	
+"""
+
+try:
+	from . import definitions as defs
+except ImportError:
+	import definitions as defs
+except SystemError:
+	import definitions as defs
+
 def asQuestionMark(tokens, boolean=True):
 	"""
 		def asQuestionMark(tokens, boolean=True)

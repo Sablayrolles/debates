@@ -7,6 +7,22 @@
 
 # compute word features
 
+"""
+	Module wordFeatures
+	===================
+	
+	This module contains word's features
+	
+"""
+
+try:
+	from . import definitions as defs
+except ImportError:
+	import definitions as defs
+except SystemError:
+	import definitions as defs
+
+
 def nbWhWords(words):
 	"""
 		def nbWhWords(words)
@@ -22,7 +38,7 @@ def nbWhWords(words):
 	nbWhw = 0
 	
 	for w in words:
-		if w.lower() in ["who", "what", "why", "which", "whom", "whose", "where", "how"]:
+		if w.lower() in defs.whWords:
 			nbWhw += 1
 	
 	return nbWhw
