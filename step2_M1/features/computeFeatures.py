@@ -114,13 +114,13 @@ def returnFeatures(data, featuresList, namesCandidates, emoLex, allNumbered=Fals
 	return features
 
 NB_FAITS = 0
-def processEDULogReg(n, nbTT):
+def processEDULogReg(n, nbTT, emoLex):
 	global NB_FAITS
 	
 	NAMES =  ["Clinton", "Trump", "Holt", "Lester", "Donald", "Hillary"]
 	#calcul words
 	data = joblib.load("./data/"+str(n)+".data")
-	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "nbNER", "nbTokens", "percentOfStopWords", "numberOfPositveEmotionWords", "numberOfNegativeEmotionWords", "numberOfBothEmotionWords", "numberOfNeutralEmotionWords", "moyEmotionWords", "speakerNum"], NAMES, "~/stageM1/debates/step2_M1/my_emoLex/english_EmoLex.csv")
+	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "nbNER", "nbTokens", "percentOfStopWords", "numberOfPositveEmotionWords", "numberOfNegativeEmotionWords", "numberOfBothEmotionWords", "numberOfNeutralEmotionWords", "moyEmotionWords", "speakerNum"], NAMES, emoLex)
 	joblib.dump(f,"./data/"+str(f["num"])+".features");
 	
 	NB_FAITS += 1
@@ -153,7 +153,7 @@ if __name__ == '__main__':
 	print("\n")
 	nbTT = int(sys.argv[1])+1
 	
-	emoLex = my_emoLex.EmoLex(emoLexFile)
+	emoLex = my_emoLex.EmoLex("~/stageM1/debates/step2_M1/my_emoLex/english_EmoLex.csv")
 	emoLex.load()
 	emoLex.selectCols(["word", "positive", "negative"])
 	
