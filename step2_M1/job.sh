@@ -5,17 +5,29 @@ echo "-e : Send email when error"
 echo "-s : Send email when success"
 echo "-v : Send email after each step(verbose)"
 echo "-0 : No notification"
-echo -e "default : -es\n\n"
+echo -e "default : -ens\n\n"
 
 notifE=1
 notifS=1
-notifN=0
+notifN=1
 
 if [ -n $1 ]; then
+	notifE=0
+	notifS=0
+	notifN=0
+	
 	if [ `echo $1 | grep "v" | wc -l` -eq 1 ]; then
 		notifN=1
 	fi;
-
+	
+	if [ `echo $1 | grep "e" | wc -l` -eq 1 ]; then
+		notifN=1
+	fi;
+	
+	if [ `echo $1 | grep "s" | wc -l` -eq 1 ]; then
+		notifN=1
+	fi;
+	
 	if [ `echo $1 | grep "0" | wc -l` -eq 1 ]; then
 		notifE=0
 		notifS=0

@@ -25,7 +25,7 @@ except ImportError:
 except SystemError:
 	import wordFeatures as wFeatures
 	import tokenFeatures as tFeatures
-	import emoLex.emoLex as emoLex
+	import my_emoLex.emoLex as emoLex
 	
 """
 	Module computeFeatures
@@ -53,7 +53,7 @@ def returnFeatures(data, featuresList, namesCandidates, allNumbered=False):
 	
 	for f in featuresList:
 		if emoLex == "None" and "Emotion" in f:
-			emoLex = emoLex.EmoLex()
+			emoLex = my_emoLex.EmoLex()
 			emoLex.load().selectCols(["word", "positive", "negative"])
 	
 		#words features
