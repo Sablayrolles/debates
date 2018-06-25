@@ -52,7 +52,7 @@ def returnFeatures(data, featuresList, namesCandidates, allNumbered=False):
 	emoLex = None
 	
 	for f in featuresList:
-		if emoLex == "None" and "Emotion" in f:
+		if emoLex == None and "Emotion" in f:
 			emoLex = my_emoLex.EmoLex()
 			emoLex.load().selectCols(["word", "positive", "negative"])
 	
