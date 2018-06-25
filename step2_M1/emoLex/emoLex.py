@@ -17,16 +17,17 @@ class EmoLex:
 	def load(self):
 		print("[EmoLex] Loading file", self.f)
 		self.df = pandas.read_csv(self.f, sep=";")
-		self.df.set_index('word')
+		self.df.set_index('word', inplace=True)
+		self.df.sort_index(inplace=True)
 		print("[EmoLex] File", self.f, "loaded")
 	
 	def selectCols(self, cols):
 		print("[EmoLex] Selecting cols", cols)
 		for col in list(set(list(self.df)).difference(set(cols))):
-			self.df.drop(columns=[col])
+			self.df.drop(columns=[col], inplace=True)
 			
 	def getVals(self, word, col):
-		return self.df.get_values(word, col)
+		return self.df.loc[word,col]
 		
 if __name__ == "__main__":
 	el = EmoLex()

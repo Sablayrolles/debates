@@ -257,3 +257,112 @@ def percentOfStopWords(tokens):
 		return float(sum) / float(len(tokens.keys()))
 	else:
 		return 0
+		
+def numberOfPositveEmotionWords(tokens, emoLex):
+	"""
+		def numberOfPositveEmotionWords(tokens, emoLex)
+		-----------------------------------------------
+		
+		return the number of positive words
+		
+		:param tokens: list of tokens of the EDU
+		:param emoLex: emoLex object
+		:type tokens: list
+		:type emoLex: object
+		:return: number of positive words
+		:rtype: int
+	"""
+	nbPositive = 0
+	
+	for t in tokens.keys():
+		if emoLex.getVals(t.lower(), "positive") == 1:
+			nbPositive += 1
+	
+	return nbPositive
+	
+def numberOfNegativeEmotionWords(tokens, emoLex):
+	"""
+		def numberOfNegativeEmotionWords(tokens, emoLex)
+		------------------------------------------------
+		
+		return the number of negative words
+		
+		:param tokens: list of tokens of the EDU
+		:param emoLex: emoLex object
+		:type tokens: list
+		:type emoLex: object
+		:return: number of negative words
+		:rtype: int
+	"""
+	nbNegarive = 0
+	
+	for t in tokens.keys():
+		if emoLex.getVals(t.lower(), "negative") == 1:
+			nbNegarive += 1
+	
+	return nbNegarive
+	
+def numberOfBothEmotionWords(tokens, emoLex):
+	"""
+		def numberOfBothEmotionWords(tokens, emoLex)
+		--------------------------------------------
+		
+		return the number of positive and negative words
+		
+		:param tokens: list of tokens of the EDU
+		:param emoLex: emoLex object
+		:type tokens: list
+		:type emoLex: object
+		:return: number of positive and negative words
+		:rtype: int
+	"""
+	nbBoth = 0
+	
+	for t in tokens.keys():
+		if emoLex.getVals(t.lower(), "positive") == 1 and emoLex.getVals(t.lower(), "negative") == 1:
+			nbBoth += 1
+	
+	return nbBoth
+	
+def numberOfNeutralEmotionWords(tokens, emoLex):
+	"""
+		def numberOfNeutralEmotionWords(tokens, emoLex)
+		-----------------------------------------------
+		
+		return the number of neutral words
+		
+		:param tokens: list of tokens of the EDU
+		:param emoLex: emoLex object
+		:type tokens: list
+		:type emoLex: object
+		:return: number of neutral words
+		:rtype: int
+	"""
+	nbNeutral = 0
+	
+	for t in tokens.keys():
+		if emoLex.getVals(t.lower(), "positive") == 0 and emoLex.getVals(t.lower(), "negative") == 0:
+			nbNeutral += 1
+	
+	return nbNeutral
+	
+def moyEmotionWords(tokens, emoLex):
+	"""
+		def moyEmotionWords(tokens, emoLex)
+		-----------------------------------
+		
+		return the moy of emotion words
+		
+		:param tokens: list of tokens of the EDU
+		:param emoLex: emoLex object
+		:type tokens: list
+		:type emoLex: object
+		:return: moy of emotion words
+		:rtype: float
+	"""
+	sum = float(numberOfPositveEmotionWords(tokens, emoLex)) - float(numberOfNegativeEmotionWords(tokens, emoLex)) + 0.5 * float(numberOfBothEmotionWords(tokens, emoLex))
+	
+	if len(tokens.keys()) != 0:
+		return float(sum) / float(len(tokens.keys()))
+	else:
+		return 0

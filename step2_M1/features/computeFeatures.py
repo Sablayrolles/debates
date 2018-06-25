@@ -10,18 +10,22 @@
 import joblib
 import sys
 sys.path.append("./")
+sys.path.append("../")
 
 NB_CORE = 4
 
 try:
 	from . import wordFeatures as wFeatures
 	from . import tokenFeatures as tFeatures
+	from .. import emoLex.emoLex as emoLex
 except ImportError:
 	import wordFeatures as wFeatures
 	import tokenFeatures as tFeatures
+	import emoLex.emoLex as emoLex
 except SystemError:
 	import wordFeatures as wFeatures
 	import tokenFeatures as tFeatures
+	import emoLex.emoLex as emoLex
 	
 """
 	Module computeFeatures
@@ -45,8 +49,13 @@ def returnFeatures(data, featuresList, namesCandidates, allNumbered=False):
 	"""
 	features = {"num": data["num"], "edu": data["edu"], "question": data["question"]}
 	boolean = not(allNumbered)
+	emoLex = None
 	
 	for f in featuresList:
+		if emoLex == "None" and "Emotion" in f:
+			emoLex = emoLex.EmoLex()
+			emoLex.load().selectCols(["word", "positive", "negative"])
+	
 		#words features
 		if f == "nbWhWords":
 			features["nbWhWords"] = wFeatures.nbWhWords(data["words"])
@@ -81,7 +90,17 @@ def returnFeatures(data, featuresList, namesCandidates, allNumbered=False):
 		if f == "nbTokens":
 			features["nbTokens"] = tFeatures.nbTokens(data["tokens"])
 		if f == "percentOfStopWords":
-			features["percentOfStopWords"] = tFeatures.percentOfStopWords(data["tokens"])
+			features["percentOfStopWords"] = tFeatures.percentOfStopWords(data["tokens"], emoLex)
+		if f == "numberOfPositveEmotionWords":
+			features["numberOfPositveEmotionWords"] = tFeatures.numberOfPositveEmotionWords(data["tokens"], emoLex)
+		if f == "numberOfNegativeEmotionWords":
+			features["numberOfNegativeEmotionWords"] = tFeatures.numberOfNegativeEmotionWords(data["tokens"], emoLex)
+		if f == "numberOfBothEmotionWords":
+			features["numberOfBothEmotionWords"] = tFeatures.numberOfBothEmotionWords(data["tokens"], emoLex)
+		if f == "numberOfNeutralEmotionWords":
+			features["numberOfNeutralEmotionWords"] = tFeatures.numberOfNeutralEmotionWords(data["tokens"], emoLex)
+		if f == "moyEmotionWords":
+			features["moyEmotionWords"] = tFeatures.moyEmotionWords(data["tokens"], emoLex)
 			
 		#env
 		if f == "speakerNum":
@@ -105,13 +124,28 @@ def processEDULogReg(n, nbTT):
 	NAMES =  ["Clinton", "Trump", "Holt", "Lester", "Donald", "Hillary"]
 	#calcul words
 	data = joblib.load("./data/"+str(n)+".data")
-	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "nbNER", "nbTokens", "speakerNum"], NAMES)
+	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "nbNER", "nbTokens", "percentOfStopWords", "numberOfPositveEmotionWords", "numberOfNegativeEmotionWords", "numberOfBothEmotionWords", "numberOfNeutralEmotionWords", "moyEmotionWords", "speakerNum"], NAMES)
 	joblib.dump(f,"./data/"+str(f["num"])+".features");
 	
 	NB_FAITS += 1
 	print('\033[1A'+"[Features] Computing features : ",NB_FAITS,"/",nbTT)
 	
 	return 0
+	
+def processEDUCRF(n, nbTT):
+	global NB_FAITS
+	
+	NAMES =  ["Clinton", "Trump", "Holt", "Lester", "Donald", "Hillary"]
+	#calcul words
+	data = joblib.load("./data/"+str(n)+".data")
+	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "nbNER", "nbTokens", "percentOfStopWords", "numberOfPositveEmotionWords", "numberOfNegativeEmotionWords", "numberOfBothEmotionWords", "numberOfNeutralEmotionWords", "moyEmotionWords", "speakerNum"], NAMES)
+	joblib.dump(f,"./data/"+str(f["num"])+".features");
+	
+	NB_FAITS += 1
+	print('\033[1A'+"[Features] Computing features : ",NB_FAITS,"/",nbTT)
+	
+	return 0
+	
 if __name__ == '__main__':
 	if len(sys.argv) != 3:
 		print("Usage ",sys.argv[0]," nbTTEDUFiles method of extraction\n 1: for logistical reg \n 2: for crf\n")
@@ -125,5 +159,7 @@ if __name__ == '__main__':
 	
 	if sys.argv[2] == "1":
 		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDULogReg)(i, nbTT) for i in range(1,nbTT))
+	if sys.argv[2] == "2":
+		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDUCRF)(i, nbTT) for i in range(1,nbTT))
 	
 	print("Computing ", int(sys.argv[1])+1, "files")
