@@ -7,57 +7,73 @@
 
 # compute word features
 
-def asQuestionMark(tokens):
+def asQuestionMark(tokens, boolean=True):
 	"""
-		def asQuestionMark(tokens)
-		--------------------------
+		def asQuestionMark(tokens, boolean=True)
+		----------------------------------------
 		
 		return if it as '?'
 		
 		:param tokens: list of tokens of the EDU
 		:type tokens: list
-		:return: 1 if as '?' / 0 else
-		:rtype: int
+		:param boolean: if you want return to be a bool
+		:type boolean: bool
+		:return: 1 / True if as '?' - 0 / False else
+		:rtype: int / bool
 	"""
-	nbQMark = 0
+	if boolean:
+		nbQMark = False
+	else:
+		nbQMark = 0
 	
 	for t in tokens.keys():
 		if tokens[t]["lemma"] == '?':
-			nbQMark = 1 
+			if boolean:
+				nbQMark = True
+			else:
+				nbQMark = 1
 	
 	return nbQMark
 	
-def asExclamativeMark(tokens):
+def asExclamativeMark(tokens, boolean=True):
 	"""
-		def asExclamativeMark(tokens)
-		-----------------------------
+		def asExclamativeMark(tokens, boolean=True)
+		-------------------------------------------
 		
 		return if it as '!'
 		
 		:param tokens: list of tokens of the EDU
 		:type tokens: list
-		:return: 1 if as '!' / 0 else
-		:rtype: int
+		:param boolean: if you want return to be a bool
+		:type boolean: bool
+		:return: 1 / True if as '!' - 0 / False else
+		:rtype: int / bool
 	"""
 	nbExpl = 0
 	
 	for t in tokens.keys():
 		if tokens[t]["lemma"] == '!':
+			if boolean:
+				nbQMark = True
+			else:
+				nbQMark = 1
 			nbExpl = 1 
 	
 	return nbExpl
 	
-def asTriplePointsMark(tokens):
+def asTriplePointsMark(tokens, boolean=True):
 	"""
-		def asTriplePointsMark(tokens)
-		-----------------------------
+		def asTriplePointsMark(tokens, boolean=True)
+		--------------------------------------------
 		
 		return if it as '...'
 		
 		:param tokens: list of tokens of the EDU
 		:type tokens: list
-		:return: 1 if as '...' / 0 else
-		:rtype: int
+		:param boolean: if you want return to be a bool
+		:type boolean: bool
+		:return: 1 / True if as '...' - 0 / False else
+		:rtype: int / bool
 	"""
 	nb3Pt = 0
 	
@@ -82,7 +98,7 @@ def nb1stPers(tokens):
 	nb1stPers = 0
 	
 	for t in tokens.keys():
-		if tokens[t]["lemma"] in ['I', 'my', "me", "mine", 'we', 'us', 'ours', 'our']:
+		if tokens[t]["lemma"] in ['I', 'my', "me", "mine", 'we', 'us', 'ours', 'our', 'i']:
 			nb1stPers += 1 
 	
 	return nb1stPers
@@ -102,7 +118,7 @@ def nb2ndPers(tokens):
 	nb2ndPers = 0
 	
 	for t in tokens.keys():
-		if tokens[t]["lemma"] in ['you', 'yours', 'yours', 'your']:
+		if tokens[t]["lemma"] in ['you', 'yours', 'your']:
 			nb2ndPers += 1 
 	
 	return nb2ndPers

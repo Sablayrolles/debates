@@ -31,7 +31,7 @@ except SystemError:
 	
 """
 
-def returnFeatures(data, featuresList, namesCandidates):
+def returnFeatures(data, featuresList, namesCandidates, allNumbered=False):
 	"""
 		def returnFeatures(data, featuresList)
 		--------------------------------------
@@ -44,6 +44,7 @@ def returnFeatures(data, featuresList, namesCandidates):
 		:rtype: int
 	"""
 	features = {"num": data["num"], "edu": data["edu"], "question": data["question"]}
+	boolean = not(allNumbered)
 	
 	for f in featuresList:
 		#words features
@@ -60,11 +61,11 @@ def returnFeatures(data, featuresList, namesCandidates):
 			
 		#tokens features	
 		if f == "as?":
-			features["as?"] = tFeatures.asQuestionMark(data["tokens"])
+			features["as?"] = tFeatures.asQuestionMark(data["tokens"], boolean)
 		if f == "as!":
-			features["as!"] = tFeatures.asExclamativeMark(data["tokens"])
+			features["as!"] = tFeatures.asExclamativeMark(data["tokens"], boolean)
 		if f == "as...":
-			features["as..."] = tFeatures.asTriplePointsMark(data["tokens"])
+			features["as..."] = tFeatures.asTriplePointsMark(data["tokens"], boolean)
 		if f == "nb1stPers":
 			features["nb1stPers"] = tFeatures.nb1stPers(data["tokens"])
 		if f == "nb2ndPers":
@@ -81,7 +82,7 @@ def returnFeatures(data, featuresList, namesCandidates):
 			features["nbTokens"] = tFeatures.nbTokens(data["tokens"])
 			
 		#env
-		if f == "speaker":
+		if f == "speakerNum":
 			n = namesCandidates.copy()
 			for i in range(len(n)):
 				n[i] = n[i].lower()
@@ -89,17 +90,20 @@ def returnFeatures(data, featuresList, namesCandidates):
 				features["speaker"] = 0
 			else:
 				features["speaker"] = n.index(data["emitter"].lower())+1
+		if f == "speakerName" and not allNumbered:
+			print("[Features] Incompatible parameter allNumbered and feature speakerName")
+			features["speaker"] = data["emitter"]
 			
 	return features
 
 NB_FAITS = 0
-def processEDU(n, nbTT):
+def processEDULogReg(n, nbTT):
 	global NB_FAITS
 	
 	NAMES =  ["Clinton", "Trump", "Holt", "Lester", "Donald", "Hillary"]
 	#calcul words
 	data = joblib.load("./data/"+str(n)+".data")
-	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "nbNER", "nbTokens", "speaker"], NAMES)
+	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "nbNER", "nbTokens", "speakerNum"], NAMES)
 	joblib.dump(f,"./data/"+str(f["num"])+".features");
 	
 	NB_FAITS += 1
@@ -107,8 +111,8 @@ def processEDU(n, nbTT):
 	
 	return 0
 if __name__ == '__main__':
-	if len(sys.argv) != 2:
-		print("Usage ",sys.argv[0]," nbTTEDUFiles")
+	if len(sys.argv) != 3:
+		print("Usage ",sys.argv[0]," nbTTEDUFiles method of extraction\n 1: for logistical reg \n 2: for crf\n")
 		sys.exit(0)
 		
 	data = joblib.load("./data/1.data")
@@ -117,6 +121,7 @@ if __name__ == '__main__':
 	print("\n")
 	nbTT = int(sys.argv[1])+1
 	
-	ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
+	if sys.argv[2] == "1":
+		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDULogReg)(i, nbTT) for i in range(1,nbTT))
 	
 	print("Computing ", int(sys.argv[1])+1, "files")
