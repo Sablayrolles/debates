@@ -37,7 +37,7 @@ if [ -n $1 ]; then
 		notifN=0
 	fi;
 	if [ `echo $1 | grep "c" | wc -l` -eq 1 ]; then
-		if [ -n $2 ]
+		if [ -n $2 ]; then
 			NBCORE=$2
 		fi;
 	fi;
