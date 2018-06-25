@@ -12,7 +12,7 @@ import sys
 sys.path.append("./")
 sys.path.append("../")
 
-NB_CORE = 4
+NB_CORE = 1
 
 try:
 	from . import wordFeatures as wFeatures
@@ -35,7 +35,7 @@ except SystemError:
 	
 """
 
-def returnFeatures(data, featuresList, namesCandidates, emoLexFile=None, allNumbered=False):
+def returnFeatures(data, featuresList, namesCandidates, emoLex, allNumbered=False):
 	"""
 		def returnFeatures(data, featuresList)
 		--------------------------------------
@@ -49,13 +49,8 @@ def returnFeatures(data, featuresList, namesCandidates, emoLexFile=None, allNumb
 	"""
 	features = {"num": data["num"], "edu": data["edu"], "question": data["question"]}
 	boolean = not(allNumbered)
-	emoLex = None
 	
 	for f in featuresList:
-		if emoLex == None and "Emotion" in f:
-			emoLex = my_emoLex.EmoLex(emoLexFile)
-			emoLex.load()
-			emoLex.selectCols(["word", "positive", "negative"])
 	
 		#words features
 		if f == "nbWhWords":
@@ -133,13 +128,13 @@ def processEDULogReg(n, nbTT):
 	
 	return 0
 	
-def processEDUCRF(n, nbTT):
+def processEDUCRF(n, nbTT, emoLex):
 	global NB_FAITS
 	
 	NAMES =  ["Clinton", "Trump", "Holt", "Lester", "Donald", "Hillary"]
 	#calcul words
 	data = joblib.load("./data/"+str(n)+".data")
-	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "nbNER", "nbTokens", "percentOfStopWords", "numberOfPositveEmotionWords", "numberOfNegativeEmotionWords", "numberOfBothEmotionWords", "numberOfNeutralEmotionWords", "moyEmotionWords", "speakerNum"], NAMES)
+	f = returnFeatures(data, ["nbWhWords", "namesCandidates", "nbGalTerms", "nbNoGalTerms", "as?", "as!", "as...", "nb1stPers", "nb2ndPers", "nb3rdSingPers", "nb3rdPluPers", "moyLengthTok", "nbNER", "nbTokens", "percentOfStopWords", "numberOfPositveEmotionWords", "numberOfNegativeEmotionWords", "numberOfBothEmotionWords", "numberOfNeutralEmotionWords", "moyEmotionWords", "speakerNum"], NAMES, emoLex)
 	joblib.dump(f,"./data/"+str(f["num"])+".features");
 	
 	NB_FAITS += 1
@@ -158,9 +153,19 @@ if __name__ == '__main__':
 	print("\n")
 	nbTT = int(sys.argv[1])+1
 	
+	emoLex = my_emoLex.EmoLex(emoLexFile)
+	emoLex.load()
+	emoLex.selectCols(["word", "positive", "negative"])
+	
+	if NB_CORE == 1:
+		for i in range(1,nbTT):
+			if sys.argv[2] == "1":
+				processEDULogReg(i, nbTT, emoLex)
+			if sys.argv[2] == "2":
+				processEDUCRF(i, nbTT, emoLex)
 	if sys.argv[2] == "1":
-		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDULogReg)(i, nbTT) for i in range(1,nbTT))
+		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDULogReg)(i, nbTT, emoLex) for i in range(1,nbTT))
 	if sys.argv[2] == "2":
-		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDUCRF)(i, nbTT) for i in range(1,nbTT))
+		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDUCRF)(i, nbTT, emoLex) for i in range(1,nbTT))
 	
 	print("Computing ", int(sys.argv[1])+1, "files")
