@@ -90,7 +90,7 @@ def returnFeatures(data, featuresList, namesCandidates, allNumbered=False):
 		if f == "nbTokens":
 			features["nbTokens"] = tFeatures.nbTokens(data["tokens"])
 		if f == "percentOfStopWords":
-			features["percentOfStopWords"] = tFeatures.percentOfStopWords(data["tokens"], emoLex)
+			features["percentOfStopWords"] = tFeatures.percentOfStopWords(data["tokens"])
 		if f == "numberOfPositveEmotionWords":
 			features["numberOfPositveEmotionWords"] = tFeatures.numberOfPositveEmotionWords(data["tokens"], emoLex)
 		if f == "numberOfNegativeEmotionWords":
