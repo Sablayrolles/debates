@@ -250,7 +250,7 @@ def percentOfStopWords(tokens):
 	sum = 0
 	
 	for t in tokens.keys():
-		if t.lower() in defs.stopWords:
+		if tokens[t]["lemma"].lower() in defs.stopWords:
 			sum += 1
 	
 	if len(tokens.keys()) != 0:
@@ -275,7 +275,7 @@ def numberOfPositveEmotionWords(tokens, emoLex):
 	nbPositive = 0
 	
 	for t in tokens.keys():
-		if emoLex.getVals(t.lower(), "positive") == 1:
+		if emoLex.getVals(tokens[t]["lemma"].lower(), "positive") == 1:
 			nbPositive += 1
 	
 	return nbPositive
@@ -297,7 +297,7 @@ def numberOfNegativeEmotionWords(tokens, emoLex):
 	nbNegarive = 0
 	
 	for t in tokens.keys():
-		if emoLex.getVals(t.lower(), "negative") == 1:
+		if emoLex.getVals(tokens[t]["lemma"].lower(), "negative") == 1:
 			nbNegarive += 1
 	
 	return nbNegarive
@@ -319,7 +319,7 @@ def numberOfBothEmotionWords(tokens, emoLex):
 	nbBoth = 0
 	
 	for t in tokens.keys():
-		if emoLex.getVals(t.lower(), "positive") == 1 and emoLex.getVals(t.lower(), "negative") == 1:
+		if emoLex.getVals(tokens[t]["lemma"].lower(), "positive") == 1 and emoLex.getVals(tokens[t]["lemma"].lower(), "negative") == 1:
 			nbBoth += 1
 	
 	return nbBoth
@@ -341,7 +341,7 @@ def numberOfNeutralEmotionWords(tokens, emoLex):
 	nbNeutral = 0
 	
 	for t in tokens.keys():
-		if emoLex.getVals(t.lower(), "positive") == 0 and emoLex.getVals(t.lower(), "negative") == 0:
+		if emoLex.getVals(tokens[t]["lemma"].lower(), "positive") == 0 and emoLex.getVals(tokens[t]["lemma"].lower(), "negative") == 0:
 			nbNeutral += 1
 	
 	return nbNeutral
