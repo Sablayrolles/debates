@@ -35,7 +35,7 @@ except SystemError:
 	
 """
 
-def returnFeatures(data, featuresList, namesCandidates, allNumbered=False, emoLexFile=None):
+def returnFeatures(data, featuresList, namesCandidates, emoLexFile=None, allNumbered=False):
 	"""
 		def returnFeatures(data, featuresList)
 		--------------------------------------
