@@ -14,8 +14,7 @@ import joblib
 import dataset.getData as getData
 import dataset.getInfos as getInfos
 import my_coreNLP.parseNLP as parseNLP
-
-NB_CORE = 4
+import argparse
 
 """
 	Module saveData
@@ -80,17 +79,32 @@ def processEDU(n, nbTT):
 	return 0
 	
 if __name__ == "__main__":
+	parser = argparse.ArgumentParser(description="Test")
+
+	parser.add_argument("numFiles", metavar="nbFiles", type=int, help="Number of file .info to saveData (from parse_types_annoatated)")
+	parser.add_argument("-c", "--core", metavar="core", type=int, nargs="?", help="Nb core to execute (default 1)")
+
+	args = parser.parse_args()
+
+	nbTT = int(args.numFiles) + 1
+	if args.core != None:
+		NB_CORE = args.core
+	else:
+		NB_CORE = 1
+		
+	print(nbFiles, NB_CORE)
+
+
 	nbEDU = 0
 	NLP = parseNLP.StanfordNLP();
 	infos = getInfos.getInfosDebates("../dataset/usa/2016/1/infos.xml")
 	nb = 0
-	if len(sys.argv) != 2:
-		print("Usage ", sys.argv[0], "nbfichier.info in features/data")
-		
-	print("\n")
-	nbTT = int(sys.argv[1])+1
 	
-	ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
+	if NB_CORE == 1:
+		for i in range(1,nbTT):
+			processEDU(1, nbTT)
+	else:
+		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
 	
 	print("Extracted ", int(sys.argv[1])+1, "files")
 				

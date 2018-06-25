@@ -12,7 +12,7 @@ import sys
 sys.path.append("./")
 sys.path.append("../")
 
-NB_CORE = 1
+NB_CORE = 8
 
 try:
 	from . import wordFeatures as wFeatures
