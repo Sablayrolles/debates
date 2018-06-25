@@ -102,7 +102,7 @@ if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "" | mailx -v -s "[Info] Start compute features on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
 fi;
-a=`python3 computeFeatures.py $nbFiles >>$home/features.log 2>>$home/features.err; echo $?`
+a=`python3 computeFeatures.py $nbFiles 1 >>$home/features.log 2>>$home/features.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "Fail computeFeatures\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail computeFeatures" -a $home/features.log -a $home/features.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null

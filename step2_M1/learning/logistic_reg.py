@@ -206,9 +206,9 @@ try:
 	f.write("[Valid] On all corpus"+"\n")
 	d = metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_)
 	f.write(str(d)+"\n")
-	f.write("[Valid] Confusion all corpus"+"\n")
-	d = metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_)
-	f.write(str(d)+"\n")
+	#f.write("[Valid] Confusion all corpus"+"\n")
+	#d = metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_)
+	#f.write(str(d)+"\n")
 except UndefinedMetricWarning:
 	pass
 f.close()
