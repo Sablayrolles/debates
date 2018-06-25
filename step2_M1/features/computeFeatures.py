@@ -80,6 +80,8 @@ def returnFeatures(data, featuresList, namesCandidates, allNumbered=False):
 			features["nbNER"] = tFeatures.moyLengthTok(data["tokens"])
 		if f == "nbTokens":
 			features["nbTokens"] = tFeatures.nbTokens(data["tokens"])
+		if f == "percentOfStopWords":
+			features["percentOfStopWords"] = tFeatures.percentOfStopWords(data["tokens"])
 			
 		#env
 		if f == "speakerNum":

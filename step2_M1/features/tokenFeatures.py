@@ -234,3 +234,26 @@ def nbTokens(tokens):
 	"""
 	
 	return len(tokens)
+	
+def percentOfStopWords(tokens):
+	"""
+		def percentOfStopWords(tokens)
+		------------------------------
+		
+		return the percent of stop words
+		
+		:param tokens: list of tokens of the EDU
+		:type tokens: list
+		:return: percent of stop words
+		:rtype: float
+	"""
+	sum = 0
+	
+	for t in tokens.keys():
+		if t.lower() in defs.stopWords:
+			sum += 1
+	
+	if len(tokens.keys()) != 0:
+		return float(sum) / float(len(tokens.keys()))
+	else:
+		return 0
