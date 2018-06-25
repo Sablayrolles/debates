@@ -60,12 +60,12 @@ for i in f_dic:
 		targets.append("Other")
 	else:
 		#auto replace for low cat
-		if targets_full[(i["question"],i["edu"])] == "Change_of_Subject":
+		if targets_full[(i["question"],i["edu"])] == "Change_of_subject":
 			targets.append("Proposition")
 		if targets_full[(i["question"],i["edu"])] == "Taking_part":
 			targets.append("Support")
 		
-		if targets_full[(i["question"],i["edu"])] not in ["Change_of_Subject", "Taking_part"]:
+		if targets_full[(i["question"],i["edu"])] not in ["Change_of_subject", "Taking_part"]:
 			targets.append(targets_full[(i["question"],i["edu"])])
 		
 print("[Data] Targets Types classifier : ", set(targets))
