@@ -11,21 +11,23 @@ notifE=1
 notifS=1
 notifN=1
 
-if [ -n $1 ]; then
-	notifE=0
-	notifS=0
-	notifN=0
-	
+if [ -n $1 ]; then	
 	if [ `echo $1 | grep "v" | wc -l` -eq 1 ]; then
 		notifN=1
-	fi;
-	
-	if [ `echo $1 | grep "e" | wc -l` -eq 1 ]; then
-		notifN=1
+		notifE=0
+		notifS=0
 	fi;
 	
 	if [ `echo $1 | grep "s" | wc -l` -eq 1 ]; then
-		notifN=1
+		notifS=1
+		notifN=0
+		notifE=0
+	fi;
+	
+	if [ `echo $1 | grep "e" | wc -l` -eq 1 ]; then
+		notifE=1
+		notifS=0
+		notifN=0
 	fi;
 	
 	if [ `echo $1 | grep "0" | wc -l` -eq 1 ]; then

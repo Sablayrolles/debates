@@ -180,8 +180,12 @@ try:
 	print("------------------------------")
 	print("[Valid] On valid test")
 	print(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))
+	print("[Valid] Confusion valid test")
+	print(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))
 	print("[Valid] On all corpus")
 	print(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))
+	print("[Valid] Confusion all corpus")
+	print(metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_))
 except ConvergenceWarning:
 	pass
 except UndefinedMetricWarning:
@@ -196,10 +200,18 @@ f.write("[Valid] Mean valid accuracy:"+str(model.score(features_valid, target_va
 f.write("[Valid] Types:"+ str(le.inverse_transform(model.classes_)))
 f.write("[Valid] weights:"+ str(model.coef_))
 
-f.write("------------------------------")
-f.write("[Valid] On valid test")
-f.write(str(metrics.classification_report(target_valid, y_pred, target_names=le.classes_)))
-f.write("[Valid] On all corpus")
-f.write(str(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_)))
-
+try:
+	f.write("------------------------------\n")
+	f.write("[Valid] On valid test\n")
+	f.write(str(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))+"\n")
+	f.write("[Valid] Confusion valid test"+"\n")
+	f.write(str(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))+"\n")
+	f.write("[Valid] On all corpus"+"\n")
+	f.write(str(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))+"\n")
+	f.write("[Valid] Confusion all corpus"+"\n")
+	f.write(str(metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_))+"\n")
+except ConvergenceWarning:
+	pass
+except UndefinedMetricWarning:
+	pass
 f.close()
