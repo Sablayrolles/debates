@@ -122,12 +122,12 @@ fi
 echo "python3 computeFeaturesLinear.py $nbFiles 1 -p 2 -n 1 >>$home/features.log 2>>$home/features.err; echo \$?"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "" | mailx -v -s "[Info] Start compute features on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	echo -e "" | mailx -v -s "[Info] Start compute linear features on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
 fi;
 a=`python3 computeFeaturesLinear.py $nbFiles 1 -p 2 -n 1  >>$home/features.log 2>>$home/features.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "Fail computeFeatures\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail computeFeatures" -a $home/features.log -a $home/features.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	echo -e "Fail computeFeaturesLinear\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail computeFeaturesLinear" -a $home/features.log -a $home/features.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
