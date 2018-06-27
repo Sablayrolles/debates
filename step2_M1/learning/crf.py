@@ -14,6 +14,7 @@ import sklearn.model_selection as modelSelect
 import sklearn.preprocessing as preprocess
 import sklearn.metrics as metrics
 import sklearn_crfsuite as crfs
+import sklearn_crfsuite.metrics as crfsMetrics
 import joblib
 import argparse
 
@@ -142,7 +143,7 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 
 	labels = list(model.classes_)
 	y_pred = model.predict([features_valid])
-	v = crfs.metrics.flat_accuracy_suite(y_pred, target_valid, average='weighted', labels=labels)
+	v = crfsMetrics.flat_accuracy_suite(y_pred, target_valid, average='weighted', labels=labels)
 	if v > max_scr:
 		max_scr = v
 		iter_max = MAX_ITER
@@ -196,11 +197,11 @@ y_pred_all = model.predict([features])
 try:
 	print("------------------------------")
 	print("[Valid] On valid test")
-	print(crfs.metrics.flat_classification_report(target_valid, y_pred, target_names=le.classes_))
+	print(crfsMetrics.flat_classification_report(target_valid, y_pred, target_names=le.classes_))
 	# print("[Valid] Confusion valid test")
 	# print(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))
 	print("[Valid] On all corpus")
-	print(crfs.metrics.classification_report(targets, y_pred_all, target_names=le.classes_))
+	print(crfsMetrics.classification_report(targets, y_pred_all, target_names=le.classes_))
 	# print("[Valid] Confusion all corpus")
 	# print(metrics.confusion_matrix(targets, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
@@ -217,11 +218,11 @@ f.write("[Valid] Types:"+ str(list(model.classes_)))
 try:
 	f.write("------------------------------")
 	f.write("[Valid] On valid test")
-	f.write(str(crfs.metrics.flat_classification_report(target_valid, y_pred, target_names=le.classes_)))
+	f.write(str(crfsMetrics.flat_classification_report(target_valid, y_pred, target_names=le.classes_)))
 	# f.write("[Valid] Confusion valid test")
 	# f.write(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))
 	f.write("[Valid] On all corpus")
-	f.write(str(crfs.metrics.classification_report(targets, y_pred_all, target_names=le.classes_)))
+	f.write(str(crfsMetrics.classification_report(targets, y_pred_all, target_names=le.classes_)))
 	# print("[Valid] Confusion all corpus")
 	# print(metrics.confusion_matrix(targets, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
