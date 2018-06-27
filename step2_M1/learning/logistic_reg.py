@@ -105,7 +105,6 @@ for i in f_dic:
 		
 		if targets_full[(i["question"],i["edu"])] not in ["Change_of_subject", "Taking_part"]:
 			targets.append(targets_full[(i["question"],i["edu"])])
-	print(targets[-1])
 		
 print("[Data] Targets Types classifier : ", set(targets))
 for k in set(targets):
