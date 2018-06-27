@@ -103,6 +103,8 @@ for i in features:
 print("[Data] Targets Types classifier : ", set(targets))
 for k in set(targets):
 	print(k, targets.count(k))
+	
+print(targets)
 
 print("[Info] Number examples (Classes):", len(features), "and", len(targets), "of targets.")
 
