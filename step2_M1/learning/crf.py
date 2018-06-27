@@ -61,8 +61,7 @@ if args.verbose != None:
 		VERBOSE = "full"
 else:
 	VERBOSE = "min"
-	
-print("[Param] NB_CORE :", NB_CORE)
+
 print("[Param] NB_FILES :", NB_FILES)
 print("[Param] MAX_ITER_MIN :", MAX_ITER_MIN)
 print("[Param] MAX_ITER_MAX :", MAX_ITER_MAX)
