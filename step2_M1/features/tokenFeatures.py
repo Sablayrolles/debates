@@ -366,3 +366,25 @@ def moyEmotionWords(tokens, emoLex):
 		return float(sum) / float(len(tokens.keys()))
 	else:
 		return 0
+		
+def nbSameTok(tokens1, tokens2):
+	"""
+		def nbSameTok(tokens1, tokens2)
+		-------------------------------
+		
+		return the moy of emotion words
+		
+		:param tokens1: list of tokens of an EDU
+		:param tokens2: list of tokens of an EDU
+		:type tokens1: list
+		:type tokens2: list
+		:return: nb tok idem
+		:rtype: float
+	"""
+	nbSame = 0
+	
+	for i in tokens1:
+		if tokens2.count(i) != 0 
+			nbSame += 1
+	
+	return nbSame
