@@ -104,7 +104,7 @@ print("[Data] Targets Types classifier : ", set(targets))
 for k in set(targets):
 	print(k, targets.count(k))
 
-print("[Info] Number examples (Classes):", len(features))
+print("[Info] Number examples (Classes):", len(features), "and", len(targets), "of targets.")
 
 ### LEARNING CLASSES
 # a = input("Press Enter to Continue ...")
