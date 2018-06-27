@@ -71,11 +71,13 @@ print("[Param] VERBOSE :", VERBOSE)
 ### recupération des données
 features = []
 f_dic = []
+f = []
 print("[Info] Loading features["+str(NB_FILES)+"] ...")
 for i in range(1,int(NB_FILES)):
 	data = joblib.load("../features/data/"+str(i)+".features")
 	keys = data.keys()
 	features.append(data)
+	f.append([1,2,3])
 print("[Data] Features keys:", keys)
 
 print("[Info] Loading targets...")
@@ -115,7 +117,6 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
 	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 	features_train, features_valid, target_train, target_valid = [], [], [], []
-	f = [[i,i+1] for i in range(0,len(features))]
 	for train_i, test_i in sss.split(f, targets):
 		for i in train_i:
 			features_train.append(features[i])
@@ -155,7 +156,6 @@ print("[Valid] ================= NB ITER :", MAX_ITER, "========================
 # features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets, test_size=TEST_PERCENT)
 sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 features_train, features_valid, target_train, target_valid = [], [], [], []
-f = [[i,i+1] for i in range(0,len(features))]
 for train_i, test_i in sss.split(f, targets):
 	for i in train_i:
 		features_train.append(features[i])
