@@ -141,6 +141,8 @@ def processEDULogReg(n, nbTT, NB_PREV, NB_NEXT):
 		except IOError:
 			features[i-n] = None
 			
+	print("Data Keys : ", data.keys())
+	print("Features Keys : ", features.keys())
 	f = returnFeatures(data, features, NB_PREV, NB_NEXT, ["nbTokSameEDUPrev", "nbTokSameEDUNext", "positionInTopic", "positionInSegment", "nbEDUsaidBySpeakerInTopic", "nbEDUsaidBySpeakerInTopic"], False)
 	joblib.dump(f,"./data/"+str(f["num"])+".features");
 	
