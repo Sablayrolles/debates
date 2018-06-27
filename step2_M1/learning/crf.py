@@ -82,7 +82,7 @@ for i in range(1,int(NB_FILES)):
 				keys.append(k)
 			d.append(data[k])
 	f.append(d)
-print("[Data] Features keys:("+str(len(keys))+")", keys)
+print("[Data] Features keys("+str(len(keys))+") : ", keys)
 
 print("[Info] Loading targets...")
 d = joblib.load("../features/data/targets.dat")
@@ -135,13 +135,13 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning...")
 	
 	print(len(features_train), len(target_train), set(target_train))
-	model = model.fit(features_train, target_train)
+	model = model.fit([features_train], [target_train])
 		
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Testing")
 
 	labels = list(model.classes_)
-	y_pred = model.predict(features_valid)
+	y_pred = model.predict([features_valid])
 	v = crfs.metrics.flat_accuracy_suite(y_pred, target_valid, average='weighted', labels=labels)
 	if v > max_scr:
 		max_scr = v
@@ -177,7 +177,7 @@ for k in set(target_valid):
 model = crfs.CRF(algorithm='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
 
 print("[Valid] Learning...")
-model = model.fit(features_train, target_train)
+model = model.fit([features_train], [target_train])
 
 #save the model
 print("[Saving] saving model")
@@ -190,8 +190,8 @@ print("[Valid] Mean train accuracy:",model.score(features_train, target_train))
 print("[Valid] Mean valid accuracy:",model.score(features_valid, target_valid))
 print("[Valid] Types:", list(model.classes_))
 
-y_pred = model.predict(features_valid)
-y_pred_all = model.predict(features)
+y_pred = model.predict([features_valid])
+y_pred_all = model.predict([features])
 
 try:
 	print("------------------------------")
