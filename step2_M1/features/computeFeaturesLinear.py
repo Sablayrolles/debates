@@ -101,7 +101,7 @@ def returnFeatures(data, preComputeFeatures, NB_PREV, NB_NEXT, featuresList, all
 					features["nbEDUsaidByOthersSpeakerInTopic"] += counters[k]
 	
 	for k in preComputeFeatures[0].keys():
-		features[k] = preComputeFeatures["0"][k]
+		features[k] = preComputeFeatures[0][k]
 	return features
 
 NB_FAITS = 0
