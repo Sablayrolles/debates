@@ -171,7 +171,7 @@ def processEDUCRF(n, nbTT, NB_PREV, NB_NEXT):
 	
 	features = {}
 	features['0'] = joblib.load("./data/"+str(n)+".features")
-		for i in range(n-NB_PREV,n):
+	for i in range(n-NB_PREV,n):
 		try:
 			with open("./data/"+str(i)+".features"): pass
 			features[n-i] = joblib.load("./data/"+str(i)+".features")

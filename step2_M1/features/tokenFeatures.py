@@ -384,7 +384,7 @@ def nbSameTok(tokens1, tokens2):
 	nbSame = 0
 	
 	for i in tokens1:
-		if tokens2.count(i) != 0 
+		if tokens2.count(i) != 0:
 			nbSame += 1
 	
 	return nbSame
