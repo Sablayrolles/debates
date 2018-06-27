@@ -135,7 +135,7 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning...")
 	
-	print(len(features_train), len(target_train), set(target_train))
+	# print(len(features_train), len(target_train), set(target_train))
 	model = model.fit([features_train], [target_train])
 		
 	if VERBOSE == "full":
