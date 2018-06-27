@@ -100,7 +100,7 @@ def returnFeatures(data, preComputeFeatures, NB_PREV, NB_NEXT, featuresList, all
 				if "topic" in k and "nb" in k and data[0]["emitter"] not in k:
 					features["nbEDUsaidByOthersSpeakerInTopic"] += counters[k]
 	
-	for k in preComputeFeatures["0"].keys():
+	for k in preComputeFeatures[0].keys():
 		features[k] = preComputeFeatures["0"][k]
 	return features
 
