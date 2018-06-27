@@ -69,19 +69,20 @@ print("[Param] VERBOSE :", VERBOSE)
 ### recupération des données
 features = []
 f = []
+keys = []
 print("[Info] Loading features["+str(NB_FILES)+"] ...")
 for i in range(1,int(NB_FILES)):
 	data = joblib.load("../features/data/"+str(i)+".features")
 	features.append(data)
 	d = []
 	#on fait une matrice il n'aime pas les dics
-	keys = []
 	for k in sorted(data.keys()):
 		if k != "edu" and k != "num":
-			keys.append(k)
+			if k not in keys:
+				keys.append(k)
 			d.append(data[k])
 	f.append(d)
-print("[Data] Features keys:", keys)
+print("[Data] Features keys:("+str(len(keys))+")", keys)
 
 print("[Info] Loading targets...")
 d = joblib.load("../features/data/targets.dat")
