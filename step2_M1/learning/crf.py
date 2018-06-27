@@ -68,7 +68,7 @@ print("[Param] VERBOSE :", VERBOSE)
 
 ### recupération des données
 features = []
-f_dic = []
+f = []
 print("[Info] Loading features["+str(NB_FILES)+"] ...")
 for i in range(1,int(NB_FILES)):
 	data = joblib.load("../features/data/"+str(i)+".features")
