@@ -17,8 +17,6 @@ import sklearn.metrics as metrics
 import joblib
 import argparse
 
-import dataset.parse_types_annoted as getTarget
-
 #constantes for learning
 
 parser = argparse.ArgumentParser(description="\tModule computeFeatures\n\t===============\n\n\t\tThis module can be use to compute and save features on a savedata computing on dataset")
