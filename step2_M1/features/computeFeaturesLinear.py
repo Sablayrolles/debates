@@ -68,7 +68,7 @@ def returnFeatures(data, preComputeFeatures, NB_PREV, NB_NEXT, featuresList, all
 		counters["old_speaker"] = data[0]["emitter"]
 		counters["nbEDUSegment"] = 1
 	else:
-		counter["nbEDUSegment"] += 1
+		counters["nbEDUSegment"] += 1
 	#-------------------------------------------------------------------------------------------------------------------------------
 	
 	for f in featuresList:
