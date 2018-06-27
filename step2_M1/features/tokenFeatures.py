@@ -385,10 +385,10 @@ def nbSameTok(tokens1, tokens2):
 	
 	tab1 = []
 	for t in tokens1.keys():
-		tab1.append(tokens[t]["lemma"])
+		tab1.append(tokens1[t]["lemma"])
 	tab2 = []
 	for t in tokens2.keys():
-		tab2.append(tokens[t]["lemma"])
+		tab2.append(tokens2[t]["lemma"])
 	
 	for i in tab1:
 		if tab2.count(i) != 0:
