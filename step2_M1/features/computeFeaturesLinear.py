@@ -59,9 +59,9 @@ def returnFeatures(data, preComputeFeatures, NB_PREV, NB_NEXT, featuresList, all
 	else:
 		counters["nbEDUTopics"] += 1
 	if "nb"+data[0]["emitter"]+"topic" not in counters.keys() or counters["old_q"] != data[0]["question"]:
-		counter["nb"+data[0]["emitter"]+"topic"] = 1
+		counters["nb"+data[0]["emitter"]+"topic"] = 1
 	else:
-		counter["nb"+data[0]["emitter"]+"topic"] += 1
+		counters["nb"+data[0]["emitter"]+"topic"] += 1
 		
 	#segments
 	if "old_speaker" not in counters.keys() or counters["old_q"] != data[0]["question"] or data[0]["emitter"] != counters["old_speaker"]:
