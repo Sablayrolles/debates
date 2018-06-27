@@ -115,14 +115,14 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
 	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 	features_train, features_valid, target_train, target_valid = [], [], [], []
-	for train_i, test_i in sss.split(features, targets_trans):
+	for train_i, test_i in sss.split(features, targets):
 		for i in train_i:
 			features_train.append(features[i])
-			target_train.append(targets_trans[i])
+			target_train.append(targets[i])
 	
 		for i in test_i:
 			features_valid.append(features[i])
-			target_valid.append(targets_trans[i])
+			target_valid.append(targets[i])
 
 	model = crfs.CRF(solver='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
 
@@ -151,17 +151,17 @@ print("[Info][Model=Classes] Best accuracy for", iter_max, "iteration with valid
 
 MAX_ITER = iter_max
 print("[Valid] ================= NB ITER :", MAX_ITER, "======================================")
-# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
+# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets, test_size=TEST_PERCENT)
 sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 features_train, features_valid, target_train, target_valid = [], [], [], []
-for train_i, test_i in sss.split(features, targets_trans):
+for train_i, test_i in sss.split(features, targets):
 	for i in train_i:
 		features_train.append(features[i])
-		target_train.append(targets_trans[i])
+		target_train.append(targets[i])
 	
 	for i in test_i:
 		features_valid.append(features[i])
-		target_valid.append(targets_trans[i])
+		target_valid.append(targets[i])
 
 print("Train composition : ")
 for k in set(target_train):
@@ -197,9 +197,9 @@ try:
 	# print("[Valid] Confusion valid test")
 	# print(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))
 	print("[Valid] On all corpus")
-	print(crfs.metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))
+	print(crfs.metrics.classification_report(targets, y_pred_all, target_names=le.classes_))
 	# print("[Valid] Confusion all corpus")
-	# print(metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_))
+	# print(metrics.confusion_matrix(targets, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
 	pass
 
@@ -218,9 +218,9 @@ try:
 	# f.write("[Valid] Confusion valid test")
 	# f.write(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))
 	f.write("[Valid] On all corpus")
-	f.write(str(crfs.metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_)))
+	f.write(str(crfs.metrics.classification_report(targets, y_pred_all, target_names=le.classes_)))
 	# print("[Valid] Confusion all corpus")
-	# print(metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_))
+	# print(metrics.confusion_matrix(targets, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
 	pass
 f.close()
