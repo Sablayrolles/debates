@@ -111,73 +111,80 @@ print("[Info] Number examples (Classes):", len(features), "and", len(targets), "
 # a = input("Press Enter to Continue ...")
 print("[Info] Learning Classes...\n")
 iter_max = 0
+c1_max = 0
+c2_max = 0
 max_scr = 0
-for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
-	if VERBOSE == "min":
-		print('\033[1A'+"[Info][Model=Crf][MAX_ITER="+str(MAX_ITER)+"] Learning test :", round(float(MAX_ITER-MAX_ITER_MIN) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
-	if VERBOSE == "full":
-		print("[Info][Model=Crf][MAX_ITER="+str(MAX_ITER)+"]================= NB ITER :", MAX_ITER, "======================================")
-	#on split le dataset
-	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
-	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
-	features_train, features_valid, target_train, target_valid = [], [], [], []
-	for train_i, test_i in sss.split(f, targets):
-		for i in train_i:
-			features_train.append(features[i])
-			target_train.append(targets[i])
-	
-		for i in test_i:
-			features_valid.append(features[i])
-			target_valid.append(targets[i])
+for c1 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
+	for c2 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
+		print("For c1 =", c1, "c2 =", c2)
+		for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
+			if VERBOSE == "min":
+				print('\033[1A'+"[Info][Model=Crf][MAX_ITER="+str(MAX_ITER)+"] Learning test :", round(float(MAX_ITER-MAX_ITER_MIN) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
+			if VERBOSE == "full":
+				print("[Info][Model=Crf][MAX_ITER="+str(MAX_ITER)+"]================= NB ITER :", MAX_ITER, "======================================")
+			#on split le dataset
+			# features_train, features_test, target_train, target_test = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
+			sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
+			features_train, features_test, target_train, target_test = [], [], [], []
+			for train_i, test_i in sss.split(f, targets):
+				for i in train_i:
+					features_train.append(features[i])
+					target_train.append(targets[i])
+			
+				for i in test_i:
+					features_test.append(features[i])
+					target_test.append(targets[i])
 
-	model = crfs.CRF(algorithm='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
+			model = crfs.CRF(algorithm='lbfgs', c1=c1, c2=c2, max_iterations=MAX_ITER, all_possible_transitions=True)
 
-	if VERBOSE == "full":
-		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning...")
-	
-	# print(len(features_train), len(target_train), set(target_train))
-	model = model.fit([features_train], [target_train])
-		
-	if VERBOSE == "full":
-		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Testing")
+			if VERBOSE == "full":
+				print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning...")
+			
+			# print(len(features_train), len(target_train), set(target_train))
+			model = model.fit([features_train], [target_train])
+				
+			if VERBOSE == "full":
+				print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Testing")
 
-	labels = list(model.classes_)
-	y_pred = model.predict([features_valid])
-	v = crfsMetrics.flat_accuracy_score(y_pred, [target_valid])
-	if v > max_scr:
-		max_scr = v
-		iter_max = MAX_ITER
-	if VERBOSE == "full":
-		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",v)
+			labels = list(model.classes_)
+			y_pred = model.predict([features_test])
+			v = crfsMetrics.flat_accuracy_score(y_pred, [target_test])
+			if v > max_scr:
+				max_scr = v
+				iter_max = MAX_ITER
+				c1_max = c1
+				c2_max = c2
+			if VERBOSE == "full":
+				print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Mean test accuracy:",v)
 	
-print("[Info][Model=Classes] Best accuracy for", iter_max, "iteration with valid accuracy of", max_scr)
+print("[Info][Model=Classes] Best accuracy for", iter_max, "iteration with test accuracy of", max_scr)
 # a = input("Press Enter to Continue ...")
 
 MAX_ITER = iter_max
-print("[Valid] ================= NB ITER :", MAX_ITER, "======================================")
-# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets, test_size=TEST_PERCENT)
+print("[test] ================= NB ITER :", MAX_ITER, "======================================")
+# features_train, features_test, target_train, target_test = modelSelect.train_test_split(features, targets, test_size=TEST_PERCENT)
 sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
-features_train, features_valid, target_train, target_valid = [], [], [], []
+features_train, features_test, target_train, target_test = [], [], [], []
 for train_i, test_i in sss.split(f, targets):
 	for i in train_i:
 		features_train.append(features[i])
 		target_train.append(targets[i])
 	
 	for i in test_i:
-		features_valid.append(features[i])
-		target_valid.append(targets[i])
+		features_test.append(features[i])
+		target_test.append(targets[i])
 
 print("Train composition : ")
 for k in set(target_train):
 	print(k, target_train.count(k))
 	
-print("Valid composition : ")
-for k in set(target_valid):
-	print(k, target_valid.count(k))
+print("test composition : ")
+for k in set(target_test):
+	print(k, target_test.count(k))
 
 model = crfs.CRF(algorithm='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
 
-print("[Valid] Learning...")
+print("[test] Learning...")
 model = model.fit([features_train], [target_train])
 
 #save the model
@@ -185,45 +192,45 @@ print("[Saving] saving model")
 joblib.dump(model, "modelCRF.save")
 #loaded_model = joblib.load("model.save")
 
-print("[Valid] Testing")
+print("[test] Testing")
 
-print("[Valid] Mean train accuracy:",model.score(features_train, target_train))
-print("[Valid] Mean valid accuracy:",model.score(features_valid, target_valid))
-print("[Valid] Types:", list(model.classes_))
+print("[test] Mean train accuracy:",model.score(features_train, target_train))
+print("[test] Mean test accuracy:",model.score(features_test, target_test))
+print("[test] Types:", list(model.classes_))
 
-y_pred = model.predict([features_valid])
+y_pred = model.predict([features_test])
 y_pred_all = model.predict([features])
 
 try:
 	print("------------------------------")
-	print("[Valid] On valid test")
-	print(crfsMetrics.flat_classification_report(target_valid, y_pred, target_names=le.classes_))
-	# print("[Valid] Confusion valid test")
-	# print(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))
-	print("[Valid] On all corpus")
+	print("[test] On test test")
+	print(crfsMetrics.flat_classification_report(target_test, y_pred, target_names=le.classes_))
+	# print("[test] Confusion test test")
+	# print(metrics.confusion_matrix(target_test, y_pred, labels=le.classes_))
+	print("[test] On all corpus")
 	print(crfsMetrics.classification_report(targets, y_pred_all, target_names=le.classes_))
-	# print("[Valid] Confusion all corpus")
+	# print("[test] Confusion all corpus")
 	# print(metrics.confusion_matrix(targets, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
 	pass
 
 f = open("res", "w")
 
-f.write("[Valid] Testing")
+f.write("[test] Testing")
 
-f.write("[Valid] Mean train accuracy:"+str(model.score(features_train, target_train)))
-f.write("[Valid] Mean valid accuracy:"+str(model.score(features_valid, target_valid)))
-f.write("[Valid] Types:"+ str(list(model.classes_)))
+f.write("[test] Mean train accuracy:"+str(model.score(features_train, target_train)))
+f.write("[test] Mean test accuracy:"+str(model.score(features_test, target_test)))
+f.write("[test] Types:"+ str(list(model.classes_)))
 
 try:
 	f.write("------------------------------")
-	f.write("[Valid] On valid test")
-	f.write(str(crfsMetrics.flat_classification_report(target_valid, y_pred, target_names=le.classes_)))
-	# f.write("[Valid] Confusion valid test")
-	# f.write(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))
-	f.write("[Valid] On all corpus")
+	f.write("[test] On test test")
+	f.write(str(crfsMetrics.flat_classification_report(target_test, y_pred, target_names=le.classes_)))
+	# f.write("[test] Confusion test test")
+	# f.write(metrics.confusion_matrix(target_test, y_pred, labels=le.classes_))
+	f.write("[test] On all corpus")
 	f.write(str(crfsMetrics.classification_report(targets, y_pred_all, target_names=le.classes_)))
-	# print("[Valid] Confusion all corpus")
+	# print("[test] Confusion all corpus")
 	# print(metrics.confusion_matrix(targets, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
 	pass

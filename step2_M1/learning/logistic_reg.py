@@ -131,17 +131,17 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"]================= NB ITER :", MAX_ITER, "======================================")
 	#on split le dataset
-	# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
+	# features_train, features_test, target_train, target_test = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
 	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
-	features_train, features_valid, target_train, target_valid = [], [], [], []
+	features_train, features_test, target_train, target_test = [], [], [], []
 	for train_i, test_i in sss.split(features, targets_trans):
 		for i in train_i:
 			features_train.append(features[i])
 			target_train.append(targets_trans[i])
 	
 		for i in test_i:
-			features_valid.append(features[i])
-			target_valid.append(targets_trans[i])
+			features_test.append(features[i])
+			target_test.append(targets_trans[i])
 
 	model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, multi_class='ovr', n_jobs=NB_CORE)
 	#multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
@@ -160,43 +160,43 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Mean train accuracy:",model.score(features_train, target_train))
-	v = model.score(features_valid, target_valid)
+	v = model.score(features_test, target_test)
 	if v > max_scr:
 		max_scr = v
 		iter_max = MAX_ITER
 	if VERBOSE == "full":
-		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Mean valid accuracy:",v)
+		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Mean test accuracy:",v)
 	
-print("[Info][Model=Classes] Best accuracy for", iter_max, "iteration with valid accuracy of", max_scr)
+print("[Info][Model=Classes] Best accuracy for", iter_max, "iteration with test accuracy of", max_scr)
 # a = input("Press Enter to Continue ...")
 
 MAX_ITER = iter_max
-print("[Valid] ================= NB ITER :", MAX_ITER, "======================================")
-# features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
+print("[test] ================= NB ITER :", MAX_ITER, "======================================")
+# features_train, features_test, target_train, target_test = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
 sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
-features_train, features_valid, target_train, target_valid = [], [], [], []
+features_train, features_test, target_train, target_test = [], [], [], []
 for train_i, test_i in sss.split(features, targets_trans):
 	for i in train_i:
 		features_train.append(features[i])
 		target_train.append(targets_trans[i])
 	
 	for i in test_i:
-		features_valid.append(features[i])
-		target_valid.append(targets_trans[i])
+		features_test.append(features[i])
+		target_test.append(targets_trans[i])
 
 print("Train composition : ")
 for k in set(target_train):
 	print(le.inverse_transform(k), target_train.count(k))
 	
-print("Valid composition : ")
-for k in set(target_valid):
-	print(le.inverse_transform(k), target_valid.count(k))
+print("test composition : ")
+for k in set(target_test):
+	print(le.inverse_transform(k), target_test.count(k))
 
 model = linear_model.LogisticRegression(solver='liblinear', max_iter=MAX_ITER, multi_class='ovr', n_jobs=NB_CORE)
 #multi_class = 'ovr' ==> regression binaire sur chaque label /='multinomial' sinon
 #solver = For multiclass problems, liblinear, newton-cg, lbfgs and sag solvers,
 
-print("[Valid] Learning...")
+print("[test] Learning...")
 model = model.fit(features_train, target_train)
 
 #save the model
@@ -204,47 +204,47 @@ print("[Saving] saving model")
 joblib.dump(model, "model.save")
 #loaded_model = joblib.load("model.save")
 
-print("[Valid] Testing")
+print("[test] Testing")
 
-print("[Valid] Mean train accuracy:",model.score(features_train, target_train))
-print("[Valid] Mean valid accuracy:",model.score(features_valid, target_valid))
-print("[Valid] Types:", le.inverse_transform(model.classes_))
-print("[Valid] weights:", model.coef_)
+print("[test] Mean train accuracy:",model.score(features_train, target_train))
+print("[test] Mean test accuracy:",model.score(features_test, target_test))
+print("[test] Types:", le.inverse_transform(model.classes_))
+print("[test] weights:", model.coef_)
 
-y_pred = model.predict(features_valid)
+y_pred = model.predict(features_test)
 y_pred_all = model.predict(features)
 
 try:
 	print("------------------------------")
-	print("[Valid] On valid test")
-	print(metrics.classification_report(target_valid, y_pred, target_names=le.classes_))
-	# print("[Valid] Confusion valid test")
-	# print(metrics.confusion_matrix(target_valid, y_pred, labels=le.classes_))
-	print("[Valid] On all corpus")
+	print("[test] On test test")
+	print(metrics.classification_report(target_test, y_pred, target_names=le.classes_))
+	# print("[test] Confusion test test")
+	# print(metrics.confusion_matrix(target_test, y_pred, labels=le.classes_))
+	print("[test] On all corpus")
 	print(metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_))
-	# print("[Valid] Confusion all corpus")
+	# print("[test] Confusion all corpus")
 	# print(metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
 	pass
 
 f = open("res", "w")
 
-f.write("[Valid] Testing")
+f.write("[test] Testing")
 
-f.write("[Valid] Mean train accuracy:"+str(model.score(features_train, target_train)))
-f.write("[Valid] Mean valid accuracy:"+str(model.score(features_valid, target_valid)))
-f.write("[Valid] Types:"+ str(le.inverse_transform(model.classes_)))
-f.write("[Valid] weights:"+ str(model.coef_))
+f.write("[test] Mean train accuracy:"+str(model.score(features_train, target_train)))
+f.write("[test] Mean test accuracy:"+str(model.score(features_test, target_test)))
+f.write("[test] Types:"+ str(le.inverse_transform(model.classes_)))
+f.write("[test] weights:"+ str(model.coef_))
 
 try:
 	f.write("------------------------------\n")
-	f.write("[Valid] On valid test\n")
-	d = metrics.classification_report(target_valid, y_pred, target_names=le.classes_)
+	f.write("[test] On test test\n")
+	d = metrics.classification_report(target_test, y_pred, target_names=le.classes_)
 	f.write(str(d)+"\n")
-	f.write("[Valid] On all corpus"+"\n")
+	f.write("[test] On all corpus"+"\n")
 	d = metrics.classification_report(targets_trans, y_pred_all, target_names=le.classes_)
 	f.write(str(d)+"\n")
-	#f.write("[Valid] Confusion all corpus"+"\n")
+	#f.write("[test] Confusion all corpus"+"\n")
 	#d = metrics.confusion_matrix(targets_trans, y_pred_all, labels=le.classes_)
 	#f.write(str(d)+"\n")
 except UndefinedMetricWarning:
