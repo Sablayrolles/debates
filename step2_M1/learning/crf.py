@@ -82,7 +82,7 @@ print("[Info] Loading targets...")
 d = joblib.load("../features/data/targets.dat")
 targets_full = d["data"]
 targets = []
-for i in f_dic:
+for i in features:
 	if (i["question"],i["edu"]) not in targets_full.keys():
 		targets.append("Other")
 	else:
