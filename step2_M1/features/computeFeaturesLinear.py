@@ -111,35 +111,35 @@ def processEDULogReg(n, nbTT, NB_PREV, NB_NEXT):
 	#calcul words
 	data = {}
 	data[0] = joblib.load("./data/"+str(n)+".data")
-	for i in range(n-NB_PREV,n):
+	for i in range(1,NB_PREV+1):
 		try:
-			with open("./data/"+str(i)+".data"): pass
-			data[n-i] = joblib.load("./data/"+str(i)+".data")
+			with open("./data/"+str(n-i)+".data"): pass
+			data[-i] = joblib.load("./data/"+str(n-i)+".data")
 		except IOError:
-			data[n-i] = None
+			data[-i] = None
 					
-	for i in range(n+1, NB_NEXT+1):
+	for i in range(1, NB_NEXT+1):
 		try:
-			with open("./data/"+str(i)+".data"): pass
-			data[i-n] = joblib.load("./data/"+str(i)+".data")
+			with open("./data/"+str(n+i)+".data"): pass
+			data[i] = joblib.load("./data/"+str(n+i)+".data")
 		except IOError:
-			data[i-n] = None
+			data[i] = None
 	
 	features = {}
-	features['0'] = joblib.load("./data/"+str(n)+".features")
-	for i in range(n-NB_PREV,n):
+	features[0] = joblib.load("./data/"+str(n)+".features")
+	for i in range(1,NB_PREV+1):
 		try:
-			with open("./data/"+str(i)+".features"): pass
-			features[n-i] = joblib.load("./data/"+str(i)+".features")
+			with open("./data/"+str(n-i)+".features"): pass
+			features[-i] = joblib.load("./data/"+str(n-i)+".features")
 		except IOError:
-			features[n-i] = None
+			features[-i] = None
 					
-	for i in range(n+1, NB_NEXT+1):
+	for i in range(1, NB_NEXT+1):
 		try:
-			with open("./data/"+str(i)+".data"): pass
-			features[i-n] = joblib.load("./data/"+str(i)+".features")
+			with open("./data/"+str(n+i)+".features"): pass
+			features[i] = joblib.load("./data/"+str(n+i)+".features")
 		except IOError:
-			features[i-n] = None
+			features[i] = None
 			
 	print("Data Keys : ", data.keys())
 	print("Features Keys : ", features.keys())
@@ -157,35 +157,35 @@ def processEDUCRF(n, nbTT, NB_PREV, NB_NEXT):
 	#calcul words
 	data = {}
 	data[0] = joblib.load("./data/"+str(n)+".data")
-	for i in range(n-NB_PREV,n):
+	for i in range(1,NB_PREV+1):
 		try:
-			with open("./data/"+str(i)+".data"): pass
-			data[n-i] = joblib.load("./data/"+str(i)+".data")
+			with open("./data/"+str(n-i)+".data"): pass
+			data[-i] = joblib.load("./data/"+str(n-i)+".data")
 		except IOError:
-			data[n-i] = None
+			data[-i] = None
 					
-	for i in range(n+1, NB_NEXT+1):
+	for i in range(1, NB_NEXT+1):
 		try:
-			with open("./data/"+str(i)+".data"): pass
-			data[i-n] = joblib.load("./data/"+str(i)+".data")
+			with open("./data/"+str(n+i)+".data"): pass
+			data[i] = joblib.load("./data/"+str(n+i)+".data")
 		except IOError:
-			data[i-n] = None
+			data[i] = None
 	
 	features = {}
-	features['0'] = joblib.load("./data/"+str(n)+".features")
-	for i in range(n-NB_PREV,n):
+	features[0] = joblib.load("./data/"+str(n)+".features")
+	for i in range(1,NB_PREV+1):
 		try:
-			with open("./data/"+str(i)+".features"): pass
-			features[n-i] = joblib.load("./data/"+str(i)+".features")
+			with open("./data/"+str(n-i)+".features"): pass
+			features[-i] = joblib.load("./data/"+str(n-i)+".features")
 		except IOError:
-			features[n-i] = None
+			features[-i] = None
 					
-	for i in range(n+1, NB_NEXT+1):
+	for i in range(1, NB_NEXT+1):
 		try:
-			with open("./data/"+str(i)+".data"): pass
-			features[n+i] = joblib.load("./data/"+str(i)+".features")
+			with open("./data/"+str(n+i)+".features"): pass
+			features[i] = joblib.load("./data/"+str(n+i)+".features")
 		except IOError:
-			features[n+i] = None
+			features[i] = None
 			
 	f = returnFeatures(data, features, NB_PREV, NB_NEXT, ["nbTokSameEDUPrev", "nbTokSameEDUNext", "positionInTopic", "positionInSegment", "nbEDUsaidBySpeakerInTopic", "nbEDUsaidBySpeakerInTopic"])
 	joblib.dump(f,"./data/"+str(f["num"])+".features");
