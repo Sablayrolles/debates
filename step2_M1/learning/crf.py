@@ -94,7 +94,7 @@ for i in features:
 		
 		if targets_full[(i["question"],i["edu"])] not in ["Change_of_subject", "Taking_part"]:
 			targets.append(targets_full[(i["question"],i["edu"])])
-	print("last target : ", targets[-1], " / ", len(targets))
+			
 print("[Data] Targets Types classifier : ", set(targets))
 for k in set(targets):
 	print(k, targets.count(k))
@@ -124,7 +124,7 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 			features_valid.append(features[i])
 			target_valid.append(targets[i])
 
-	model = crfs.CRF(solver='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
+	model = crfs.CRF(algorithm='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
 
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning...")
@@ -171,7 +171,7 @@ print("Valid composition : ")
 for k in set(target_valid):
 	print(le.inverse_transform(k), target_valid.count(k))
 
-model = crfs.CRF(solver='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
+model = crfs.CRF(algorithm='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
 
 print("[Valid] Learning...")
 model = model.fit(features_train, target_train)
