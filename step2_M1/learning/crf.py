@@ -143,7 +143,7 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 
 	labels = list(model.classes_)
 	y_pred = model.predict([features_valid])
-	v = crfsMetrics.flat_accuracy_suite(y_pred, target_valid, average='weighted', labels=labels)
+	v = crfsMetrics.flat_accuracy_score(y_pred, target_valid, average='weighted', labels=labels)
 	if v > max_scr:
 		max_scr = v
 		iter_max = MAX_ITER
