@@ -72,7 +72,7 @@ def returnFeatures(data, preComputeFeatures, NB_PREV, NB_NEXT, featuresList, all
 	#-------------------------------------------------------------------------------------------------------------------------------
 	
 	for f in featuresList:
-		#tokens features	
+		#tokens features
 		if f == "as?":
 			features["as?"] = tFeatures.asQuestionMark(data[0]["tokens"], boolean)
 		if f == "nbTokSameEDUPrev":
@@ -81,7 +81,7 @@ def returnFeatures(data, preComputeFeatures, NB_PREV, NB_NEXT, featuresList, all
 					features["nbTokSameEDUPrev:"+str(-i)] = tFeatures.nbSameTok(data[0]["tokens"], data[-i]["tokens"])
 				else:
 					features["nbTokSameEDUPrev:"+str(-i)] = 0
- 		if f == "nbTokSameEDUNext":
+		if f == "nbTokSameEDUNext":
 			for i in range(NB_NEXT):
 				if data[i] != None:
 					features["nbTokSameEDUNext:"+str(i)] = tFeatures.nbSameTok(data[0]["tokens"], data[i]["tokens"])
