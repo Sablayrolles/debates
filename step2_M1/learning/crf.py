@@ -194,8 +194,8 @@ joblib.dump(model, "modelCRF.save")
 
 print("[test] Testing")
 
-print("[test] Mean train accuracy:",model.score(features_train, target_train))
-print("[test] Mean test accuracy:",model.score(features_test, target_test))
+print("[test] Mean train accuracy:",model.score([features_train], [target_train]))
+print("[test] Mean test accuracy:",model.score([features_test], [target_test]))
 print("[test] Types:", list(model.classes_))
 
 y_pred = model.predict([features_test])
@@ -204,11 +204,11 @@ y_pred_all = model.predict([features])
 try:
 	print("------------------------------")
 	print("[test] On test test")
-	print(crfsMetrics.flat_classification_report(target_test, y_pred, target_names=le.classes_))
+	print(crfsMetrics.flat_classification_report([target_test], y_pred, target_names=le.classes_))
 	# print("[test] Confusion test test")
 	# print(metrics.confusion_matrix(target_test, y_pred, labels=le.classes_))
 	print("[test] On all corpus")
-	print(crfsMetrics.classification_report(targets, y_pred_all, target_names=le.classes_))
+	print(crfsMetrics.classification_report([targets], y_pred_all, target_names=le.classes_))
 	# print("[test] Confusion all corpus")
 	# print(metrics.confusion_matrix(targets, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
@@ -218,18 +218,18 @@ f = open("res", "w")
 
 f.write("[test] Testing")
 
-f.write("[test] Mean train accuracy:"+str(model.score(features_train, target_train)))
-f.write("[test] Mean test accuracy:"+str(model.score(features_test, target_test)))
+f.write("[test] Mean train accuracy:"+str(model.score([features_train], [target_train])))
+f.write("[test] Mean test accuracy:"+str(model.score([features_test], [target_test])))
 f.write("[test] Types:"+ str(list(model.classes_)))
 
 try:
 	f.write("------------------------------")
 	f.write("[test] On test test")
-	f.write(str(crfsMetrics.flat_classification_report(target_test, y_pred, target_names=le.classes_)))
+	f.write(str(crfsMetrics.flat_classification_report([target_test], y_pred, target_names=le.classes_)))
 	# f.write("[test] Confusion test test")
 	# f.write(metrics.confusion_matrix(target_test, y_pred, labels=le.classes_))
 	f.write("[test] On all corpus")
-	f.write(str(crfsMetrics.classification_report(targets, y_pred_all, target_names=le.classes_)))
+	f.write(str(crfsMetrics.classification_report([targets], y_pred_all, target_names=le.classes_)))
 	# print("[test] Confusion all corpus")
 	# print(metrics.confusion_matrix(targets, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
