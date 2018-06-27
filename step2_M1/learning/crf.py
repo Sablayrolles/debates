@@ -129,10 +129,7 @@ for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning...")
 	
-	try:
-		model = model.fit(features_train, target_train)
-	except ConvergenceWarning:
-		pass
+	model = model.fit(features_train, target_train)
 		
 	if VERBOSE == "full":
 		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Testing")
