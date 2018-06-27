@@ -68,6 +68,7 @@ rm -f job.log 2>/dev/null
 rm -f job.err 2>/dev/null
 home=`pwd`
 cd dataset
+echo "python3 parse_types_annoted.py >$home/target.log 2>$home/target.err"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "" | mailx -v -s "[Info] Start parsing data on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
