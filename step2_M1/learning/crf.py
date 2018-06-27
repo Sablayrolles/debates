@@ -169,11 +169,11 @@ for train_i, test_i in sss.split(f, targets):
 
 print("Train composition : ")
 for k in set(target_train):
-	print(le.inverse_transform(k), target_train.count(k))
+	print(k, target_train.count(k))
 	
 print("Valid composition : ")
 for k in set(target_valid):
-	print(le.inverse_transform(k), target_valid.count(k))
+	print(k, target_valid.count(k))
 
 model = crfs.CRF(algorithm='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
 
