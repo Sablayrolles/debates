@@ -80,7 +80,7 @@ for i in range(1,int(NB_FILES)):
 		if k != "edu" and k != "num":
 			keys.append(k)
 			d.append(data[k])
-	f.append(f)
+	f.append(d)
 print("[Data] Features keys:", keys)
 
 print("[Info] Loading targets...")
