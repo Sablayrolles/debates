@@ -154,7 +154,8 @@ print("[Valid] ================= NB ITER :", MAX_ITER, "========================
 # features_train, features_valid, target_train, target_valid = modelSelect.train_test_split(features, targets, test_size=TEST_PERCENT)
 sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
 features_train, features_valid, target_train, target_valid = [], [], [], []
-for train_i, test_i in sss.split(features, targets):
+f = range(0,len(features))
+for train_i, test_i in sss.split(f, targets):
 	for i in train_i:
 		features_train.append(features[i])
 		target_train.append(targets[i])
