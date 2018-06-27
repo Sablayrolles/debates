@@ -45,10 +45,13 @@ fi;
 
 echo -e "NBCORE"$NBCORE"\nNotification error:"$notifE"\nNotification success:"$notifS"\nNotification step:"$notifN
 
+rm -f corenlp.err 2>/dev/null
+rm -f corenlp.log 2>/dev/null
+
 dated=`date "+%y/%m/%d %H:%M:%S"`
 echo "Running java corenlp"
 cd ~/stageM1/corenlp/
-./run.sh >~/stageM1/debates/step2\_M1/corenlp.log 2>~/stageM1/debates/step2\_M1/corenlp.err &
+./run.sh >>~/stageM1/debates/step2\_M1/corenlp.log 2>>~/stageM1/debates/step2\_M1/corenlp.err &
 if [ $? -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "Fail run corenlp\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail run corenlp" -a ~/stageM1/debates/step2\_M1/corenlp.log -a ~/stageM1/debates/step2\_M1/corenlp.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
