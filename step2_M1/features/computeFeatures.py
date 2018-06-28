@@ -179,8 +179,8 @@ if __name__ == '__main__':
 				processEDUCRF(i, nbTT, emoLex)
 	else:
 		if typeLearn == 1:
-			ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDULogReg)(i, nbTT, emoLex) for i in range(1,nbTT))
+			ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5,backend="multiprocessing")(joblib.delayed(processEDULogReg)(i, nbTT, emoLex) for i in range(1,nbTT))
 		if typeLearn == 2:
-			ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDUCRF)(i, nbTT, emoLex) for i in range(1,nbTT))
+			ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5,backend="multiprocessing")(joblib.delayed(processEDUCRF)(i, nbTT, emoLex) for i in range(1,nbTT))
 	
 	print("Computing ", int(sys.argv[1])+1, "files")

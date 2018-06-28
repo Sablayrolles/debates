@@ -104,7 +104,7 @@ if __name__ == "__main__":
 		for i in range(1,nbTT):
 			processEDU(1, nbTT)
 	else:
-		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5)(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
+		ret = joblib.Parallel(n_jobs=NB_CORE,verbose=5,backend="multiprocessing")(joblib.delayed(processEDU)(i, nbTT) for i in range(1,nbTT))
 	
 	print("Extracted ", int(sys.argv[1])+1, "files")
 				
