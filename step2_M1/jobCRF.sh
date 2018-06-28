@@ -5,12 +5,12 @@ echo "-e : Send email when error"
 echo "-s : Send email when success"
 echo "-v : Send email after each step(verbose)"
 echo "-0 : No notification"
-echo -e "default : -ens -c 8\n\n"
+echo -e "default : -ens -c 7\n\n"
 
 notifE=1
 notifS=1
 notifN=1
-NBCORE=8
+NBCORE=7
 
 if [ -n $1 ]; then	
 	if [ `echo $1 | grep "v" | wc -l` -eq 1 ]; then
