@@ -18,7 +18,7 @@ fig = plt.figure(figsize=(12,11))
 ax = fig.add_subplot(111,projection='3d')
 plt.title("Accuracy for CRF")
 
-scrs = joblib.load("scrs")
+scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
 
 firebrick = mpatches.Patch(color='firebrick', label='acc < 0.05')
 red = mpatches.Patch(color='red', label='0.05 <= acc < 0.1')
