@@ -143,6 +143,7 @@ fi
 cd ../learning
 echo "Learning"
 echo "python3 crf.py $nbFiles >>$home/learnCRF.log 2>>$home/learnCRF.err; echo \$?"
+echo "File of plotting : scrs"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	echo -e "" | mailx -v -s "[Info] Start learning on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
