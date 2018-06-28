@@ -80,7 +80,7 @@ if [ $? -ne 0 ] && [ $notifE -eq 1 ]; then
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-	kill -9 $pid
+	kill -n 9 $pid
 	
 	exit 2
 fi
@@ -102,7 +102,7 @@ if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-	kill -9 $pid
+	kill -n 9 $pid
 	
 	exit 3
 fi
@@ -119,7 +119,7 @@ if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-	kill -9 $pid
+	kill -n 9 $pid
 	
 	exit 4
 fi
@@ -135,7 +135,7 @@ if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-	kill -9 $pid
+	kill -n 9 $pid
 	
 	exit 4
 fi
@@ -161,7 +161,7 @@ if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	crontab -r
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-	kill -9 $pid
+	kill -n 9 $pid
 
 	exit 5
 fi
@@ -169,7 +169,7 @@ echo "Del crontab"
 crontab -r
 echo "Kill corenlp"
 pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
-kill -9 $pid
+kill -n 9 $pid
 
 #send result by mail
 if [ $notifS -eq 1 ]; then
