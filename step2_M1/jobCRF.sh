@@ -150,6 +150,8 @@ if [ $notifN -eq 1 ]; then
 fi;
 echo "Setting crontab"
 echo '*/10 * * * * python3 '$home'/learning/plot3d.py && echo -e "Plot crf\n" | mailx -v -s "[Info] Plot crf" -a '$home'/learning/graph.png -a '$home'/learnCRF.err -a '$home'/learnCRF.log -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com'>./cron
+cat cron
+sleep 300
 crontab ./cron
 rm ./cron
 a=`python3 crf.py $nbFiles >>$home/learnCRF.log 2>>$home/learnCRF.err; echo $?`
