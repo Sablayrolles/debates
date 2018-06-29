@@ -149,7 +149,7 @@ if [ $notifN -eq 1 ]; then
 	sendMail louis.sablayrolles@gmail.com "[Info] Start learning on $datef" " "
 fi;
 echo "Setting crontab"
-echo '*/1 * * * * python3 ~/stageM1/debates/step2\_M1/learning/plot3d.py && sendMail louis.sablayrolles@gmail.com "[Info] Plot crf" "Plot crf\n" ~/stageM1/debates/step2\_M1/learning/graph.png ~/stageM1/debates/step2\_M1/learnCRF.err ~/stageM1/debates/step2\_M1/learnCRF.log'>./cron
+echo '*/30 * * * * python3 ~/stageM1/debates/step2\_M1/learning/plot3d.py && sendMail louis.sablayrolles@gmail.com "[Info] Plot crf" "Plot crf\n" ~/stageM1/debates/step2\_M1/learning/graph.png ~/stageM1/debates/step2\_M1/learnCRF.err ~/stageM1/debates/step2\_M1/learnCRF.log'>./cron
 crontab ./cron
 rm ./cron
 a=`python3 crf.py $nbFiles >>$home/learnCRF.log 2>>$home/learnCRF.err; echo $?`
