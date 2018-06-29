@@ -90,15 +90,19 @@ for c1,c2,MAX_ITER,s in scrs:
 																if s < 0.8:
 																	c = 'steelblue'
 																else:
-																	if s < 0.9:
+																	if s < 0.85:
 																		c = 'mediumblue'
 																	else:
-																		if s < 0.95:
-																			c = 'blueviolet'
+																		if s < 0.9:
+																			c = 'blue'
 																		else:
-																			c = 'purple'
+																			if s < 0.95:
+																				c = 'blueviolet'
+																			else:
+																				c = 'purple'
 			ax.scatter(MAX_ITER, c2, c1, c=c, marker='o', s=125)
-			ax.text(MAX_ITER, c2, c1, '%s' % (str(round(s,2))), size=10, zorder=5, color='k')
+			if c in ['mediumblue', 'blue', 'blueviolet', 'purple"]:
+				ax.text(MAX_ITER, c2, c1, '%s' % (str(round(s,2))), size=10, zorder=5, color='k')
 ax.set_xlabel('c1')
 ax.set_ylabel('c2')
 ax.set_zlabel('MAX_ITER')
