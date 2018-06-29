@@ -98,7 +98,7 @@ for c1,c2,MAX_ITER,s in scrs:
 																		else:
 																			c = 'purple'
 			ax.scatter(c1, c2, MAX_ITER, c=c, marker='o', s=125)
-			ax.text(c1+0.01, c2+0.i01, MAX_ITER+0.01, '%s' % (str(round(s,2)), size=10, zorder=5, color='k')
+			ax.text(c1+0.01, c2+0.01, MAX_ITER+0.01, '%s' % (str(round(s,2)), size=10, zorder=5, color='k')
 ax.set_xlabel('c1')
 ax.set_ylabel('c2')
 ax.set_zlabel('MAX_ITER')
