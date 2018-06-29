@@ -101,10 +101,10 @@ for c1,c2,MAX_ITER,s in scrs:
 																			else:
 																				c = 'purple'
 			ax.scatter(MAX_ITER, c2, c1, c=c, marker='o', s=125)
-			if c in ['mediumblue', 'blue', 'blueviolet', 'purple"]:
+			if c in ['mediumblue', 'blue', 'blueviolet', 'purple']:
 				ax.text(MAX_ITER, c2, c1, '%s' % (str(round(s,2))), size=10, zorder=5, color='k')
-ax.set_xlabel('c1')
+ax.set_xlabel('MAX_ITER')
 ax.set_ylabel('c2')
-ax.set_zlabel('MAX_ITER')
+ax.set_zlabel('c1')
 ax.legend(handles=[firebrick, red, orangered, darkorange, orange, gold, yellow, yellowgreen, lawngreen, limegreen, green, cyan, turquoise, lightseagreen, teal, steelblue, mediumblue, blueviolet, purple],loc='upper center', bbox_to_anchor=(0.5, -0.01), fancybox=True, shadow=True, ncol=5, title="Accuracy Colors")
 fig.savefig("graph.png")
