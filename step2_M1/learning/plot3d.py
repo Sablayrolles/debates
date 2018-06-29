@@ -41,6 +41,7 @@ blueviolet = mpatches.Patch(color='blueviolet', label='0.9 <= acc < 0.95')
 purple = mpatches.Patch(color='purple', label='0.95 <= acc')
 
 for c1,c2,MAX_ITER,s in scrs:
+	print("Adding point :",c1,c2,MAX_ITER,"value", s)
 	if s < 0.05:
 		c = 'firebrick'
 	else:
