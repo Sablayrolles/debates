@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#pour fonction sendMail
+source ~/.bash_profile
+
 echo "\nUsage : $0 -[esv0] [-c NBCORE]"
 echo "-e : Send email when error"
 echo "-s : Send email when success"
