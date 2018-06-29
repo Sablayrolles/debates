@@ -151,7 +151,7 @@ for c1 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.
 			y_pred = model.predict([features_test])
 			v = crfsMetrics.flat_accuracy_score(y_pred, [target_test])
 			if MAX_ITER % 100 == 0:
-				scrs.append((c1,c2,MAX_ITER,v))
+				scrs.append([c1,c2,MAX_ITER,v])
 			joblib.dump(scrs, "scrs")
 			if v > max_scr:
 				max_scr = v

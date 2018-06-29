@@ -54,7 +54,7 @@ cd ~/stageM1/corenlp/
 ./run.sh >>~/stageM1/debates/step2\_M1/corenlp.log 2>>~/stageM1/debates/step2\_M1/corenlp.err &
 if [ $? -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "Fail run corenlp\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail run corenlp" -a ~/stageM1/debates/step2\_M1/corenlp.log -a ~/stageM1/debates/step2\_M1/corenlp.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Error] Fail run corenlp" "Fail run corenlp\nBegging on $dated \n Finnishing on $datef\n\n" ~/stageM1/debates/step2\_M1/corenlp.log ~/stageM1/debates/step2\_M1/corenlp.err
 	exit 1
 fi	
 
@@ -71,12 +71,12 @@ cd dataset
 echo "python3 parse_types_annoted.py >$home/target.log 2>$home/target.err"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "" | mailx -v -s "[Info] Start parsing data on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Info] Start parsing data on $datef" " "
 fi;
 python3 parse_types_annoted.py >$home/target.log 2>$home/target.err
 if [ $? -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "Fail parse types\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail parse types" -a $home/target.log -a $home/target.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Error] Fail parse types" "Fail parse types\nBegging on $dated \n Finnishing on $datef\n\n" ~/stageM1/debates/step2\_M1/target.log ~/stageM1/debates/step2\_M1/target.err
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
@@ -93,12 +93,12 @@ echo "Extracting infos features"
 echo "python3 saveData.py $nbFiles -c $NBCORE >>$home/features.log 2>>$home/features.err; echo \$?"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "" | mailx -v -s "[Info] Start extracting feature on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Info] Start extracting feature on $datef" " " 
 fi;
 a=`python3 saveData.py $nbFiles -c $NBCORE >$home/features.log 2>$home/features.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "Fail saveData\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail saveData" -a $home/features.log -a $home/features.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Error] Fail saveData" "Fail saveData\nBegging on $dated \n Finnishing on $datef\n\n" ~/stageM1/debates/step2\_M1/features.log ~/stageM1/debates/step2\_M1/features.err
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
@@ -110,12 +110,12 @@ echo "Extracting features"
 echo "python3 computeFeatures.py $nbFiles 1 -c $NBCORE >>$home/features.log 2>>$home/features.err; echo \$?"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "" | mailx -v -s "[Info] Start compute features on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Info] Start compute features on $datef" " "
 fi;
 a=`python3 computeFeatures.py $nbFiles 1 -c $NBCORE >>$home/features.log 2>>$home/features.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "Fail computeFeatures\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail computeFeatures" -a $home/features.log -a $home/features.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Error] Fail computeFeatures" "Fail computeFeatures\nBegging on $dated \n Finnishing on $datef\n\n" ~/stageM1/debates/step2\_M1/features.log ~/stageM1/debates/step2\_M1/features.err
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
@@ -126,12 +126,12 @@ fi
 echo "python3 computeFeaturesLinear.py $nbFiles 1 -p 2 -n 1 >>$home/features.log 2>>$home/features.err; echo \$?"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "" | mailx -v -s "[Info] Start compute linear features on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Info] Start compute linear features on $datef" " "
 fi;
 a=`python3 computeFeaturesLinear.py $nbFiles 1 -p 2 -n 1  >>$home/features.log 2>>$home/features.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "Fail computeFeaturesLinear\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail computeFeaturesLinear" -a $home/features.log -a $home/features.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Error] Fail computeFeaturesLinear" "Fail computeFeaturesLinear\nBegging on $dated \n Finnishing on $datef\n\n" ~/stageM1/debates/step2\_M1/features.log ~/stageM1/debates/step2\_M1/features.err
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
@@ -145,12 +145,12 @@ echo "Learning"
 echo "python3 logistic_reg.py $nbFiles -c $NBCORE >>$home/learn.log 2>>$home/learn.err; echo \$?"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "" | mailx -v -s "[Info] Start learning on $datef" -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Info] Start learning on $datef" " "
 fi;
 a=`python3 logistic_reg.py $nbFiles -c $NBCORE >>$home/learn.log 2>>$home/learn.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
-	echo -e "Fail logistic_reg\nBegging on $dated \n Finnishing on $datef\n\n" | mailx -v -s "[Error] Fail logistic_reg" -a $home/learn.log -a $home/learn.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Error] Fail logistic_reg" "Fail logistic_reg\nBegging on $dated \n Finnishing on $datef\n\n" ~/stageM1/debates/step2\_M1/learn.log ~/stageM1/debates/step2\_M1/learn.err
 	
 	echo "Kill corenlp"
 	pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
@@ -167,5 +167,5 @@ kill -9 $pid
 if [ $notifS -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	res=`cat $home/learning/res`
-	echo -e "Result learning finish\nBegging on $dated \n Finnishing on $datef\n\n $res" | mailx -v -s "[Result] Result learning" -a $home/target.log -a $home/target.err -a $home/features.log -a $home/features.err -a $home/learn.log -a $home/learn.err -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >/dev/null 2>/dev/null
+	sendMail louis.sablayrolles@gmail.com "[Result] Result learning" "Result learning finish\nBegging on $dated \n Finnishing on $datef\n\n $res" ~/stageM1/debates/step2\_M1/target.log ~/stageM1/debates/step2\_M1/target.err ~/stageM1/debates/step2\_M1/features.log ~/stageM1/debates/step2\_M1/features.err ~/stageM1/debates/step2\_M1/learn.log ~/stageM1/debates/step2\_M1/learn.err
 fi;
