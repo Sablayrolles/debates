@@ -16,7 +16,7 @@ import joblib
 
 fig = plt.figure(figsize=(12,11))
 ax = fig.add_subplot(111,projection='3d')
-plt.title("Accuracy for CRF")
+
 
 scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
 
@@ -40,69 +40,74 @@ mediumblue = mpatches.Patch(color='mediumblue', label='0.85 <= acc < 0.9')
 blueviolet = mpatches.Patch(color='blueviolet', label='0.9 <= acc < 0.95')
 purple = mpatches.Patch(color='purple', label='0.95 <= acc')
 
+last = ""
 for c1,c2,MAX_ITER,s in scrs:
-	print("Adding point :",c1,c2,MAX_ITER,"value", s)
-	if s < 0.05:
-		c = 'firebrick'
-	else:
-		if s < 0.1:
-			c = 'red'
+	last = " ("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")"
+	if MAX_ITER in [100, 250, 500, 750, 999]:
+		print("Adding point :",c1,c2,MAX_ITER,"value", s)
+		if s < 0.05:
+			c = 'firebrick'
 		else:
-			if s < 0.15:
-				c = 'orangered'
+			if s < 0.1:
+				c = 'red'
 			else:
-				if s < 0.2:
-					c = 'darkorange'
+				if s < 0.15:
+					c = 'orangered'
 				else:
-					if s < 0.25:
-						c = 'orange'
+					if s < 0.2:
+						c = 'darkorange'
 					else:
-						if s < 0.3:
-							c = 'gold'
+						if s < 0.25:
+							c = 'orange'
 						else:
-							if s < 0.35:
-								c = 'yellow'
+							if s < 0.3:
+								c = 'gold'
 							else:
-								if s < 0.4:
-									c = 'yellowgreen'
+								if s < 0.35:
+									c = 'yellow'
 								else:
-									if s < 0.45:
-										c = 'lawngreen'
+									if s < 0.4:
+										c = 'yellowgreen'
 									else:
-										if s < 0.5:
-											c = 'limegreen'
+										if s < 0.45:
+											c = 'lawngreen'
 										else:
-											if s < 0.55:
-												c = 'green'
+											if s < 0.5:
+												c = 'limegreen'
 											else:
-												if s < 0.6:
-													c = 'cyan'
+												if s < 0.55:
+													c = 'green'
 												else:
-													if s < 0.65:
-														c = 'turquoise'
+													if s < 0.6:
+														c = 'cyan'
 													else:
-														if s < 0.7:
-															c = 'lightseagreen'
+														if s < 0.65:
+															c = 'turquoise'
 														else:
-															if s < 0.75:
-																c = 'teal'
+															if s < 0.7:
+																c = 'lightseagreen'
 															else:
-																if s < 0.8:
-																	c = 'steelblue'
+																if s < 0.75:
+																	c = 'teal'
 																else:
-																	if s < 0.85:
-																		c = 'mediumblue'
+																	if s < 0.8:
+																		c = 'steelblue'
 																	else:
-																		if s < 0.9:
-																			c = 'blue'
+																		if s < 0.85:
+																			c = 'mediumblue'
 																		else:
-																			if s < 0.95:
-																				c = 'blueviolet'
+																			if s < 0.9:
+																				c = 'blue'
 																			else:
-																				c = 'purple'
-			ax.scatter(MAX_ITER, c2, c1, c=c, marker='o', s=125)
-			if c in ['mediumblue', 'blue', 'blueviolet', 'purple']:
-				ax.text(MAX_ITER, c2, c1, '%s' % (str(round(s,2))), size=10, zorder=5, color='k')
+																				if s < 0.95:
+																					c = 'blueviolet'
+																				else:
+																					c = 'purple'
+				ax.scatter(MAX_ITER, c2, c1, c=c, marker='o', s=125)
+				if c in ['mediumblue', 'blue', 'blueviolet', 'purple']:
+					ax.text(MAX_ITER, c2, c1, '%s' % (str(round(s,2))), size=10, zorder=5, color='k')
+
+plt.title("Accuracy for CRF"+last)
 ax.set_xlabel('MAX_ITER')
 ax.set_ylabel('c2')
 ax.set_zlabel('c1')

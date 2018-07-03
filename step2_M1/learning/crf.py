@@ -150,18 +150,19 @@ for c1 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.
 			labels = list(model.classes_)
 			y_pred = model.predict([features_test])
 			v = crfsMetrics.flat_accuracy_score(y_pred, [target_test])
-			if MAX_ITER % 100 == 0:
-				scrs.append([c1,c2,MAX_ITER,v])
+			scrs.append([c1,c2,MAX_ITER,v])
 			joblib.dump(scrs, "scrs")
 			if v > max_scr:
 				max_scr = v
 				iter_max = MAX_ITER
 				c1_max = c1
 				c2_max = c2
+				joblib.dump(model, "modelCRF.save")
+				print("New best accuracy for crf model with c1 =", c1, "c2 =", c2, "MAX_ITER =", MAX_ITER, "score :", v)
 			if VERBOSE == "full":
 				print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Mean test accuracy:",v)
 	
-print("[Info][Model=Classes] Best accuracy for", iter_max, "iteration with test accuracy of", max_scr)
+print("[Info][Model=Classes] Best accuracy for", iter_max, "iterations and c1 =", c1, "and c2 =", c2, " with test accuracy of", max_scr)
 # a = input("Press Enter to Continue ...")
 
 MAX_ITER = iter_max
@@ -186,15 +187,14 @@ print("test composition : ")
 for k in set(target_test):
 	print(k, target_test.count(k))
 
-model = crfs.CRF(algorithm='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
+# model = crfs.CRF(algorithm='lbfgs', c1=0.1, c2=0.1, max_iterations=MAX_ITER, all_possible_transitions=True)
 
-print("[test] Learning...")
-model = model.fit([features_train], [target_train])
+# print("[test] Learning...")
+# model = model.fit([features_train], [target_train])
 
 #save the model
-print("[Saving] saving model")
-joblib.dump(model, "modelCRF.save")
-#loaded_model = joblib.load("model.save")
+print("[Load] Loading best model")
+model = joblib.load("model.save")
 
 print("[test] Testing")
 
@@ -208,11 +208,11 @@ y_pred_all = model.predict([features])
 try:
 	print("------------------------------")
 	print("[test] On test test")
-	print(crfsMetrics.flat_classification_report([target_test], y_pred, target_names=le.classes_))
+	print(crfsMetrics.flat_classification_report([target_test], y_pred, target_names=list(model.classes_)))
 	# print("[test] Confusion test test")
 	# print(metrics.confusion_matrix(target_test, y_pred, labels=le.classes_))
 	print("[test] On all corpus")
-	print(crfsMetrics.classification_report([targets], y_pred_all, target_names=le.classes_))
+	print(crfsMetrics.classification_report([targets], y_pred_all, target_names=list(model.classes_)))
 	# print("[test] Confusion all corpus")
 	# print(metrics.confusion_matrix(targets, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
@@ -229,11 +229,11 @@ f.write("[test] Types:"+ str(list(model.classes_)))
 try:
 	f.write("------------------------------")
 	f.write("[test] On test test")
-	f.write(str(crfsMetrics.flat_classification_report([target_test], y_pred, target_names=le.classes_)))
+	f.write(str(crfsMetrics.flat_classification_report([target_test], y_pred, target_names=list(model.classes_))))
 	# f.write("[test] Confusion test test")
 	# f.write(metrics.confusion_matrix(target_test, y_pred, labels=le.classes_))
 	f.write("[test] On all corpus")
-	f.write(str(crfsMetrics.classification_report([targets], y_pred_all, target_names=le.classes_)))
+	f.write(str(crfsMetrics.classification_report([targets], y_pred_all, target_names=list(model.classes_))))
 	# print("[test] Confusion all corpus")
 	# print(metrics.confusion_matrix(targets, y_pred_all, labels=le.classes_))
 except UndefinedMetricWarning:
