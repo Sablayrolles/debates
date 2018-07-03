@@ -41,8 +41,13 @@ blueviolet = mpatches.Patch(color='blueviolet', label='0.9 <= acc < 0.95')
 purple = mpatches.Patch(color='purple', label='0.95 <= acc')
 
 last = ""
+max_s = 0
+best = ""
 for c1,c2,MAX_ITER,s in scrs:
 	last = " ("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")"
+	if s > max_s:
+		best = "Max("+str(c1)+","+str(c2)+","+str(MAX_ITER)+" : "+str(s)+")"
+		max_s = s
 	if MAX_ITER in [100, 250, 500, 750, 999]:
 		print("Adding point :",c1,c2,MAX_ITER,"value", s)
 		if s < 0.05:
@@ -107,7 +112,7 @@ for c1,c2,MAX_ITER,s in scrs:
 				if c in ['mediumblue', 'blue', 'blueviolet', 'purple']:
 					ax.text(MAX_ITER, c2, c1, '%s' % (str(round(s,2))), size=10, zorder=5, color='k')
 
-plt.title("Accuracy for CRF"+last)
+plt.title("Accuracy for CRF"+last+best)
 ax.set_xlabel('MAX_ITER')
 ax.set_ylabel('c2')
 ax.set_zlabel('c1')
