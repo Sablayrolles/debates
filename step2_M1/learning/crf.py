@@ -23,7 +23,7 @@ import argparse
 parser = argparse.ArgumentParser(description="\tModule computeFeatures\n\t===============\n\n\t\tThis module can be use to compute and save features on a savedata computing on dataset")
 
 parser.add_argument("numFiles", metavar="nbFiles", type=int, help="Number of file .features to learn (from computeFeatures)")
-parser.add_argument("-v", "--verbose", metavar="verbose", type=int, choices=[1, 2], nargs="?", help="Level of verbose\n 0: None, 1: min (default), 2 : all")
+parser.add_argument("-v", "--verbose", metavar="verbose", type=int, choices=[0, 1, 2], nargs="?", help="Level of verbose\n 0: None, 1: min (default), 2 : all")
 parser.add_argument("-t", "--test", metavar="testSize", type=float, nargs="?", help="Test size between 0 and 1")
 parser.add_argument("--iterMin", metavar="iterMin", type=int, nargs="?", help="Number of min iter")
 parser.add_argument("--iterMax", metavar="iterMax", type=int, nargs="?", help="Number of max iter")
