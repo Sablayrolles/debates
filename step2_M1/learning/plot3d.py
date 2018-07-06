@@ -146,13 +146,13 @@ ax.set_zlabel('c1')
 ax.legend(handles=[firebrick, red, orangered, darkorange, orange, gold, yellow, yellowgreen, lawngreen, limegreen, green, cyan, turquoise, lightseagreen, teal, steelblue, mediumblue, blueviolet, purple],loc='upper center', bbox_to_anchor=(0.5, -0.01), fancybox=True, shadow=True, ncol=5, title="Accuracy Colors")
 fig.savefig("graph.png")
 
-for i in range(c1Graph['x']):
+for i in range(len(c1Graph['x'])):
 	c1Graph['y'][i] /= c1Graph['nb'][i]
 
-for i in range(c2Graph['x']):
+for i in range(len(c2Graph['x'])):
 	c2Graph['y'][i] /= c2Graph['nb'][i]
 
-for i in range(maxIterGraph['x']):
+for i in range(len(maxIterGraph['x'])):
 	maxIterGraph['y'][i] /= maxIterGraph['nb'][i]
 	
 fig = plt.figure(figsize=(12,11))
