@@ -54,8 +54,21 @@ purple = mpatches.Patch(color='purple', label='0.95 <= acc')
 last = ""
 max_s = 0
 best = ""
+c1Graph = {'x': [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95], 'y': [0 for i in range(len([0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95])], 'nb': [0 for i in range(len([0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95])]}
+c2Graph = {'x': [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95], 'y': [0 for i in range(len([0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95])], 'nb': [0 for i in range(len([0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95])]}
+maxIterGraph = {'x': range(100,1000), 'y': [0 for i in range(100,1000)], 'nb': [0 for i in range(100,1000)]}
 for c1,c2,MAX_ITER,s in scrs:
 	last = " ("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")"
+	
+	c1Graph['y'][c1Graph['x'].index(c1)] += s
+	c1Graph['nb'][c1Graph['x'].index(c1)] += 1
+	
+	c2Graph['y'][c2Graph['x'].index(c2)] += s
+	c2Graph['nb'][c2Graph['x'].index(c2)] += 1
+	
+	maxIterGraph['y'][maxIterGraph['x'].index(MAX_ITER)] += s
+	maxIterGraph['nb'][maxIterGraph['x'].index(MAX_ITER)] += 1
+	
 	if s > max_s:
 		best = "Max("+str(c1)+","+str(c2)+","+str(MAX_ITER)+" : "+str(s)+")"
 		max_s = s
@@ -129,3 +142,30 @@ ax.set_ylabel('c2')
 ax.set_zlabel('c1')
 ax.legend(handles=[firebrick, red, orangered, darkorange, orange, gold, yellow, yellowgreen, lawngreen, limegreen, green, cyan, turquoise, lightseagreen, teal, steelblue, mediumblue, blueviolet, purple],loc='upper center', bbox_to_anchor=(0.5, -0.01), fancybox=True, shadow=True, ncol=5, title="Accuracy Colors")
 fig.savefig("graph.png")
+
+for i in range(c1Graph['x']):
+	c1Graph['y'][i] /= c1Graph['nb'][i]
+
+for i in range(c2Graph['x']):
+	c2Graph['y'][i] /= c2Graph['nb'][i]
+
+for i in range(maxIterGraph['x']):
+	maxIterGraph['y'][i] /= maxIterGraph['nb'][i]
+	
+fig = plt.figure(figsize=(12,11))
+ax = fig.add_subplot(311)
+ax.plot(c1Graph['x'], c1Graph['y'])
+ax.set_xlabel("c1")
+ax.set_ylabel("Mean accuracy")
+
+ax2 = fig.add_splot(312)
+ax2.plot(c2Graph['x'], c2Graph['y'])
+ax2.set_xlabel("c2")
+ax2.set_ylabel("Mean accuracy")
+
+ax3 = fig.add_splot(313)
+ax3.plot(maxIterGraph['x'], maxIterGraph['y'])
+ax3.set_xlabel("maxIter")
+ax3.set_ylabel("Mean accuracy")
+fig.savefig("accuracies.png")
+
