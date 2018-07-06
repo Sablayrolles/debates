@@ -55,9 +55,9 @@ last = ""
 max_s = 0
 best = ""
 x = [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]
-c1Graph =  {'x': x, 'y': [0 for i in range(x)], 'nb': [0 for i in range(x)]}
+c1Graph =  {'x': x, 'y': [0 for i in range(len(x))], 'nb': [0 for i in range(len(x))]}
 
-c2Graph =  {'x': x, 'y': [0 for i in range(x)], 'nb': [0 for i in range(x)]}
+c2Graph =  {'x': x, 'y': [0 for i in range(len(x))], 'nb': [0 for i in range(len(x))]}
 
 maxIterGraph = {'x': range(100,1000), 'y': [0 for i in range(100,1000)], 'nb': [0 for i in range(100,1000)]}
 for c1,c2,MAX_ITER,s in scrs:
