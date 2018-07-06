@@ -13,12 +13,23 @@ import matplotlib.patches as mpatches
 import numpy as np
 import random
 import joblib
+import random
+import pickle
 
 fig = plt.figure(figsize=(12,11))
 ax = fig.add_subplot(111,projection='3d')
 
-
+"""
+scrs = []
+for c1 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
+	for c2 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
+		for MAX_ITER in range(100,1000):
+			print("New ptn : ("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")")
+			scrs.append([c1,c2,MAX_ITER,random.random()])
+joblib.dump(scrs, "./scrs", pickle.HIGHEST_PROTOCOL)
+"""
 scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
+# scrs = joblib.load("./scrs")
 
 firebrick = mpatches.Patch(color='firebrick', label='acc < 0.05')
 red = mpatches.Patch(color='red', label='0.05 <= acc < 0.1')

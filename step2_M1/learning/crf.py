@@ -17,6 +17,7 @@ import sklearn_crfsuite as crfs
 import sklearn_crfsuite.metrics as crfsMetrics
 import joblib
 import argparse
+import pickle
 
 #constantes for learning
 
@@ -114,11 +115,12 @@ iter_max = 0
 c1_max = 0
 c2_max = 0
 max_scr = 0
-scrs = []
+f = True
 for c1 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
 	for c2 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
 		print("For c1 =", c1, "c2 =", c2)
 		for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
+			print("("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")")
 			if VERBOSE == "min":
 				print('\033[1A'+"[Info][Model=Crf][MAX_ITER="+str(MAX_ITER)+"] Learning test :", round(float(MAX_ITER-MAX_ITER_MIN) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
 			if VERBOSE == "full":
@@ -150,8 +152,14 @@ for c1 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.
 			labels = list(model.classes_)
 			y_pred = model.predict([features_test])
 			v = crfsMetrics.flat_accuracy_score(y_pred, [target_test])
+			if f:
+				scrs = []
+				f = False
+			else:
+				scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
 			scrs.append([c1,c2,MAX_ITER,v])
-			joblib.dump(scrs, "scrs")
+			joblib.dump(scrs, "scrs", pickle.HIGHEST_PROTOCOL)
+			del scrs
 			if v > max_scr:
 				max_scr = v
 				iter_max = MAX_ITER
