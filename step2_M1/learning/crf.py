@@ -154,7 +154,7 @@ for c1 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.
 			v = crfsMetrics.flat_accuracy_score(y_pred, [target_test])
 			if first:
 				scrs = []
-				f = False
+				first = False
 			else:
 				scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
 			scrs.append([c1,c2,MAX_ITER,v])
