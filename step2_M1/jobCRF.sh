@@ -7,6 +7,7 @@ echo "\nUsage : $0 -[esv0] [-c NBCORE]"
 echo "-e : Send email when error"
 echo "-s : Send email when success"
 echo "-v : Send email after each step(verbose)"
+echo "-c : nb core max 7 for features extraction all for learning"
 echo "-0 : No notification"
 echo -e "default : -ens -c 7\n\n"
 
@@ -14,6 +15,7 @@ notifE=1
 notifS=1
 notifN=1
 NBCORE=7
+NBCORE_l=7
 
 if [ -n $1 ]; then	
 	if [ `echo $1 | grep "v" | wc -l` -eq 1 ]; then
@@ -41,12 +43,17 @@ if [ -n $1 ]; then
 	fi;
 	if [ `echo $1 | grep "c" | wc -l` -eq 1 ]; then
 		if [ -n $2 ]; then
-			NBCORE=$2
+			if [ $2 -gt 7 ]; then
+				NBCORE_l=$2
+			fi;
+			if [ $2 -le 7 ]; then
+				NBCORE=$2;
+			fi;
 		fi;
 	fi;
 fi;
 
-echo -e "NBCORE"$NBCORE"\nNotification error:"$notifE"\nNotification success:"$notifS"\nNotification step:"$notifN
+echo -e "NBCORE:"$NBCORE"\nNBCORElearn:"$NBCORE_l"\nNotification error:"$notifE"\nNotification success:"$notifS"\nNotification step:"$notifN
 
 rm -f corenlp.err 2>/dev/null
 rm -f corenlp.log 2>/dev/null
@@ -152,7 +159,7 @@ if [ $notifN -eq 1 ]; then
 	sendMail louis.sablayrolles@gmail.com "[Info] Start learning on $datef" " "
 fi;
 echo "Setting crontab"
-echo '0,30 * * * * python3 ~/stageM1/debates/step2\_M1/learning/plot3d.py >/dev/null 2>/dev/null ; echo "Plot crf\n" | mailx -v -s "[Info] Plot crf" -a ~/graph.png -a ~/accuracies.png  -a ~/stageM1/debates/step2\_M1/learnCRF.err -a ~/stageM1/debates/step2\_M1/learnCRF.log -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >>~/logs/mailx.log 2>~/logs/mailx.err'>./cron
+echo '0 * * * * python3 ~/stageM1/debates/step2\_M1/learning/plot3d.py >/dev/null 2>/dev/null ; echo "Plot crf\n" | mailx -v -s "[Info] Plot crf" -a ~/graph.png -a ~/accuracies.png  -a ~/stageM1/debates/step2\_M1/learnCRF.err -a ~/stageM1/debates/step2\_M1/learnCRF.log -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >>~/logs/mailx.log 2>~/logs/mailx.err'>./cron
 crontab ./cron
 rm ./cron
 a=`python3 crf_para.py $nbFiles -v 0 -c $NBCORE >>$home/learnCRF.log 2>>$home/learnCRF.err; echo $?`
