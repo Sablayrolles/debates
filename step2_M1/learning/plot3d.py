@@ -19,7 +19,7 @@ import pickle
 fig = plt.figure(figsize=(12,11))
 ax = fig.add_subplot(111,projection='3d')
 
-"""
+
 scrs = []
 for c1 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
 	for c2 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
@@ -27,9 +27,9 @@ for c1 in [0.5,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.
 			print("New ptn : ("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")")
 			scrs.append([c1,c2,MAX_ITER,random.random()])
 joblib.dump(scrs, "./scrs", pickle.HIGHEST_PROTOCOL)
-"""
-scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
-# scrs = joblib.load("./scrs")
+
+#scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
+scrs = joblib.load("./scrs")
 
 firebrick = mpatches.Patch(color='firebrick', label='acc < 0.05')
 red = mpatches.Patch(color='red', label='0.05 <= acc < 0.1')
@@ -64,26 +64,26 @@ c2Min = {'x': x, 'y': [1.2 for i in range(len(x))]};
 c2Max = {'x': x, 'y': [-1 for i in range(len(x))]};
 
 maxIterGraph = {'x': range(100,1000), 'y': [0 for i in range(100,1000)], 'nb': [1 for i in range(100,1000)]}
-maxIterMin = {'x': x, 'y': [1.2 for i in range(100,1000)]};
-maxIterMax = {'x': x, 'y': [-1 for i in range(100,1000)]};
+maxIterMin = {'x': range(100,1000), 'y': [1.2 for i in range(100,1000)]};
+maxIterMax = {'x': range(100,1000), 'y': [-1 for i in range(100,1000)]};
 
 for c1,c2,MAX_ITER,s in scrs:
 	last = " ("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")"
 	
 	c1Graph['y'][c1Graph['x'].index(c1)] += s
 	c1Graph['nb'][c1Graph['x'].index(c1)] += 1
-	c1Min[c1Min['x'].index(c1)] = min(c1Min[c1Min['x'].index(c1)], s)
-	c1Max[c1Max['x'].index(c1)] = max(c1Max[c1Max['x'].index(c1)], s)
+	c1Min['y'][c1Min['x'].index(c1)] = min(c1Min['y'][c1Min['x'].index(c1)], s)
+	c1Max['y'][c1Max['x'].index(c1)] = max(c1Max['y'][c1Max['x'].index(c1)], s)
 	
 	c2Graph['y'][c2Graph['x'].index(c2)] += s
 	c2Graph['nb'][c2Graph['x'].index(c2)] += 1
-	c2Min[c2Min['x'].index(c2)] = min(c2Min[c2Min['x'].index(c2)], s)
-	c2Max[c2Max['x'].index(c2)] = max(c2Max[c2Max['x'].index(c2)], s)
+	c2Min['y'][c2Min['x'].index(c2)] = min(c2Min['y'][c2Min['x'].index(c2)], s)
+	c2Max['y'][c2Max['x'].index(c2)] = max(c2Max['y'][c2Max['x'].index(c2)], s)
 	
 	maxIterGraph['y'][maxIterGraph['x'].index(MAX_ITER)] += s
 	maxIterGraph['nb'][maxIterGraph['x'].index(MAX_ITER)] += 1
-	maxIterMin[maxIterMin['x'].index(MAX_ITER)] = min(maxIterMin[maxIterMin['x'].index(MAX_ITER)], s)
-	maxIterMax[maxIterMax['x'].index(MAX_ITER)] = max(maxIterMax[maxIterMax['x'].index(MAX_ITER)], s)
+	maxIterMin['y'][maxIterMin['x'].index(MAX_ITER)] = min(maxIterMin['y'][maxIterMin['x'].index(MAX_ITER)], s)
+	maxIterMax['y'][maxIterMax['x'].index(MAX_ITER)] = max(maxIterMax['y'][maxIterMax['x'].index(MAX_ITER)], s)
 	
 	if s > max_s:
 		best = "Max("+str(c1)+","+str(c2)+","+str(MAX_ITER)+" : "+str(s)+")"
