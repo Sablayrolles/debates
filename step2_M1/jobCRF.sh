@@ -150,6 +150,10 @@ if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	exit 4
 fi
 
+echo "Kill corenlp"
+pid=`ps -aux | grep "lsabalyr" | grep "java" | head -1 | awk '{print $2}'`
+kill -n 9 $pid
+	
 cd ../learning
 echo "Learning"
 echo "python3 crf.py $nbFiles -v 0 -c $NBCORE_l>>$home/learnCRF.log 2>>$home/learnCRF.err; echo \$?"
