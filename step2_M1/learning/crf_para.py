@@ -24,6 +24,7 @@ import pickle
 parser = argparse.ArgumentParser(description="\tModule computeFeatures\n\t===============\n\n\t\tThis module can be use to compute and save features on a savedata computing on dataset")
 
 parser.add_argument("numFiles", metavar="nbFiles", type=int, help="Number of file .features to learn (from computeFeatures)")
+parser.add_argument("-c", "--core", metavar="core", type=int, nargs="?", help="Nb core to execute (default 1)")
 parser.add_argument("-v", "--verbose", metavar="verbose", type=int, choices=[0, 1, 2], nargs="?", help="Level of verbose\n 0: None, 1: min (default), 2 : all")
 parser.add_argument("-t", "--test", metavar="testSize", type=float, nargs="?", help="Test size between 0 and 1")
 parser.add_argument("--iterMin", metavar="iterMin", type=int, nargs="?", help="Number of min iter")
@@ -32,7 +33,12 @@ parser.add_argument("--iterMax", metavar="iterMax", type=int, nargs="?", help="N
 args = parser.parse_args()
 
 NB_FILES = int(args.numFiles) + 1
-	
+
+if args.core != None:
+	NB_CORE = int(args.core)
+else:
+	NB_CORE = 1
+		
 if args.test != None:
 	if float(args.test) > 0.0 and float(args.test) < 1.0:
 		TEST_PERCENT = float(args.test)
@@ -116,60 +122,78 @@ c1_max = 0
 c2_max = 0
 max_scr = 0
 first = True
-for c1 in [0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
+
+def train(c1, c2, MAX_ITER):
+	global targets
+	global features
+	global MAX_ITER_MAX
+	global MAX_ITER_MIN
+	global VERBOSE
+	global TEST_PERCENT
+	
+	print("("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")")
+	if VERBOSE == "min":
+		print('\033[1A'+"[Info][Model=Crf][MAX_ITER="+str(MAX_ITER)+"] Learning test :", round(float(MAX_ITER-MAX_ITER_MIN) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
+	if VERBOSE == "full":
+		print("[Info][Model=Crf][MAX_ITER="+str(MAX_ITER)+"]================= NB ITER :", MAX_ITER, "======================================")
+	#on split le dataset
+	# features_train, features_test, target_train, target_test = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
+	sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
+	features_train, features_test, target_train, target_test = [], [], [], []
+	for train_i, test_i in sss.split(f, targets):
+		for i in train_i:
+			features_train.append(features[i])
+			target_train.append(targets[i])
+	
+		for i in test_i:
+			features_test.append(features[i])
+			target_test.append(targets[i])
+
+	model = crfs.CRF(algorithm='lbfgs', c1=c1, c2=c2, max_iterations=MAX_ITER, all_possible_transitions=True)
+
+	if VERBOSE == "full":
+		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning...")
+	
+	# print(len(features_train), len(target_train), set(target_train))
+	model = model.fit([features_train], [target_train])
+		
+	if VERBOSE == "full":
+		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Testing")
+
+	labels = list(model.classes_)
+	y_pred = model.predict([features_test])
+	v = crfsMetrics.flat_accuracy_score(y_pred, [target_test])
+	if first:
+		scrs = []
+		first = False
+	else:
+		scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
+	scrs.append([c1,c2,MAX_ITER,v])
+	joblib.dump(scrs, "scrs", pickle.HIGHEST_PROTOCOL, compress=True)
+	del scrs
+	if v > max_scr:
+		max_scr = v
+		iter_max = MAX_ITER
+		c1_max = c1
+		c2_max = c2
+		joblib.dump(model, "modelCRF.save")
+		print("New best accuracy for crf model with c1 =", c1, "c2 =", c2, "MAX_ITER =", MAX_ITER, "score :", v)
+	if VERBOSE == "full":
+		print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Mean test accuracy:",v)
+				
+				
+def paraWork(c1):
 	for c2 in [0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
 		print("For c1 =", c1, "c2 =", c2)
 		for MAX_ITER in range(MAX_ITER_MIN,MAX_ITER_MAX):
-			print("("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")")
-			if VERBOSE == "min":
-				print('\033[1A'+"[Info][Model=Crf][MAX_ITER="+str(MAX_ITER)+"] Learning test :", round(float(MAX_ITER-MAX_ITER_MIN) / float(MAX_ITER_MAX-MAX_ITER_MIN) * 100.0, 2),"%")
-			if VERBOSE == "full":
-				print("[Info][Model=Crf][MAX_ITER="+str(MAX_ITER)+"]================= NB ITER :", MAX_ITER, "======================================")
-			#on split le dataset
-			# features_train, features_test, target_train, target_test = modelSelect.train_test_split(features, targets_trans, test_size=TEST_PERCENT)
-			sss = modelSelect.StratifiedShuffleSplit(n_splits=2, test_size=TEST_PERCENT)
-			features_train, features_test, target_train, target_test = [], [], [], []
-			for train_i, test_i in sss.split(f, targets):
-				for i in train_i:
-					features_train.append(features[i])
-					target_train.append(targets[i])
+			train(c1, c2, MAX_ITER)
 			
-				for i in test_i:
-					features_test.append(features[i])
-					target_test.append(targets[i])
-
-			model = crfs.CRF(algorithm='lbfgs', c1=c1, c2=c2, max_iterations=MAX_ITER, all_possible_transitions=True)
-
-			if VERBOSE == "full":
-				print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Learning...")
-			
-			# print(len(features_train), len(target_train), set(target_train))
-			model = model.fit([features_train], [target_train])
-				
-			if VERBOSE == "full":
-				print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Testing")
-
-			labels = list(model.classes_)
-			y_pred = model.predict([features_test])
-			v = crfsMetrics.flat_accuracy_score(y_pred, [target_test])
-			if first:
-				scrs = []
-				first = False
-			else:
-				scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
-			scrs.append([c1,c2,MAX_ITER,v])
-			joblib.dump(scrs, "scrs", pickle.HIGHEST_PROTOCOL, compress=True)
-			del scrs
-			if v > max_scr:
-				max_scr = v
-				iter_max = MAX_ITER
-				c1_max = c1
-				c2_max = c2
-				joblib.dump(model, "modelCRF.save")
-				print("New best accuracy for crf model with c1 =", c1, "c2 =", c2, "MAX_ITER =", MAX_ITER, "score :", v)
-			if VERBOSE == "full":
-				print("[Info][Model=Classes][MAX_ITER="+str(MAX_ITER)+"] Mean test accuracy:",v)
-	
+if NB_CORE == 1:
+	for c1 in [0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]:
+		paraWork(c1)
+else:
+	joblib.Parallel(n_jobs=NB_CORE,verbose=5,backend="multiprocessing")(joblib.delayed(paraWork)(c1) for c1 in [0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]) 
+"""
 print("[Info][Model=Classes] Best accuracy for", iter_max, "iterations and c1 =", c1, "and c2 =", c2, " with test accuracy of", max_scr)
 # a = input("Press Enter to Continue ...")
 
@@ -247,3 +271,4 @@ try:
 except UndefinedMetricWarning:
 	pass
 f.close()
+"""
