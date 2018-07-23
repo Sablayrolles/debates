@@ -162,10 +162,7 @@ if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	sendMail louis.sablayrolles@gmail.com "[Info] Start learnCRF on $datef" " "
 fi;
-echo "Setting crontab"
-echo '0 * * * * python3 ~/stageM1/debates/step2\_M1/learning/plot3d.py >/dev/null 2>/dev/null ; echo "Plot crf  --   " | mailx -v -s "[Info] Plot crf" -a ~/graph.png -a ~/accuracies.png  -a ~/stageM1/debates/step2\_M1/learnCRF.err -a ~/stageM1/debates/step2\_M1/learnCRF.log -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >>~/logs/mailx.log 2>~/logs/mailx.err'>./cron
-crontab ./cron
-rm ./cron
+../set_cron.sh
 a=`python3 crf_para.py $nbFiles -v 0 -c $NBCORE_l >>$home/learnCRF.log 2>>$home/learnCRF.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
