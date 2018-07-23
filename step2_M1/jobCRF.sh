@@ -152,7 +152,7 @@ fi
 
 cd ../learning
 echo "Learning"
-echo "python3 crf.py $nbFiles >>$home/learnCRF.log 2>>$home/learnCRF.err; echo \$?"
+echo "python3 crf.py $nbFiles -v 0 -c $NBCORE_l>>$home/learnCRF.log 2>>$home/learnCRF.err; echo \$?"
 echo "File of plotting : scrs"
 if [ $notifN -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
@@ -162,7 +162,7 @@ echo "Setting crontab"
 echo '0 * * * * python3 ~/stageM1/debates/step2\_M1/learning/plot3d.py >/dev/null 2>/dev/null ; echo "Plot crf\n" | mailx -v -s "[Info] Plot crf" -a ~/graph.png -a ~/accuracies.png  -a ~/stageM1/debates/step2\_M1/learnCRF.err -a ~/stageM1/debates/step2\_M1/learnCRF.log -S smtp-use-starttls -S ssl-verify=ignore -S smtp-auth=login -S smtp=smtp://smtp.gmail.com:587 -S from="louis.sablayrolles@gmail.com(Sablayrolles Louis)" -S smtp-auth-user=louis.sablayrolles@gmail.com -S smtp-auth-password=eragon1996 -S ssl-verify=ignore -S nss-config-dir=~/.certs louis.sablayrolles@gmail.com >>~/logs/mailx.log 2>~/logs/mailx.err'>./cron
 crontab ./cron
 rm ./cron
-a=`python3 crf_para.py $nbFiles -v 0 -c $NBCORE >>$home/learnCRF.log 2>>$home/learnCRF.err; echo $?`
+a=`python3 crf_para.py $nbFiles -v 0 -c $NBCORE_l >>$home/learnCRF.log 2>>$home/learnCRF.err; echo $?`
 if [ $a -ne 0 ] && [ $notifE -eq 1 ]; then
 	datef=`date "+%y/%m/%d %H:%M:%S"`
 	sendMail louis.sablayrolles@gmail.com "[Error] Fail crf" "Fail crf\nBegging on $dated \n Finnishing on $datef\n\n" ~/stageM1/debates/step2\_M1/learnCRF.log ~/stageM1/debates/step2\_M1/learnCRF.err
