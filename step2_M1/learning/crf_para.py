@@ -130,6 +130,7 @@ def train(c1, c2, MAX_ITER):
 	global MAX_ITER_MIN
 	global VERBOSE
 	global TEST_PERCENT
+	global first
 	
 	print("("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")")
 	if VERBOSE == "min":
