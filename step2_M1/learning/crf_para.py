@@ -172,9 +172,9 @@ def train(c1, c2, MAX_ITER):
 		scrs = []
 		first = False
 	else:
-		scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
+		scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs.gz")
 	scrs.append([c1,c2,MAX_ITER,v])
-	joblib.dump(scrs, "scrs", pickle.HIGHEST_PROTOCOL, compress=3)
+	joblib.dump(scrs, "/home/lsablayr/stageM1/debates/step2_M1/learning/scrs.gz", ('gzip', 3), pickle.HIGHEST_PROTOCOL)
 	del scrs
 	if v > max_scr:
 		max_scr = v
