@@ -174,7 +174,7 @@ def train(c1, c2, MAX_ITER):
 	else:
 		scrs = joblib.load("/home/lsablayr/stageM1/debates/step2_M1/learning/scrs")
 	scrs.append([c1,c2,MAX_ITER,v])
-	joblib.dump(scrs, "scrs", pickle.HIGHEST_PROTOCOL, compress=('bz2', 3))
+	joblib.dump(scrs, "scrs", pickle.HIGHEST_PROTOCOL, compress=3)
 	del scrs
 	if v > max_scr:
 		max_scr = v
