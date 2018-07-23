@@ -56,21 +56,34 @@ max_s = 0
 best = ""
 x = [0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95]
 c1Graph =  {'x': x, 'y': [0 for i in range(len(x))], 'nb': [1 for i in range(len(x))]}
+c1Min = {'x': x, 'y': [1.2 for i in range(len(x))]};
+c1Max = {'x': x, 'y': [-1 for i in range(len(x))]};
 
 c2Graph =  {'x': x, 'y': [0 for i in range(len(x))], 'nb': [1 for i in range(len(x))]}
+c2Min = {'x': x, 'y': [1.2 for i in range(len(x))]};
+c2Max = {'x': x, 'y': [-1 for i in range(len(x))]};
 
 maxIterGraph = {'x': range(100,1000), 'y': [0 for i in range(100,1000)], 'nb': [1 for i in range(100,1000)]}
+maxIterMin = {'x': x, 'y': [1.2 for i in range(100,1000)]};
+maxIterMax = {'x': x, 'y': [-1 for i in range(100,1000)]};
+
 for c1,c2,MAX_ITER,s in scrs:
 	last = " ("+str(c1)+","+str(c2)+","+str(MAX_ITER)+")"
 	
 	c1Graph['y'][c1Graph['x'].index(c1)] += s
 	c1Graph['nb'][c1Graph['x'].index(c1)] += 1
+	c1Min[c1Min['x'].index(c1)] = min(c1Min[c1Min['x'].index(c1)], s)
+	c1Max[c1Max['x'].index(c1)] = max(c1Max[c1Max['x'].index(c1)], s)
 	
 	c2Graph['y'][c2Graph['x'].index(c2)] += s
 	c2Graph['nb'][c2Graph['x'].index(c2)] += 1
+	c2Min[c2Min['x'].index(c2)] = min(c2Min[c2Min['x'].index(c2)], s)
+	c2Max[c2Max['x'].index(c2)] = max(c2Max[c2Max['x'].index(c2)], s)
 	
 	maxIterGraph['y'][maxIterGraph['x'].index(MAX_ITER)] += s
 	maxIterGraph['nb'][maxIterGraph['x'].index(MAX_ITER)] += 1
+	maxIterMin[maxIterMin['x'].index(MAX_ITER)] = min(maxIterMin[maxIterMin['x'].index(MAX_ITER)], s)
+	maxIterMax[maxIterMax['x'].index(MAX_ITER)] = max(maxIterMax[maxIterMax['x'].index(MAX_ITER)], s)
 	
 	if s > max_s:
 		best = "Max("+str(c1)+","+str(c2)+","+str(MAX_ITER)+" : "+str(s)+")"
@@ -154,21 +167,31 @@ for i in range(len(c2Graph['x'])):
 
 for i in range(len(maxIterGraph['x'])):
 	maxIterGraph['y'][i] /= maxIterGraph['nb'][i]
-	
+
 fig = plt.figure(figsize=(12,11))
 ax = fig.add_subplot(311)
 ax.plot(c1Graph['x'], c1Graph['y'])
+ax.plot(c1Min['x'], c1Min['y'])
+ax.plot(c1Max['x'], c1Max['y'])
 ax.set_xlabel("c1")
 ax.set_ylabel("Mean accuracy")
+ax.legend(["Moy", "Min", "Max"])
 
 ax2 = fig.add_subplot(312)
 ax2.plot(c2Graph['x'], c2Graph['y'])
+ax.plot(c2Min['x'], c2Min['y'])
+ax.plot(c2Max['x'], c2Max['y'])
 ax2.set_xlabel("c2")
 ax2.set_ylabel("Mean accuracy")
+ax2.legend(["Moy", "Min", "Max"])
 
 ax3 = fig.add_subplot(313)
 ax3.plot(maxIterGraph['x'], maxIterGraph['y'])
+ax.plot(maxIterMin['x'], maxIterMin['y'])
+ax.plot(maxIterMax['x'], maxIterMax['y'])
 ax3.set_xlabel("maxIter")
 ax3.set_ylabel("Mean accuracy")
+ax3.legend(["Moy", "Min", "Max"])
+
 fig.savefig("accuracies.png")
 
